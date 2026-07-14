@@ -61,10 +61,10 @@ export default function Home() {
                 <PanelArt className="absolute inset-0 h-full w-full" cols={7} rows={5} />
                 <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/70 to-transparent p-6 pt-16">
                   <p className="font-display text-xl text-cream">
-                    Hillside Residence
+                    Ikoyi Family Residence
                   </p>
                   <p className="text-sm text-cream/70">
-                    14.2 kW · 104% offset · Sausalito
+                    12 kW · generators retired · Lagos
                   </p>
                 </div>
               </div>

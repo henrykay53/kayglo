@@ -9,10 +9,10 @@
 
 export const site = {
   name: "Kayglo",
-  legalName: "Kayglo Solar",
-  tagline: "Premium solar, engineered for the home you worked for.",
+  legalName: "Kayglo Citadel",
+  tagline: "Genuine solar. Reliable power. Trusted after-sales.",
   description:
-    "Kayglo designs, engineers, and installs high-performance residential solar and battery systems with concierge-level service. Award-winning craftsmanship, 25-year workmanship warranty.",
+    "Kayglo Citadel supplies genuine solar panels, inverters, and batteries — and designs, installs, and services complete solar systems for homes and businesses across Nigeria. Silent, reliable power, backed by honest advice and dependable after-sales support.",
   // Production URL — set to your real domain. Used for canonical + OG + sitemap.
   // Currently the live Vercel URL; change to your custom domain when you connect one.
   url: "https://kayglo.vercel.app",
@@ -21,7 +21,7 @@ export const site = {
   // NAP — must match your Google Business Profile exactly (local SEO).
   contact: {
     phone: "08050777800", // TODO
-    phoneHref: "08050777800", // TODO
+    phoneHref: "+2348050777800", // TODO
     email: "hello@kayglo.com", // TODO
     address: {
       street: "House 1, Kelly John Close Infinity Estate", // TODO
@@ -31,16 +31,13 @@ export const site = {
       country: "NG",
     },
     // For LocalBusiness geo — set to your office coordinates.
-    geo: { lat: 37.8058, lng: -122.4324 }, // TODO
+    geo: { lat: 6.5244, lng: 3.3792 }, // TODO — Lagos; set to your exact office coordinates
     hours: "Mon–Fri 8:00–18:00",
   },
 
   areasServed: [
-    "Lagos",
-    "Delta",
-    "Abuja",
-    "Imo",
-
+    "Nation wide",
+  
   ], // TODO
 
   social: {
@@ -52,7 +49,7 @@ export const site = {
   stats: [
     { value: "4.9/5", label: "Average client rating" },
     { value: "25 yr", label: "Workmanship warranty" },
-    { value: "500+", label: "Homes powered" },
+    { value: "500+", label: "Homes & businesses powered" },
     { value: "38 MWh", label: "Clean energy annually" },
   ],
 } as const;
@@ -67,59 +64,59 @@ export type Service = {
 
 export const services: Service[] = [
   {
-    slug: "residential-solar",
-    title: "Residential Solar",
+    slug: "home-solar",
+    title: "Home Solar & Inverter Systems",
     summary:
-      "Bespoke rooftop and ground-mount systems designed around your home's architecture and your energy goals.",
+      "Complete solar and inverter systems for your home — silent, round-the-clock power that ends blackouts and retires the generator.",
     detail:
-      "We start with a full energy audit and a shade study, then engineer a system sized precisely to your usage — never oversold. Premium monocrystalline panels, low-profile all-black mounting, and hidden conduit keep the aesthetic clean.",
+      "We assess your home and daily energy use, then design and install a complete system — panels, inverter, and batteries — sized to keep your home running 24/7. Every component is genuine and installed to a standard built to last in Nigerian conditions.",
     points: [
-      "Tier-1 monocrystalline panels (up to 22.8% efficiency)",
-      "Concealed wiring & flush, all-black hardware",
-      "Structural & electrical engineering in-house",
-      "Permitting and utility interconnection handled for you",
+      "Complete design & install — panels, inverter, batteries",
+      "Silent, fume-free power — retire the generator",
+      "Automatic switchover between solar, battery, and grid",
+      "Neat, professional cabling and workmanship",
     ],
   },
   {
-    slug: "battery-storage",
-    title: "Battery Storage",
+    slug: "products",
+    title: "Genuine Products & Supply",
     summary:
-      "Keep the lights on through outages and shift energy to when it's most valuable with whole-home backup.",
+      "Authentic batteries, inverters, and solar panels from trusted brands — supplied with warranty and honest guidance on what you actually need.",
     detail:
-      "Pair your array with a battery to store daytime generation for evening use, protect against grid outages, and take advantage of time-of-use rates. Sized for whole-home or essential-loads backup.",
+      "Nigeria's market is full of counterfeit and substandard equipment that fails within months. We supply only genuine, warranty-backed batteries, inverters, and panels — and we advise you honestly on the right capacity, whether you're building a new system or upgrading an existing one.",
     points: [
-      "Whole-home or essential-loads backup",
-      "Seamless outage switchover in under a second",
-      "Time-of-use arbitrage to lower bills",
-      "Expandable, app-monitored capacity",
+      "100% genuine, warranty-backed equipment",
+      "Lithium & tubular batteries, inverters, and panels",
+      "Honest sizing advice — never oversold",
+      "Supply for new systems or upgrades",
     ],
   },
   {
-    slug: "ev-charging",
-    title: "EV Charging",
+    slug: "commercial-solar",
+    title: "Commercial Solar",
     summary:
-      "Charge from the sun. Level 2 home charging integrated cleanly with your solar and storage.",
+      "Cut diesel spend and power your business reliably with commercial-grade solar and storage, engineered to keep operations running.",
     detail:
-      "A properly installed Level 2 charger fills your vehicle overnight on solar-stored energy. We handle panel upgrades, load calculations, and a tidy, code-compliant install.",
+      "For offices, retail, hospitality, and light industry, we design commercial systems that displace generator hours, tame runaway energy costs, and deliver clean, dependable power through grid outages. From rooftop to ground-mount, every project is engineered around your load profile, uptime requirements, and payback goals.",
     points: [
-      "Level 2 chargers up to 48A",
-      "Load management & panel upgrades",
-      "Solar-prioritized charging schedules",
-      "Weatherproof indoor or outdoor mounting",
+      "Diesel-generator displacement & hybrid integration",
+      "Systems sized to your load profile and uptime needs",
+      "Rooftop, carport, and ground-mount configurations",
+      "Predictable energy costs with a clear return on investment",
     ],
   },
   {
-    slug: "monitoring-service",
-    title: "Monitoring & Service",
+    slug: "servicing",
+    title: "Servicing & After-Sales",
     summary:
-      "Proactive monitoring and a dedicated service team keep every system performing at its peak.",
+      "We don't disappear after installation. Ongoing maintenance, repairs, and responsive support keep your system performing for years.",
     detail:
-      "Every install includes lifetime performance monitoring. If production dips, we know before you do. One point of contact, guaranteed response times, and no call-center runaround.",
+      "Every client gets dependable after-sales care — scheduled servicing, fault diagnosis, battery and inverter maintenance, and a team that actually answers the phone. Your system is backed for the long term, not just the day it's switched on.",
     points: [
-      "24/7 production monitoring & alerts",
-      "Annual performance reviews",
-      "Priority service dispatch",
-      "25-year workmanship warranty",
+      "Scheduled maintenance & performance checks",
+      "Fast fault diagnosis and repairs",
+      "Battery & inverter servicing and replacement",
+      "A team that answers — long after installation",
     ],
   },
 ];
@@ -136,44 +133,44 @@ export type ProjectCase = {
 
 export const projects: ProjectCase[] = [
   {
-    slug: "hillside-residence",
-    name: "Hillside Residence",
-    location: "Sausalito, CA",
-    system: "14.2 kW · 40 kWh storage",
+    slug: "ikoyi-residence",
+    name: "Ikoyi Family Residence",
+    location: "Ikoyi, Lagos",
+    system: "12 kW solar · 30 kWh storage",
     summary:
-      "A cliffside modern home with strict HOA aesthetics. We concealed all conduit and matched the all-black array to the standing-seam roof.",
+      "A family home that ran two diesel generators every day. We delivered silent, round-the-clock power and cut the generators to emergency-only.",
     metrics: [
-      { label: "Bill offset", value: "104%" },
-      { label: "Annual savings", value: "$4,380" },
-      { label: "Payback", value: "6.1 yrs" },
+      { label: "Generator use", value: "−96%" },
+      { label: "Fuel saved", value: "₦7.2m/yr" },
+      { label: "Payback", value: "3.4 yrs" },
     ],
     hue: "#2f5343",
   },
   {
-    slug: "vineyard-estate",
-    name: "Vineyard Estate",
-    location: "Napa Valley, CA",
-    system: "42 kW · 3× battery",
+    slug: "maitama-office",
+    name: "Corporate Head Office",
+    location: "Maitama, Abuja",
+    system: "80 kW solar · commercial storage",
     summary:
-      "An off-grid-capable estate blending ground-mount arrays into the landscape, powering the residence, guest house, and winery outbuildings.",
+      "An office complex spending millions monthly on diesel. A rooftop commercial array with storage now carries the working day on solar, with grid and a single backup generator as fallback.",
     metrics: [
-      { label: "Bill offset", value: "118%" },
-      { label: "Backup", value: "Whole estate" },
-      { label: "CO₂ saved", value: "31 t/yr" },
+      { label: "Diesel cut", value: "72%" },
+      { label: "Monthly saving", value: "₦4.1m" },
+      { label: "Payback", value: "3.1 yrs" },
     ],
     hue: "#8a5a1f",
   },
   {
-    slug: "marina-townhome",
-    name: "Marina Townhome",
-    location: "San Francisco, CA",
-    system: "8.6 kW · EV + battery",
+    slug: "lekki-smart-home",
+    name: "Lekki Smart Home",
+    location: "Lekki Phase 1, Lagos",
+    system: "8 kW solar · 20 kWh storage",
     summary:
-      "A compact urban roof engineered for maximum yield, integrated with Level 2 EV charging and evening backup.",
+      "A modern home wanting seamless, silent power. Solar and battery now run the home 24/7 with an automatic changeover no one in the house even notices.",
     metrics: [
-      { label: "Bill offset", value: "96%" },
-      { label: "EV miles/yr", value: "9,200 solar" },
-      { label: "Payback", value: "6.8 yrs" },
+      { label: "Power uptime", value: "24/7" },
+      { label: "Generator use", value: "Eliminated" },
+      { label: "Payback", value: "3.8 yrs" },
     ],
     hue: "#1f3a2e",
   },
@@ -182,44 +179,44 @@ export const projects: ProjectCase[] = [
 export const processSteps = [
   {
     n: "01",
-    title: "Consultation",
-    body: "A conversation, not a sales pitch. We learn how you use energy and what matters to you — aesthetics, resilience, or return.",
+    title: "Consultation & Survey",
+    body: "A conversation, not a sales pitch. We assess your power needs, your space, and your budget — then recommend only what you actually need.",
   },
   {
     n: "02",
-    title: "Design & Engineering",
-    body: "Our engineers produce a shade study, structural analysis, and a photo-accurate rendering of your system before anything is ordered.",
+    title: "Design & Genuine Supply",
+    body: "We design a system sized to your load and supply only authentic, warranty-backed panels, inverters, and batteries — no counterfeits, no shortcuts.",
   },
   {
     n: "03",
-    title: "Precision Install",
-    body: "One dedicated crew, typically one to two days on site, with meticulous cleanup and concealed wiring throughout.",
+    title: "Professional Install",
+    body: "A dedicated crew installs cleanly and safely, with tidy cabling and a seamless changeover between solar, battery, and the grid.",
   },
   {
     n: "04",
-    title: "Lifetime Care",
-    body: "We monitor performance for the life of the system and stand behind it with a 25-year workmanship warranty.",
+    title: "After-Sales Support",
+    body: "We stay with you — scheduled servicing, fast repairs, and a team that answers the phone for the full life of your system.",
   },
 ];
 
 export const testimonials = [
   {
     quote:
-      "The most professional trade experience we've had on this house — and we've renovated twice. The array is invisible from the street and our bill is essentially zero.",
-    author: "Margaret & David L.",
-    location: "Sausalito",
+      "We haven't switched on the generator in months. The house is silent at night and our diesel bill is gone. Kayglo used genuine batteries and inverter — you can feel the quality.",
+    author: "Adebayo & Ngozi O.",
+    location: "Ikoyi, Lagos",
   },
   {
     quote:
-      "Kayglo treated our winery like their own. Thoughtful engineering, spotless install, and they actually answer the phone.",
-    author: "Estate Owner",
-    location: "Napa Valley",
+      "They cut our office diesel costs by more than half and we run through every outage without a flicker. What impressed me most is the after-sales — they actually come when you call.",
+    author: "Managing Director",
+    location: "Maitama, Abuja",
   },
   {
     quote:
-      "They talked us out of a bigger system than we needed. That honesty is why we referred three neighbors.",
-    author: "Priya S.",
-    location: "San Francisco",
+      "Kayglo sized the system to what we truly use instead of overselling us. Two years on, it still performs exactly as promised, and servicing has been faultless.",
+    author: "Chidi E.",
+    location: "Lekki, Lagos",
   },
 ];
 

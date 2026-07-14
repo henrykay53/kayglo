@@ -5,9 +5,10 @@ import { useState, type FormEvent } from "react";
 type Status = "idle" | "submitting" | "success" | "error";
 
 const services = [
-  "Residential Solar",
-  "Battery Storage",
-  "EV Charging",
+  "Home Solar & Inverter System",
+  "Batteries / Inverters / Panels (purchase)",
+  "Commercial Solar",
+  "Servicing / After-Sales",
   "Not sure yet",
 ];
 

@@ -5,9 +5,9 @@ import { Button, Container, Kicker } from "@/components/ui";
 import { processSteps, services, site } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Solar, Storage & EV Charging Services",
+  title: "Solar Products, Installation & After-Sales",
   description:
-    "Residential solar installation, whole-home battery storage, EV charging, and lifetime monitoring — engineered in-house and installed to an exacting standard by Kayglo.",
+    "Genuine solar panels, inverters, and batteries, plus expert home and commercial installation and dependable after-sales servicing across Nigeria — from Kayglo Citadel.",
   alternates: { canonical: "/services" },
 };
 
