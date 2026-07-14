@@ -14,7 +14,8 @@ export const site = {
   description:
     "Kayglo designs, engineers, and installs high-performance residential solar and battery systems with concierge-level service. Award-winning craftsmanship, 25-year workmanship warranty.",
   // Production URL — set to your real domain. Used for canonical + OG + sitemap.
-  url: "https://www.kayglo.com", // TODO
+  // Currently the live Vercel URL; change to your custom domain when you connect one.
+  url: "https://kayglo.vercel.app",
   locale: "en_US",
 
   // NAP — must match your Google Business Profile exactly (local SEO).
