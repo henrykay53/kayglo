@@ -36,7 +36,7 @@ export const site = {
   },
 
   areasServed: [
-    "Nigerians",
+    "Nigeria",
   ], // TODO
 
   social: {
