@@ -1,26 +1,144 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+/* ---------------------------------------------------------------------------
+   Kayglo Solar — design tokens
+   A restrained, premium system: deep slate ink, warm solar gold, warm cream.
+--------------------------------------------------------------------------- */
+@theme {
+  /* Neutrals — warm-tinted, never pure gray */
+  --color-cream: #f7f4ec;
+  --color-cream-200: #efe9dc;
+  --color-sand: #e6dcc7;
+  --color-ink: #10130f;
+  --color-ink-800: #1a1e18;
+  --color-ink-700: #242a22;
+  --color-slate: #3d443a;
+  --color-mute: #6b6f66;
+
+  /* Brand — warm solar gold + a deep evergreen for balance */
+  --color-gold: #c98a2b;
+  --color-gold-400: #dba24a;
+  --color-gold-300: #ecc079;
+  --color-ever: #1f3a2e;
+  --color-ever-400: #2f5343;
+
+  /* Typography */
+  --font-serif: var(--font-fraunces), Georgia, "Times New Roman", serif;
+  --font-sans: var(--font-inter), system-ui, -apple-system, sans-serif;
+
+  /* Motion */
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: var(--color-cream);
+  --foreground: var(--color-ink);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+* {
+  border-color: color-mix(in oklab, var(--color-ink) 12%, transparent);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  font-feature-settings: "kern", "liga", "calt";
+}
+
+/* Fine editorial headings */
+.font-display {
+  font-family: var(--font-serif);
+  font-optical-sizing: auto;
+  letter-spacing: -0.015em;
+  line-height: 1.02;
+}
+
+/* Eyebrow / kicker label */
+.kicker {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+/* Subtle paper grain to kill flat "AI-render" cleanliness */
+.grain::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.04;
+  z-index: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Reveal-on-scroll (progressive enhancement; visible without JS) */
+@media (prefers-reduced-motion: no-preference) {
+  .reveal {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.7s var(--ease-out-soft), transform 0.7s var(--ease-out-soft);
+    will-change: opacity, transform;
+  }
+  .reveal.is-in {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Link underline that grows from the left */
+.link-underline {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 0% 1px;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  transition: background-size 0.4s var(--ease-out-soft);
+}
+.link-underline:hover {
+  background-size: 100% 1px;
+}
+
+/* Editorial article styling (blog) — warm, premium prose */
+.prose-kayglo {
+  --tw-prose-body: var(--color-slate);
+  --tw-prose-headings: var(--color-ink);
+  --tw-prose-lead: var(--color-slate);
+  --tw-prose-links: var(--color-gold);
+  --tw-prose-bold: var(--color-ink);
+  --tw-prose-counters: var(--color-mute);
+  --tw-prose-bullets: var(--color-gold);
+  --tw-prose-hr: color-mix(in oklab, var(--color-ink) 12%, transparent);
+  --tw-prose-quotes: var(--color-ink);
+  --tw-prose-quote-borders: var(--color-gold);
+  --tw-prose-captions: var(--color-mute);
+  --tw-prose-code: var(--color-ink);
+  --tw-prose-th-borders: color-mix(in oklab, var(--color-ink) 20%, transparent);
+  --tw-prose-td-borders: color-mix(in oklab, var(--color-ink) 12%, transparent);
+}
+.prose-kayglo :where(h2, h3) {
+  font-family: var(--font-serif);
+  letter-spacing: -0.015em;
+}
+.prose-kayglo :where(a):hover {
+  color: var(--color-ink);
+}
+
+::selection {
+  background: color-mix(in oklab, var(--color-gold) 30%, transparent);
+}
+
+/* Thin, tasteful focus ring for accessibility */
+:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 3px;
+  border-radius: 2px;
 }
