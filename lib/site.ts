@@ -16,19 +16,19 @@ export const site = {
   // Production URL — set to your real domain. Used for canonical + OG + sitemap.
   // Currently the live Vercel URL; change to your custom domain when you connect one.
   url: "https://kayglo.vercel.app",
-  locale: "en_US",
+  locale: "en_NG",
 
   // NAP — must match your Google Business Profile exactly (local SEO).
   contact: {
-    phone: "(800) 555-0142", // TODO
-    phoneHref: "+18005550142", // TODO
+    phone: "08050777800", // TODO
+    phoneHref: "08050777800", // TODO
     email: "hello@kayglo.com", // TODO
     address: {
-      street: "1200 Marina Boulevard, Suite 400", // TODO
-      city: "San Francisco", // TODO
-      region: "CA", // TODO
-      postalCode: "94123", // TODO
-      country: "US",
+      street: "House 1, Kelly John Close Infinity Estate", // TODO
+      city: "Lagos", // TODO
+      region: "LA", // TODO
+      postalCode: "11001", // TODO
+      country: "NG",
     },
     // For LocalBusiness geo — set to your office coordinates.
     geo: { lat: 37.8058, lng: -122.4324 }, // TODO
@@ -36,15 +36,15 @@ export const site = {
   },
 
   areasServed: [
-    "San Francisco",
-    "Marin County",
-    "Silicon Valley",
-    "East Bay",
-    "Napa Valley",
+    "Lagos",
+    "Delta",
+    "Abuja",
+    "Imo",
+
   ], // TODO
 
   social: {
-    instagram: "https://instagram.com/kayglo", // TODO
+    instagram: "https://instagram.com/kayglocitadel", // TODO
     linkedin: "https://linkedin.com/company/kayglo", // TODO
   },
 
@@ -52,7 +52,7 @@ export const site = {
   stats: [
     { value: "4.9/5", label: "Average client rating" },
     { value: "25 yr", label: "Workmanship warranty" },
-    { value: "1,800+", label: "Homes powered" },
+    { value: "500+", label: "Homes powered" },
     { value: "38 MWh", label: "Clean energy annually" },
   ],
 } as const;
