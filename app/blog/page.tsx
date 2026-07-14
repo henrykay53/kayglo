@@ -8,7 +8,7 @@ import { site } from "@/lib/site";
 export const metadata: Metadata = {
   title: "Insights — Solar Guides & Advice",
   description:
-    "Clear, honest guidance on going solar: costs, battery storage, incentives, and what separates a premium installation. Written by the Kayglo team.",
+    "Clear, honest guidance on going solar in Nigeria: what a system costs, how to spot genuine equipment, solar vs generator, and more. From the Kayglo Citadel team.",
   alternates: { canonical: "/blog" },
 };
 
@@ -95,17 +95,18 @@ export default function BlogIndex() {
         <Container>
           <Reveal>
             <h2 className="font-display text-3xl md:text-4xl">
-              Questions about your own home?
+              Questions about your own home or business?
             </h2>
             <p className="mx-auto mt-4 max-w-lg text-cream/70">
-              We&apos;re happy to talk it through — no pressure, no obligation.
+              Talk to real people who understand Nigerian power — no pressure, no
+              obligation.
             </p>
             <div className="mt-8 flex justify-center">
               <Link
                 href="/contact"
                 className="rounded-full bg-gold px-7 py-3.5 text-sm font-medium text-cream transition-colors hover:bg-cream hover:text-ink"
               >
-                Request a consultation →
+                Get a free quote →
               </Link>
             </div>
           </Reveal>

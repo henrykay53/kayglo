@@ -92,7 +92,7 @@ export default async function ArticlePage({ params }: Params) {
             href="/contact"
             className="mt-6 inline-flex items-center gap-2 rounded-full bg-ink px-6 py-3 text-sm font-medium text-cream transition-colors hover:bg-gold"
           >
-            Request a consultation →
+            Get a free quote →
           </Link>
         </div>
       </Container>

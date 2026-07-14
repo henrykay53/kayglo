@@ -23,26 +23,27 @@ export default function Home() {
         <Container className="relative grid gap-12 pb-16 pt-16 md:grid-cols-12 md:gap-8 md:pb-24 md:pt-24">
           <div className="md:col-span-7 md:pr-6">
             <Reveal>
-              <Kicker>Premium residential solar</Kicker>
+              <Kicker>Your power partner in Nigeria</Kicker>
             </Reveal>
             <Reveal delay={80}>
               <h1 className="font-display mt-6 text-[2.7rem] font-medium leading-[1.02] text-ink sm:text-6xl md:text-[4.2rem]">
-                Power your home
+                End the blackouts.
                 <br />
-                with quiet
-                <span className="text-gold"> confidence.</span>
+                Silence the
+                <span className="text-gold"> generator.</span>
               </h1>
             </Reveal>
             <Reveal delay={160}>
               <p className="mt-7 max-w-lg text-lg leading-relaxed text-slate">
-                Kayglo designs and installs solar and battery systems that look
-                as considered as the homes they sit on — engineered in-house,
-                installed with obsessive care, and backed for 25 years.
+                We know the drone of the generator, the scramble for fuel, and
+                the plans undone by &ldquo;up NEPA.&rdquo; Kayglo Citadel supplies
+                genuine solar, inverters, and batteries — then installs and
+                services them — so your home simply has power, day and night.
               </p>
             </Reveal>
             <Reveal delay={240}>
               <div className="mt-9 flex flex-wrap items-center gap-4">
-                <Button href="/contact">Request a consultation</Button>
+                <Button href="/contact">Get a free quote</Button>
                 <Button href="/projects" variant="outline">
                   View our work
                 </Button>
@@ -50,7 +51,8 @@ export default function Home() {
             </Reveal>
             <Reveal delay={320}>
               <p className="mt-8 text-sm text-mute">
-                Serving {site.areasServed.slice(0, 3).join(", ")} &amp; beyond.
+                Genuine products. Expert installation. After-sales you can trust
+                — for homes and businesses nationwide.
               </p>
             </Reveal>
           </div>
@@ -97,13 +99,14 @@ export default function Home() {
       <section className="py-20 md:py-28">
         <Container>
           <Reveal>
-            <Kicker>Our standard</Kicker>
+            <Kicker>Why Kayglo</Kicker>
           </Reveal>
           <Reveal delay={80}>
             <p className="font-display mt-6 max-w-4xl text-3xl leading-snug text-ink sm:text-4xl md:text-[2.9rem]">
-              Most solar is sold on price. We build it like architecture —
-              sized to your life, hidden where it should be, and finished to a
-              standard you&apos;ll be glad you insisted on.
+              We&apos;re Nigerians too. We know what it means to plan your day
+              around the grid, to feed a hungry generator, to buy equipment that
+              dies in months. We built Kayglo to be the one partner you can
+              trust to solve it — for good.
             </p>
           </Reveal>
           <Reveal delay={160}>
@@ -111,7 +114,7 @@ export default function Home() {
               href="/about"
               className="link-underline mt-8 inline-block text-gold"
             >
-              The Kayglo approach
+              Our story
             </Link>
           </Reveal>
         </Container>
@@ -127,14 +130,15 @@ export default function Home() {
               </Reveal>
               <Reveal delay={80}>
                 <h2 className="font-display mt-5 text-4xl text-cream md:text-5xl">
-                  A complete home energy system
+                  Everything you need for reliable power
                 </h2>
               </Reveal>
             </div>
             <Reveal delay={140}>
               <p className="max-w-sm text-cream/60">
-                Panels, storage, and charging designed to work as one — by a
-                single team that owns the result end to end.
+                Genuine panels, inverters, and batteries — supplied, installed,
+                and serviced by one team that stays with you long after the
+                lights come on.
               </p>
             </Reveal>
           </div>
@@ -287,14 +291,15 @@ export default function Home() {
             <RayBurst className="pointer-events-none absolute -right-16 -top-16 h-72 w-72 text-gold-300/20" />
             <div className="relative max-w-2xl">
               <h2 className="font-display text-4xl md:text-5xl">
-                Let&apos;s design your system.
+                Let&apos;s solve your power problem.
               </h2>
               <p className="mt-5 text-lg text-cream/70">
-                A no-pressure consultation and a photo-accurate proposal —
-                usually within a week. See exactly what your home could produce.
+                Tell us what you&apos;re dealing with — the blackouts, the
+                generator, the bills. We&apos;ll recommend exactly what you need,
+                nothing you don&apos;t, and stand by it long after.
               </p>
               <div className="mt-9 flex flex-wrap gap-4">
-                <Button href="/contact">Request a consultation</Button>
+                <Button href="/contact">Get a free quote</Button>
                 <a
                   href={`tel:${site.contact.phoneHref}`}
                   className="inline-flex items-center gap-2 rounded-full border border-cream/25 px-6 py-3 text-sm font-medium text-cream transition-colors hover:bg-cream hover:text-ink"

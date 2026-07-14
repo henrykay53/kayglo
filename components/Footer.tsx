@@ -98,8 +98,8 @@ export function Footer() {
       <div className="border-t border-cream/10">
         <div className="mx-auto flex max-w-6xl flex-col gap-3 px-6 py-6 text-xs text-cream/45 sm:flex-row sm:items-center sm:justify-between sm:px-8">
           <p>
-            © {new Date().getFullYear()} {site.legalName}. Licensed &amp; insured
-            solar contractor. All rights reserved.
+            © {new Date().getFullYear()} {site.legalName}. Genuine solar,
+            expert installation &amp; trusted after-sales across Nigeria.
           </p>
           <div className="flex gap-5">
             <Link href="/privacy" className="hover:text-cream/70">

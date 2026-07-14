@@ -22,14 +22,15 @@ export default function ServicesPage() {
           </Reveal>
           <Reveal delay={80}>
             <h1 className="font-display mt-6 max-w-3xl text-4xl leading-tight text-ink sm:text-5xl md:text-6xl">
-              One team for every part of your home&apos;s energy.
+              Your one true source for reliable power.
             </h1>
           </Reveal>
           <Reveal delay={160}>
             <p className="mt-6 max-w-xl text-lg text-slate">
-              We don&apos;t sub out the parts that matter. Design, engineering,
-              installation, and service all live under one roof — so nothing
-              falls between the cracks.
+              From genuine products to installation, servicing, and after-sales —
+              everything you need under one roof, from one team you can build a
+              relationship with. No middlemen, no finger-pointing, no
+              disappearing act.
             </p>
           </Reveal>
         </Container>
@@ -102,7 +103,7 @@ export default function ServicesPage() {
           <Reveal delay={120}>
             <div className="mt-14">
               <Button href="/contact" variant="gold">
-                Start with a consultation
+                Get a free quote
               </Button>
             </div>
           </Reveal>

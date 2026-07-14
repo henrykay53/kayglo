@@ -51,22 +51,22 @@ export default function OgImage() {
         <div style={{ display: "flex", flexDirection: "column" }}>
           <div
             style={{
-              fontSize: 40,
+              fontSize: 34,
               color: "#c98a2b",
               letterSpacing: 4,
               textTransform: "uppercase",
               marginBottom: 24,
             }}
           >
-            Premium Residential Solar
+            Solar · Inverters · Batteries · Service
           </div>
-          <div style={{ fontSize: 78, lineHeight: 1.02, letterSpacing: -1.5, maxWidth: 900 }}>
-            Power your home with quiet confidence.
+          <div style={{ fontSize: 74, lineHeight: 1.02, letterSpacing: -1.5, maxWidth: 960 }}>
+            End the blackouts. Silence the generator.
           </div>
         </div>
 
         <div style={{ display: "flex", fontSize: 26, color: "rgba(247,244,236,0.6)" }}>
-          {site.areasServed.slice(0, 3).join("  ·  ")}
+          Genuine products · Expert installation · Trusted after-sales
         </div>
       </div>
     ),

@@ -52,7 +52,7 @@ export function Header() {
             href="/contact"
             className="rounded-full bg-ink px-5 py-2.5 text-sm font-medium text-cream transition-colors hover:bg-gold"
           >
-            Request a consultation
+            Get a free quote
           </Link>
         </nav>
 
@@ -105,7 +105,7 @@ export function Header() {
             href="/contact"
             className="mt-2 rounded-full bg-ink px-5 py-3 text-center text-sm font-medium text-cream"
           >
-            Request a consultation
+            Get a free quote
           </Link>
         </nav>
       </div>

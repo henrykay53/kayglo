@@ -53,11 +53,11 @@ export function ContactForm() {
           ✓
         </div>
         <h3 className="font-display mt-5 text-2xl text-ink">
-          Thank you — we&apos;ll be in touch.
+          Thank you — we&apos;ll be in touch shortly.
         </h3>
         <p className="mt-3 text-slate">
-          A member of our team will reach out within one business day to arrange
-          your consultation.
+          A real person from our team will reach out within one business day to
+          talk through your power needs. No pressure — we&apos;re here to help.
         </p>
       </div>
     );
@@ -116,12 +116,13 @@ export function ContactForm() {
         </div>
         <div>
           <label htmlFor="postal" className={label}>
-            Property ZIP code
+            Area / City
           </label>
           <input
             id="postal"
             name="postal"
-            autoComplete="postal-code"
+            autoComplete="address-level2"
+            placeholder="e.g. Lekki, Lagos"
             className={field}
           />
         </div>
@@ -145,14 +146,14 @@ export function ContactForm() {
 
       <div>
         <label htmlFor="message" className={label}>
-          Tell us about your home
+          Tell us what you need to power
         </label>
         <textarea
           id="message"
           name="message"
           rows={4}
           className={field}
-          placeholder="Roof type, average monthly bill, goals (savings, backup, EV)…"
+          placeholder="What you want to run (whole house, specific rooms, office), what you currently spend on fuel, and your budget…"
         />
       </div>
 
@@ -167,14 +168,14 @@ export function ContactForm() {
         disabled={status === "submitting"}
         className="group inline-flex items-center gap-2 rounded-full bg-ink px-7 py-3.5 text-sm font-medium text-cream transition-colors hover:bg-gold disabled:opacity-60"
       >
-        {status === "submitting" ? "Sending…" : "Request my consultation"}
+        {status === "submitting" ? "Sending…" : "Get my free quote"}
         <span className="transition-transform duration-300 group-hover:translate-x-0.5">
           →
         </span>
       </button>
       <p className="text-xs text-mute">
         We respect your privacy. Your details are only used to prepare your
-        consultation — never sold.
+        quote — never sold.
       </p>
     </form>
   );

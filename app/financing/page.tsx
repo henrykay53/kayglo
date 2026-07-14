@@ -5,50 +5,66 @@ import { Button, Container, Kicker } from "@/components/ui";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Solar Financing & Incentives",
+  title: "Payment Plans & Value",
   description:
-    "Understand your options for paying for solar — cash, solar loans, and the federal tax credit and local incentives that lower your net cost. Transparent, no-pressure guidance from Kayglo.",
+    "Reliable solar power, within reach. Outright purchase or flexible payment plans, plus the honest math on how solar pays for itself against what you spend on fuel and generator servicing.",
   alternates: { canonical: "/financing" },
 };
 
-// Edit these to reflect current programs and your own terms.
+// Edit these to reflect your own terms.
 const options = [
   {
-    name: "Cash purchase",
-    tagline: "The lowest lifetime cost",
-    body: "Own your system outright from day one. You capture every incentive directly and see the fastest payback — typically the strongest long-term return.",
-    points: ["Highest lifetime savings", "You claim all incentives", "Adds value to your home"],
+    name: "Outright purchase",
+    tagline: "Best overall value",
+    body: "Pay once and own your system fully from day one. It's the lowest total cost and the fastest way to stop bleeding money on fuel — most clients recover the cost within a few years.",
+    points: [
+      "Lowest total cost of ownership",
+      "You own everything outright",
+      "Fastest return on your money",
+    ],
   },
   {
-    name: "Solar loan",
-    tagline: "Own it, spread the cost",
-    body: "Finance the system with little or nothing down and own it just as you would with cash. Many homeowners choose a loan whose payment is at or below their old utility bill.",
-    points: ["Little to no money down", "You still own the system & incentives", "Fixed, predictable payments"],
+    name: "Flexible payment plans",
+    tagline: "Spread the cost",
+    body: "Reliable power shouldn't be out of reach because of one big payment. Ask us about staged and installment options that let you spread the cost over an agreed period, so you can start saving on fuel sooner.",
+    points: [
+      "Staged or installment payments",
+      "Plans tailored to your budget",
+      "Start saving on fuel from day one",
+    ],
   },
   {
-    name: "Guidance, not a sales quota",
-    tagline: "The right fit for you",
-    body: "We don't push a single financing product. We'll walk through the real numbers of each path against your goals and tax situation so you choose with clear eyes.",
-    points: ["No pressure, no gimmicks", "Numbers specific to your home", "Honest trade-offs"],
+    name: "Honest guidance",
+    tagline: "No overselling",
+    body: "We never inflate a system to inflate a price. We size to what you truly need and give you a clear, itemised quote — so you know exactly what you're paying for and why.",
+    points: [
+      "Right-sized to your real needs",
+      "Clear, itemised quotes",
+      "No pressure, no hidden charges",
+    ],
   },
 ];
 
 const faqs = [
   {
-    q: "What is the federal solar tax credit?",
-    a: "The federal residential clean energy credit lets eligible homeowners claim a percentage of their solar (and battery) system cost against their federal taxes. Because it depends on your tax liability and current law, we'll always point you to a tax professional for your specific situation.",
+    q: "How much does a solar system cost?",
+    a: "It depends on how much power you need — the appliances you want to run and for how long. Rather than quote a one-size-fits-all figure, we assess your usage and give you an honest, itemised quote for a system sized to your home or business. Reach out and we'll prepare one for you.",
   },
   {
-    q: "Are there state or local incentives too?",
-    a: "Often, yes — many states, utilities, and municipalities offer additional rebates, credits, or performance incentives that stack on top of the federal credit. Available programs change over time and vary by location, so we confirm what applies to your address as part of your proposal.",
+    q: "Can I pay in installments?",
+    a: "Yes. We understand that a full system is a significant investment, so we offer flexible, staged payment options over an agreed period. Talk to us about your budget and we'll work out a plan that fits.",
   },
   {
-    q: "How long until solar pays for itself?",
-    a: "Payback depends on your system size, your utility rates, and how you pay. For many of the homes we work with it lands in the range of six to eight years, after which the energy is effectively free for the remaining decades of the system's life. Your proposal will show a payback specific to your home.",
+    q: "How soon does it pay for itself?",
+    a: "Look at what you currently spend on petrol or diesel, plus generator servicing and repairs — it adds up fast. Once solar takes over, that spending largely stops. Many of our clients recover their investment within a few years, after which their power is essentially free.",
   },
   {
-    q: "Does solar add value to my home?",
-    a: "Owned solar systems are generally viewed as a home improvement that can increase resale value, particularly when installed cleanly and backed by a transferable warranty. Leased systems are more complicated at sale, which is one reason we favor ownership.",
+    q: "How long will the equipment last?",
+    a: "Because we only supply genuine, warranty-backed equipment, it lasts. Quality lithium batteries deliver thousands of charge cycles over many years, and solar panels are built to perform for two decades or more. Cheap, counterfeit gear is exactly what we help you avoid.",
+  },
+  {
+    q: "What happens after installation?",
+    a: "That's where a lot of companies vanish — and where we're different. Every system comes with dependable after-sales support: scheduled servicing, quick repairs, and a team that actually answers when you call. The sale is the start of the relationship, not the end.",
   },
 ];
 
@@ -74,18 +90,19 @@ export default function FinancingPage() {
         <RayBurst className="pointer-events-none absolute -right-24 -top-16 h-80 w-80 text-gold/10" />
         <Container className="relative py-20 md:py-28">
           <Reveal>
-            <Kicker>Financing &amp; incentives</Kicker>
+            <Kicker>Payment &amp; value</Kicker>
           </Reveal>
           <Reveal delay={80}>
             <h1 className="font-display mt-6 max-w-3xl text-4xl leading-tight text-ink sm:text-5xl md:text-6xl">
-              Solar should pay for itself. We&apos;ll show you how.
+              Reliable power, within reach.
             </h1>
           </Reveal>
           <Reveal delay={160}>
             <p className="mt-6 max-w-xl text-lg text-slate">
-              Between ownership options and available incentives, most homeowners
-              are surprised how attainable a premium system is. Here&apos;s the
-              honest picture.
+              A quality solar system is an investment — but between flexible
+              payment plans and the money you&apos;ll stop spending on fuel, it&apos;s
+              more attainable than most people expect. Here&apos;s the honest
+              picture.
             </p>
           </Reveal>
         </Container>
@@ -125,24 +142,23 @@ export default function FinancingPage() {
         </Container>
       </section>
 
-      {/* Incentives band */}
+      {/* The real math band */}
       <section className="bg-ever text-cream">
         <Container className="py-16 md:py-24">
           <div className="grid gap-10 md:grid-cols-2 md:items-center">
             <Reveal>
-              <Kicker className="text-gold-300">The biggest lever</Kicker>
+              <Kicker className="text-gold-300">The real math</Kicker>
               <h2 className="font-display mt-5 text-3xl md:text-4xl">
-                Incentives can meaningfully cut your net cost
+                Your generator is the expensive option
               </h2>
             </Reveal>
             <Reveal delay={120}>
               <p className="text-lg text-cream/75">
-                The federal clean energy credit is the largest for most
-                homeowners, and state or utility programs often stack on top.
-                Because these depend on your tax situation and change over time,
-                we verify exactly what applies to your address — and we&apos;ll
-                always steer you to a tax professional rather than make promises
-                we can&apos;t keep.
+                Add up a year of petrol or diesel, servicing, oil changes, and
+                the repairs when the generator finally gives out. For most homes
+                and businesses, that ongoing cost quietly dwarfs the price of a
+                solar system. Solar simply moves that money from a bottomless
+                pit into an asset that pays you back — quietly, and for years.
               </p>
             </Reveal>
           </div>
@@ -157,7 +173,7 @@ export default function FinancingPage() {
           </Reveal>
           <Reveal delay={80}>
             <h2 className="font-display mt-5 text-3xl text-ink md:text-4xl">
-              Financing, answered
+              Your questions, answered honestly
             </h2>
           </Reveal>
           <dl className="mt-10 divide-y divide-ink/10 border-y border-ink/10">
@@ -171,8 +187,8 @@ export default function FinancingPage() {
             ))}
           </dl>
           <p className="mt-6 text-sm text-mute">
-            This page is general information, not tax or financial advice. Figures
-            vary by home, usage, and current programs.
+            This page is general guidance. Exact prices, plans, and payback
+            depend on your specific needs — ask us for a quote tailored to you.
           </p>
         </Container>
       </section>
@@ -181,14 +197,15 @@ export default function FinancingPage() {
         <Container>
           <div className="grain relative overflow-hidden rounded-3xl bg-ink px-8 py-14 text-center text-cream md:px-16 md:py-20">
             <h2 className="font-display text-3xl md:text-4xl">
-              See your numbers.
+              Get a free quote.
             </h2>
             <p className="mx-auto mt-4 max-w-lg text-cream/70">
-              We&apos;ll prepare a transparent proposal with your system size,
-              net cost after incentives, and projected payback.
+              Tell us what you need to power. We&apos;ll size it honestly, show
+              you the payment options, and put real numbers next to what your
+              generator is costing you today.
             </p>
             <div className="mt-8 flex flex-wrap justify-center gap-4">
-              <Button href="/contact">Request a consultation</Button>
+              <Button href="/contact">Request a free quote</Button>
               <a
                 href={`tel:${site.contact.phoneHref}`}
                 className="inline-flex items-center gap-2 rounded-full border border-cream/25 px-6 py-3 text-sm font-medium text-cream transition-colors hover:bg-cream hover:text-ink"

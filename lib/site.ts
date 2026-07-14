@@ -8,7 +8,7 @@
  */
 
 export const site = {
-  name: "Kayglo",
+  name: "Kayglo Citadel",
   legalName: "Kayglo Citadel",
   tagline: "Genuine solar. Reliable power. Trusted after-sales.",
   description:
@@ -36,8 +36,7 @@ export const site = {
   },
 
   areasServed: [
-    "Nation wide",
-  
+    "Nigerians",
   ], // TODO
 
   social: {
@@ -222,7 +221,7 @@ export const testimonials = [
 
 export const nav = [
   { href: "/services", label: "Services" },
-  { href: "/financing", label: "Financing" },
+  { href: "/financing", label: "Pricing" },
   { href: "/projects", label: "Projects" },
   { href: "/blog", label: "Insights" },
   { href: "/about", label: "About" },

@@ -5,9 +5,9 @@ import { Container, Kicker } from "@/components/ui";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Request a Consultation",
+  title: "Contact Us — Get a Free Quote",
   description:
-    "Book a no-pressure solar consultation with Kayglo. Tell us about your home and receive a photo-accurate proposal, usually within a week.",
+    "Talk to real people about solar for your home or business in Nigeria. Call, WhatsApp, or message Kayglo Citadel for honest advice and a free, no-obligation quote.",
   alternates: { canonical: "/contact" },
 };
 
@@ -22,13 +22,15 @@ export default function ContactPage() {
           </Reveal>
           <Reveal delay={80}>
             <h1 className="font-display mt-6 text-4xl leading-tight text-ink sm:text-5xl">
-              Request a consultation.
+              Let&apos;s talk about your power.
             </h1>
           </Reveal>
           <Reveal delay={140}>
             <p className="mt-5 text-lg text-slate">
-              No hard sell, no obligation. Just an honest conversation and a
-              clear picture of what solar could do for your home.
+              No hard sell, no obligation — just real people ready to listen.
+              Tell us what you&apos;re dealing with and we&apos;ll help you solve
+              it. Call, WhatsApp, or send a message and we&apos;ll respond
+              quickly.
             </p>
           </Reveal>
 
@@ -46,6 +48,21 @@ export default function ContactPage() {
                 </dd>
               </div>
               <div>
+                <dt className="kicker text-mute">WhatsApp</dt>
+                <dd className="mt-1">
+                  <a
+                    href={`https://wa.me/${contact.phoneHref.replace(/\D/g, "")}?text=${encodeURIComponent(
+                      "Hello Kayglo, I'd like to talk about solar for my home/business.",
+                    )}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-lg text-ink hover:text-gold"
+                  >
+                    Chat with us on WhatsApp
+                  </a>
+                </dd>
+              </div>
+              <div>
                 <dt className="kicker text-mute">Email</dt>
                 <dd className="mt-1">
                   <a
@@ -57,7 +74,7 @@ export default function ContactPage() {
                 </dd>
               </div>
               <div>
-                <dt className="kicker text-mute">Studio</dt>
+                <dt className="kicker text-mute">Office</dt>
                 <dd className="mt-1 text-ink">
                   {contact.address.street}
                   <br />

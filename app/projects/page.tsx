@@ -21,13 +21,14 @@ export default function ProjectsPage() {
           </Reveal>
           <Reveal delay={80}>
             <h1 className="font-display mt-6 max-w-3xl text-4xl leading-tight text-ink sm:text-5xl md:text-6xl">
-              Systems as considered as the homes they power.
+              Real homes and businesses. Real power. Real savings.
             </h1>
           </Reveal>
           <Reveal delay={160}>
             <p className="mt-6 max-w-xl text-lg text-slate">
-              Every project is engineered from scratch. Here are a few we&apos;re
-              proud of — with the real numbers behind them.
+              Every system is sized from scratch for the people who use it. Here
+              are a few we&apos;re proud of — generators retired, diesel bills
+              cut, and the real numbers behind them.
             </p>
           </Reveal>
         </Container>
@@ -75,14 +76,14 @@ export default function ProjectsPage() {
         <Container>
           <Reveal>
             <h2 className="font-display text-4xl md:text-5xl">
-              Your home could be next.
+              Your home or business could be next.
             </h2>
             <p className="mx-auto mt-5 max-w-lg text-cream/70">
-              Tell us about your home and we&apos;ll show you exactly what it
-              could produce.
+              Tell us what you need to power, and we&apos;ll show you exactly how
+              to end the blackouts for good.
             </p>
             <div className="mt-9 flex justify-center">
-              <Button href="/contact">Request a consultation</Button>
+              <Button href="/contact">Get a free quote</Button>
             </div>
           </Reveal>
         </Container>
