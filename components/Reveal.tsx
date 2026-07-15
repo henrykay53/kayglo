@@ -28,6 +28,8 @@ export function Reveal({
       setShown(true);
       return;
     }
+
+    
     const io = new IntersectionObserver(
       (entries) => {
         entries.forEach((e) => {

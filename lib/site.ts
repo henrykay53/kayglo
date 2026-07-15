@@ -130,6 +130,9 @@ export type ProjectCase = {
   hue: string; // brand-consistent artwork tint
 };
 
+
+
+
 export const projects: ProjectCase[] = [
   {
     slug: "ikoyi-residence",

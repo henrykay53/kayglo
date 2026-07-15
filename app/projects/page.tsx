@@ -11,6 +11,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/projects" },
 };
 
+
 export default function ProjectsPage() {
   return (
     <>
@@ -33,6 +34,7 @@ export default function ProjectsPage() {
           </Reveal>
         </Container>
       </section>
+      
 
       {projects.map((p, i) => (
         <section
