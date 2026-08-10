@@ -120,6 +120,45 @@ export const services: Service[] = [
   },
 ];
 
+export type ProjectPhoto = {
+  src: string;
+  alt: string;
+  /** Intrinsic pixel size — keeps next/image free of layout shift. */
+  width: number;
+  height: number;
+  /** Optional overlay caption, used by the hero stack. */
+  title?: string;
+  note?: string;
+};
+
+/** The auto-shuffling stack of site photography in the homepage hero. */
+export const heroGallery: ProjectPhoto[] = [
+  {
+    src: "/hero/01.jpg",
+    alt: "A Kayglo solar array installed across a tiled roof at dusk.",
+    width: 1152,
+    height: 864,
+    title: "Rooftop array, Lagos",
+    note: "Genuine panels · clean install · silent power",
+  },
+  {
+    src: "/hero/02.jpg",
+    alt: "Panels flush-mounted along the pitch of a tiled roof above a Lagos street.",
+    width: 864,
+    height: 1152,
+    title: "Flush-mounted on pitch",
+    note: "Weather-sealed rails · no leaks, no rattle",
+  },
+  {
+    src: "/hero/03.jpg",
+    alt: "A full rooftop array on a flat estate roof after rain, city skyline behind.",
+    width: 1280,
+    height: 960,
+    title: "Sized for the whole home",
+    note: "Enough array to carry the load, not just the lights",
+  },
+];
+
 export type ProjectCase = {
   slug: string;
   name: string;
@@ -128,6 +167,8 @@ export type ProjectCase = {
   summary: string;
   metrics: { label: string; value: string }[];
   hue: string; // brand-consistent artwork tint
+  /** Shot on site. Rendered as a shuffleable card stack — first one is the hero. */
+  gallery: ProjectPhoto[];
 };
 
 
@@ -147,6 +188,26 @@ export const projects: ProjectCase[] = [
       { label: "Payback", value: "3.4 yrs" },
     ],
     hue: "#2f5343",
+    gallery: [
+      {
+        src: "/projects/ikoyi-residence/01.jpg",
+        alt: "Kayglo crew fitting solar panels onto the carport array at the Ikoyi family residence.",
+        width: 2048,
+        height: 1536,
+      },
+      {
+        src: "/projects/ikoyi-residence/02.jpg",
+        alt: "The steel carport frame going up in the compound before the panels are laid.",
+        width: 2048,
+        height: 1536,
+      },
+      {
+        src: "/projects/ikoyi-residence/03.jpg",
+        alt: "Inverter, changeover panel and stacked battery rack in the glazed plant room.",
+        width: 1536,
+        height: 2048,
+      },
+    ],
   },
   {
     slug: "maitama-office",
@@ -161,6 +222,32 @@ export const projects: ProjectCase[] = [
       { label: "Payback", value: "3.1 yrs" },
     ],
     hue: "#8a5a1f",
+    gallery: [
+      {
+        src: "/projects/maitama-office/01.jpg",
+        alt: "A Kayglo installer torquing down a rooftop panel array above the office complex.",
+        width: 1536,
+        height: 2048,
+      },
+      {
+        src: "/projects/maitama-office/02.jpg",
+        alt: "Setting out the first rows of panels across the building's metal roof.",
+        width: 1536,
+        height: 2048,
+      },
+      {
+        src: "/projects/maitama-office/03.jpg",
+        alt: "The finished rooftop array, clamped and cabled, with a Kayglo hard hat resting on it.",
+        width: 1536,
+        height: 2048,
+      },
+      {
+        src: "/projects/maitama-office/04.jpg",
+        alt: "Wall-mounted hybrid inverter, distribution board and lithium battery bank.",
+        width: 1536,
+        height: 2048,
+      },
+    ],
   },
   {
     slug: "lekki-smart-home",
@@ -175,6 +262,48 @@ export const projects: ProjectCase[] = [
       { label: "Payback", value: "3.8 yrs" },
     ],
     hue: "#1f3a2e",
+    gallery: [
+      {
+        src: "/projects/lekki-smart-home/01.jpg",
+        alt: "Completed solar carport shading the parking court, seen from an upper floor.",
+        width: 1536,
+        height: 2048,
+      },
+      {
+        src: "/projects/lekki-smart-home/02.jpg",
+        alt: "Inverter wall and lithium battery bank feeding the property's changeover panel.",
+        width: 1536,
+        height: 2048,
+      },
+    ],
+  },
+  {
+    slug: "surulere-residence",
+    name: "Surulere Family Home",
+    location: "Surulere, Lagos",
+    system: "10 kW solar · 20 kWh storage",
+    summary:
+      "A busy family home on a tight urban plot, tired of fuel queues and a generator that woke the whole street. We built the array over the outbuilding roof and put the inverters and batteries in a dedicated plant room.",
+    metrics: [
+      { label: "Generator use", value: "−92%" },
+      { label: "Monthly saving", value: "₦380k" },
+      { label: "Payback", value: "3.6 yrs" },
+    ],
+    hue: "#2f5343",
+    gallery: [
+      {
+        src: "/projects/surulere-residence/01.jpg",
+        alt: "The Kayglo crew hoisting a panel up to the roof from the balcony below.",
+        width: 960,
+        height: 1280,
+      },
+      {
+        src: "/projects/surulere-residence/02.jpg",
+        alt: "The completed array laid out across the outbuilding roof beside the main house.",
+        width: 1152,
+        height: 864,
+      },
+    ],
   },
 ];
 

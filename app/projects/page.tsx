@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { PanelArt } from "@/components/Brand";
+import { ProjectStack } from "@/components/ProjectStack";
 import { Reveal } from "@/components/Reveal";
 import { Button, Container, Kicker } from "@/components/ui";
 import { projects } from "@/lib/site";
@@ -44,13 +44,7 @@ export default function ProjectsPage() {
         >
           <Container className="grid items-center gap-10 py-16 md:grid-cols-2 md:gap-14 md:py-24">
             <Reveal className={i % 2 === 1 ? "md:order-2" : ""}>
-              <div className="relative aspect-[4/3] overflow-hidden rounded-3xl border border-ink/10 shadow-xl shadow-ink/10">
-                <PanelArt className="absolute inset-0 h-full w-full" cols={8} rows={6} />
-                <div
-                  className="absolute inset-0 opacity-55 mix-blend-multiply"
-                  style={{ background: p.hue }}
-                />
-              </div>
+              <ProjectStack photos={p.gallery} label={p.name} />
             </Reveal>
             <Reveal delay={100} className={i % 2 === 1 ? "md:order-1" : ""}>
               <p className="text-sm text-mute">{p.location}</p>

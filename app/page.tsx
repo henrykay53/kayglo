@@ -1,8 +1,11 @@
+import Image from "next/image";
 import Link from "next/link";
-import { PanelArt, RayBurst } from "@/components/Brand";
+import { RayBurst } from "@/components/Brand";
+import { ProjectStack } from "@/components/ProjectStack";
 import { Reveal } from "@/components/Reveal";
 import { Button, Container, Kicker } from "@/components/ui";
 import {
+  heroGallery,
   processSteps,
   projects,
   services,
@@ -59,17 +62,17 @@ export default function Home() {
 
           <div className="md:col-span-5">
             <Reveal delay={200} className="h-full">
-              <div className="relative h-72 overflow-hidden rounded-3xl border border-ink/10 shadow-2xl shadow-ink/10 sm:h-96 md:h-full">
-                <PanelArt className="absolute inset-0 h-full w-full" cols={7} rows={5} />
-                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/70 to-transparent p-6 pt-16">
-                  <p className="font-display text-xl text-cream">
-                    Ikoyi Family Residence
-                  </p>
-                  <p className="text-sm text-cream/70">
-                    12 kW · generators retired · Lagos
-                  </p>
-                </div>
-              </div>
+              <ProjectStack
+                photos={heroGallery}
+                label="Kayglo installations"
+                frameClassName="h-80 sm:h-[26rem] md:h-full md:min-h-[30rem]"
+                sizes="(min-width: 768px) 40vw, 92vw"
+                autoMs={5200}
+                captions
+                kenBurns
+                preload
+                className="h-full"
+              />
             </Reveal>
           </div>
         </Container>
@@ -220,17 +223,19 @@ export default function Home() {
           </div>
 
           <div className="mt-14 grid gap-8 md:grid-cols-3">
-            {projects.map((p, i) => (
+            {projects.slice(0, 3).map((p, i) => (
               <Reveal key={p.slug} delay={i * 90}>
                 <Link
                   href={`/projects#${p.slug}`}
                   className="group block overflow-hidden rounded-2xl border border-ink/10 bg-cream shadow-sm transition-shadow duration-300 hover:shadow-xl hover:shadow-ink/10"
                 >
                   <div className="relative h-52 overflow-hidden">
-                    <PanelArt className="absolute inset-0 h-full w-full transition-transform duration-700 group-hover:scale-105" />
-                    <div
-                      className="absolute inset-0 opacity-60 mix-blend-multiply"
-                      style={{ background: p.hue }}
+                    <Image
+                      src={p.gallery[0].src}
+                      alt={p.gallery[0].alt}
+                      fill
+                      sizes="(min-width: 768px) 30vw, 92vw"
+                      className="object-cover transition-transform duration-700 group-hover:scale-105"
                     />
                   </div>
                   <div className="p-6">

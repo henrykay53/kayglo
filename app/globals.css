@@ -95,6 +95,46 @@ body {
   }
 }
 
+/* Card-stack gallery (see components/ProjectStack.tsx) */
+@keyframes stack-countdown {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes stack-drift {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.07);
+  }
+}
+
+@keyframes stack-caption {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Slow drift on whichever card is showing — restarts as each one is dealt */
+  .stack-drift {
+    animation: stack-drift 9s var(--ease-out-soft) both;
+  }
+  .stack-caption {
+    animation: stack-caption 0.7s var(--ease-out-soft) both;
+  }
+}
+
 /* Link underline that grows from the left */
 .link-underline {
   background-image: linear-gradient(currentColor, currentColor);
