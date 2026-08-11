@@ -51,7 +51,7 @@ export default function ProjectsPage() {
               <h2 className="font-display mt-1 text-3xl text-ink md:text-4xl">
                 {p.name}
               </h2>
-              <p className="mt-3 font-medium text-gold">{p.system}</p>
+              <p className="mt-3 font-medium text-accent">{p.system}</p>
               <p className="mt-5 text-lg text-slate">{p.summary}</p>
               <dl className="mt-8 grid grid-cols-3 gap-4 border-t border-ink/10 pt-6">
                 {p.metrics.map((m) => (

@@ -65,7 +65,7 @@ export default async function ArticlePage({ params }: Params) {
         </Link>
 
         <header className="mt-8">
-          <span className="kicker text-gold">{post.category}</span>
+          <span className="kicker text-accent">{post.category}</span>
           <h1 className="font-display mt-4 text-4xl leading-tight text-ink md:text-5xl">
             {post.title}
           </h1>
@@ -90,7 +90,7 @@ export default async function ArticlePage({ params }: Params) {
           </p>
           <Link
             href="/contact"
-            className="mt-6 inline-flex items-center gap-2 rounded-full bg-ink px-6 py-3 text-sm font-medium text-cream transition-colors hover:bg-gold"
+            className="mt-6 inline-flex items-center gap-2 rounded-full bg-ink px-6 py-3 text-sm font-medium text-cream transition-colors hover:bg-accent"
           >
             Get a free quote →
           </Link>

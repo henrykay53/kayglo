@@ -87,7 +87,7 @@ export default function FinancingPage() {
       />
 
       <section className="grain relative overflow-hidden border-b border-ink/10">
-        <RayBurst className="pointer-events-none absolute -right-24 -top-16 h-80 w-80 text-gold/10" />
+        <RayBurst className="pointer-events-none absolute -right-24 -top-16 h-80 w-80 text-accent/10" />
         <Container className="relative py-20 md:py-28">
           <Reveal>
             <Kicker>Payment &amp; value</Kicker>
@@ -120,7 +120,7 @@ export default function FinancingPage() {
             {options.map((o, i) => (
               <Reveal key={o.name} delay={i * 90}>
                 <div className="flex h-full flex-col rounded-2xl border border-ink/10 bg-cream p-8">
-                  <span className="kicker text-gold">{o.tagline}</span>
+                  <span className="kicker text-accent">{o.tagline}</span>
                   <h3 className="font-display mt-3 text-2xl text-ink">
                     {o.name}
                   </h3>
@@ -128,7 +128,7 @@ export default function FinancingPage() {
                   <ul className="mt-6 space-y-2 border-t border-ink/10 pt-5 text-sm">
                     {o.points.map((p) => (
                       <li key={p} className="flex gap-3 text-ink">
-                        <span aria-hidden="true" className="text-gold">
+                        <span aria-hidden="true" className="text-accent">
                           ✦
                         </span>
                         {p}
@@ -147,7 +147,7 @@ export default function FinancingPage() {
         <Container className="py-16 md:py-24">
           <div className="grid gap-10 md:grid-cols-2 md:items-center">
             <Reveal>
-              <Kicker className="text-gold-300">The real math</Kicker>
+              <Kicker className="text-accent-300">The real math</Kicker>
               <h2 className="font-display mt-5 text-3xl md:text-4xl">
                 Your generator is the expensive option
               </h2>

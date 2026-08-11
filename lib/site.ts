@@ -131,6 +131,13 @@ export type ProjectPhoto = {
   note?: string;
 };
 
+/**
+ * States lit permanently on the homepage map — where Kayglo has installed and
+ * services systems. Taken from the project cases below; add ISO codes from
+ * lib/nigeria-map.ts (e.g. "NG-RI" for Rivers) as new states come on stream.
+ */
+export const presenceStates = ["NG-LA", "NG-FC"];
+
 /** The auto-shuffling stack of site photography in the homepage hero. */
 export const heroGallery: ProjectPhoto[] = [
   {

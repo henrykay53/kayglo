@@ -51,7 +51,7 @@ export default function BlogIndex() {
                 className="group grid gap-8 rounded-3xl border border-ink/10 bg-cream-200/40 p-8 transition-shadow hover:shadow-xl hover:shadow-ink/10 md:grid-cols-2 md:p-12"
               >
                 <div>
-                  <span className="kicker text-gold">{lead.category}</span>
+                  <span className="kicker text-accent">{lead.category}</span>
                   <h2 className="font-display mt-4 text-3xl text-ink md:text-4xl">
                     {lead.title}
                   </h2>
@@ -75,8 +75,8 @@ export default function BlogIndex() {
                     href={`/blog/${post.slug}`}
                     className="group flex h-full flex-col rounded-2xl border border-ink/10 bg-cream p-8 transition-shadow hover:shadow-lg hover:shadow-ink/10"
                   >
-                    <span className="kicker text-gold">{post.category}</span>
-                    <h2 className="font-display mt-4 text-2xl text-ink group-hover:text-gold">
+                    <span className="kicker text-accent">{post.category}</span>
+                    <h2 className="font-display mt-4 text-2xl text-ink group-hover:text-accent">
                       {post.title}
                     </h2>
                     <p className="mt-3 flex-1 text-slate">{post.description}</p>
@@ -104,7 +104,7 @@ export default function BlogIndex() {
             <div className="mt-8 flex justify-center">
               <Link
                 href="/contact"
-                className="rounded-full bg-gold px-7 py-3.5 text-sm font-medium text-cream transition-colors hover:bg-cream hover:text-ink"
+                className="rounded-full bg-accent px-7 py-3.5 text-sm font-medium text-cream transition-colors hover:bg-cream hover:text-ink"
               >
                 Get a free quote →
               </Link>

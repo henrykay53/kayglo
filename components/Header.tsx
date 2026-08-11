@@ -41,7 +41,7 @@ export function Header() {
                 key={item.href}
                 href={item.href}
                 className={`link-underline text-sm font-medium transition-colors ${
-                  active ? "text-gold" : "text-slate hover:text-ink"
+                  active ? "text-accent" : "text-slate hover:text-ink"
                 }`}
               >
                 {item.label}
@@ -50,7 +50,7 @@ export function Header() {
           })}
           <Link
             href="/contact"
-            className="rounded-full bg-ink px-5 py-2.5 text-sm font-medium text-cream transition-colors hover:bg-gold"
+            className="rounded-full bg-ink px-5 py-2.5 text-sm font-medium text-cream transition-colors hover:bg-accent"
           >
             Get a free quote
           </Link>

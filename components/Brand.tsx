@@ -45,7 +45,7 @@ export function Logo({
 }) {
   return (
     <span className={`inline-flex items-center gap-2.5 ${className}`}>
-      <Mark className={`h-6 w-6 ${onDark ? "text-gold-300" : "text-gold"}`} />
+      <Mark className={`h-6 w-6 ${onDark ? "text-accent-300" : "text-accent"}`} />
       <span
         className={`font-display text-[1.35rem] font-medium tracking-tight ${
           onDark ? "text-cream" : "text-ink"
@@ -84,7 +84,7 @@ export function PanelArt({
           height={h - 1.2}
           rx="0.8"
           fill="url(#cell)"
-          stroke="rgba(236,192,121,0.28)"
+          stroke="rgba(127,200,162,0.28)"
           strokeWidth="0.25"
         />,
       );
@@ -104,8 +104,8 @@ export function PanelArt({
           <stop offset="1" stopColor="#0f1c17" />
         </linearGradient>
         <radialGradient id="glow" cx="0.8" cy="0.1" r="0.9">
-          <stop offset="0" stopColor="rgba(236,192,121,0.5)" />
-          <stop offset="1" stopColor="rgba(236,192,121,0)" />
+          <stop offset="0" stopColor="rgba(127,200,162,0.5)" />
+          <stop offset="1" stopColor="rgba(127,200,162,0)" />
         </radialGradient>
       </defs>
       <g transform="rotate(-8 50 50) scale(1.25) translate(-10 -8)">{cells}</g>

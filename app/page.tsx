@@ -1,11 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { RayBurst } from "@/components/Brand";
-import { ProjectStack } from "@/components/ProjectStack";
+import { PowerMap } from "@/components/PowerMap";
 import { Reveal } from "@/components/Reveal";
 import { Button, Container, Kicker } from "@/components/ui";
 import {
-  heroGallery,
   processSteps,
   projects,
   services,
@@ -19,12 +18,16 @@ export default function Home() {
       {/* ============================== HERO ============================== */}
       <section className="grain relative overflow-hidden">
         <div className="pointer-events-none absolute inset-0 -z-10">
-          <div className="absolute -right-24 -top-24 h-[32rem] w-[32rem] rounded-full bg-gold/10 blur-3xl" />
+          <div className="absolute -right-24 -top-24 h-[32rem] w-[32rem] rounded-full bg-accent/10 blur-3xl" />
           <div className="absolute -left-32 top-40 h-96 w-96 rounded-full bg-ever/10 blur-3xl" />
         </div>
 
-        <Container className="relative grid gap-12 pb-16 pt-16 md:grid-cols-12 md:gap-8 md:pb-24 md:pt-24">
-          <div className="md:col-span-7 md:pr-6">
+        <div className="relative">
+        {/* The map is the hero's ground, not a panel sitting on it */}
+        <PowerMap className="absolute inset-0" />
+
+        <Container className="pointer-events-none relative grid gap-12 pb-16 pt-16 md:grid-cols-12 md:gap-8 md:pb-24 md:pt-24">
+          <div className="pointer-events-auto md:col-span-7 md:pr-6">
             <Reveal>
               <Kicker>Your power partner in Nigeria</Kicker>
             </Reveal>
@@ -33,7 +36,7 @@ export default function Home() {
                 End the blackouts.
                 <br />
                 Silence the
-                <span className="text-gold"> generator.</span>
+                <span className="text-accent"> generator.</span>
               </h1>
             </Reveal>
             <Reveal delay={160}>
@@ -60,22 +63,10 @@ export default function Home() {
             </Reveal>
           </div>
 
-          <div className="md:col-span-5">
-            <Reveal delay={200} className="h-full">
-              <ProjectStack
-                photos={heroGallery}
-                label="Kayglo installations"
-                frameClassName="h-80 sm:h-[26rem] md:h-full md:min-h-[30rem]"
-                sizes="(min-width: 768px) 40vw, 92vw"
-                autoMs={5200}
-                captions
-                kenBurns
-                preload
-                className="h-full"
-              />
-            </Reveal>
-          </div>
+          {/* Reserves the map's half of the hero on desktop */}
+          <div className="hidden md:col-span-5 md:block md:min-h-[30rem]" />
         </Container>
+        </div>
 
         {/* Stat bar */}
         <div className="border-y border-ink/10 bg-cream-200/50">
@@ -115,7 +106,7 @@ export default function Home() {
           <Reveal delay={160}>
             <Link
               href="/about"
-              className="link-underline mt-8 inline-block text-gold"
+              className="link-underline mt-8 inline-block text-accent"
             >
               Our story
             </Link>
@@ -129,7 +120,7 @@ export default function Home() {
           <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
             <div>
               <Reveal>
-                <Kicker className="text-gold-300">What we do</Kicker>
+                <Kicker className="text-accent-300">What we do</Kicker>
               </Reveal>
               <Reveal delay={80}>
                 <h2 className="font-display mt-5 text-4xl text-cream md:text-5xl">
@@ -153,14 +144,14 @@ export default function Home() {
                   href={`/services#${s.slug}`}
                   className="group flex h-full flex-col bg-ink p-8 transition-colors duration-300 hover:bg-ink-800 md:p-10"
                 >
-                  <span className="font-display text-sm text-gold-300">
+                  <span className="font-display text-sm text-accent-300">
                     0{i + 1}
                   </span>
                   <h3 className="font-display mt-4 text-2xl text-cream">
                     {s.title}
                   </h3>
                   <p className="mt-3 flex-1 text-cream/60">{s.summary}</p>
-                  <span className="mt-6 inline-flex items-center gap-2 text-sm text-gold-300 transition-transform duration-300 group-hover:translate-x-1">
+                  <span className="mt-6 inline-flex items-center gap-2 text-sm text-accent-300 transition-transform duration-300 group-hover:translate-x-1">
                     Learn more →
                   </span>
                 </Link>
@@ -172,7 +163,7 @@ export default function Home() {
 
       {/* ============================= PROCESS =========================== */}
       <section className="relative overflow-hidden py-20 md:py-28">
-        <RayBurst className="pointer-events-none absolute -left-24 top-10 h-80 w-80 text-gold/10" />
+        <RayBurst className="pointer-events-none absolute -left-24 top-10 h-80 w-80 text-accent/10" />
         <Container className="relative">
           <Reveal>
             <Kicker>How it works</Kicker>
@@ -247,7 +238,7 @@ export default function Home() {
                     <div className="mt-4 flex gap-5 border-t border-ink/10 pt-4">
                       {p.metrics.slice(0, 2).map((m) => (
                         <div key={m.label}>
-                          <p className="font-display text-lg text-gold">
+                          <p className="font-display text-lg text-accent">
                             {m.value}
                           </p>
                           <p className="text-xs text-mute">{m.label}</p>
@@ -272,7 +263,7 @@ export default function Home() {
             {testimonials.map((t, i) => (
               <Reveal key={t.author} delay={i * 90}>
                 <figure className="flex h-full flex-col rounded-2xl border border-ink/10 bg-cream p-8">
-                  <div className="text-gold" aria-hidden="true">
+                  <div className="text-accent" aria-hidden="true">
                     ★★★★★
                   </div>
                   <blockquote className="font-display mt-5 flex-1 text-lg leading-snug text-ink">
@@ -293,7 +284,7 @@ export default function Home() {
       <section className="pb-24">
         <Container>
           <div className="grain relative overflow-hidden rounded-3xl bg-ever px-8 py-16 text-cream md:px-16 md:py-20">
-            <RayBurst className="pointer-events-none absolute -right-16 -top-16 h-72 w-72 text-gold-300/20" />
+            <RayBurst className="pointer-events-none absolute -right-16 -top-16 h-72 w-72 text-accent-300/20" />
             <div className="relative max-w-2xl">
               <h2 className="font-display text-4xl md:text-5xl">
                 Let&apos;s solve your power problem.

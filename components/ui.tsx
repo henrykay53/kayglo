@@ -23,8 +23,8 @@ export function Kicker({
   className?: string;
 }) {
   return (
-    <span className={`kicker inline-flex items-center gap-2 text-gold ${className}`}>
-      <span className="h-px w-6 bg-gold/60" aria-hidden="true" />
+    <span className={`kicker inline-flex items-center gap-2 text-accent ${className}`}>
+      <span className="h-px w-6 bg-accent/60" aria-hidden="true" />
       {children}
     </span>
   );
@@ -33,25 +33,25 @@ export function Kicker({
 type ButtonProps = {
   href: string;
   children: ReactNode;
-  variant?: "gold" | "outline" | "dark" | "ghost";
+  variant?: "accent" | "outline" | "dark" | "ghost";
   className?: string;
 } & Omit<ComponentProps<typeof Link>, "href">;
 
 export function Button({
   href,
   children,
-  variant = "gold",
+  variant = "accent",
   className = "",
   ...rest
 }: ButtonProps) {
   const base =
     "group inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-medium transition-all duration-300 focus-visible:outline-2";
   const variants: Record<string, string> = {
-    gold: "bg-gold text-cream hover:bg-ink hover:text-cream shadow-sm",
+    accent: "bg-accent text-cream hover:bg-ink hover:text-cream shadow-sm",
     dark: "bg-ink text-cream hover:bg-ever-400",
     outline:
       "border border-ink/25 text-ink hover:border-ink hover:bg-ink hover:text-cream",
-    ghost: "text-ink hover:text-gold",
+    ghost: "text-ink hover:text-accent",
   };
   return (
     <Link href={href} className={`${base} ${variants[variant]} ${className}`} {...rest}>

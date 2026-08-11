@@ -41,7 +41,7 @@ export default function ContactPage() {
                 <dd className="mt-1">
                   <a
                     href={`tel:${contact.phoneHref}`}
-                    className="font-display text-2xl text-ink hover:text-gold"
+                    className="font-display text-2xl text-ink hover:text-accent"
                   >
                     {contact.phone}
                   </a>
@@ -56,7 +56,7 @@ export default function ContactPage() {
                     )}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-lg text-ink hover:text-gold"
+                    className="text-lg text-ink hover:text-accent"
                   >
                     Chat with us on WhatsApp
                   </a>
@@ -67,7 +67,7 @@ export default function ContactPage() {
                 <dd className="mt-1">
                   <a
                     href={`mailto:${contact.email}`}
-                    className="text-lg text-ink hover:text-gold"
+                    className="text-lg text-ink hover:text-accent"
                   >
                     {contact.email}
                   </a>

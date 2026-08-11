@@ -6,7 +6,7 @@ export function Footer() {
   const { contact } = site;
   return (
     <footer className="relative overflow-hidden bg-ink text-cream/80">
-      <RayBurst className="pointer-events-none absolute -right-16 -top-16 h-72 w-72 text-gold/10" />
+      <RayBurst className="pointer-events-none absolute -right-16 -top-16 h-72 w-72 text-accent/10" />
       <div className="mx-auto grid max-w-6xl gap-12 px-6 py-16 sm:px-8 md:grid-cols-12 md:py-20">
         <div className="md:col-span-4">
           <Logo onDark />
@@ -28,7 +28,7 @@ export function Footer() {
               <li key={item.href}>
                 <Link
                   href={item.href}
-                  className="text-cream/70 transition-colors hover:text-gold-300"
+                  className="text-cream/70 transition-colors hover:text-accent-300"
                 >
                   {item.label}
                 </Link>
@@ -44,7 +44,7 @@ export function Footer() {
               <li key={s.slug}>
                 <Link
                   href={`/services#${s.slug}`}
-                  className="text-cream/70 transition-colors hover:text-gold-300"
+                  className="text-cream/70 transition-colors hover:text-accent-300"
                 >
                   {s.title}
                 </Link>
@@ -59,7 +59,7 @@ export function Footer() {
             <li>
               <a
                 href={`tel:${contact.phoneHref}`}
-                className="text-cream/70 transition-colors hover:text-gold-300"
+                className="text-cream/70 transition-colors hover:text-accent-300"
               >
                 {contact.phone}
               </a>
@@ -67,7 +67,7 @@ export function Footer() {
             <li>
               <a
                 href={`mailto:${contact.email}`}
-                className="text-cream/70 transition-colors hover:text-gold-300"
+                className="text-cream/70 transition-colors hover:text-accent-300"
               >
                 {contact.email}
               </a>
@@ -77,7 +77,7 @@ export function Footer() {
           <div className="mt-5 flex gap-4 text-sm">
             <a
               href={site.social.instagram}
-              className="text-cream/60 hover:text-gold-300"
+              className="text-cream/60 hover:text-accent-300"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -85,7 +85,7 @@ export function Footer() {
             </a>
             <a
               href={site.social.linkedin}
-              className="text-cream/60 hover:text-gold-300"
+              className="text-cream/60 hover:text-accent-300"
               rel="noopener noreferrer"
               target="_blank"
             >

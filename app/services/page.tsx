@@ -15,7 +15,7 @@ export default function ServicesPage() {
   return (
     <>
       <section className="grain relative overflow-hidden border-b border-ink/10">
-        <RayBurst className="pointer-events-none absolute -right-20 -top-20 h-80 w-80 text-gold/10" />
+        <RayBurst className="pointer-events-none absolute -right-20 -top-20 h-80 w-80 text-accent/10" />
         <Container className="relative py-20 md:py-28">
           <Reveal>
             <Kicker>Services</Kicker>
@@ -64,7 +64,7 @@ export default function ServicesPage() {
                     >
                       <span
                         aria-hidden="true"
-                        className="mt-1 text-gold"
+                        className="mt-1 text-accent"
                       >
                         ✦
                       </span>
@@ -82,7 +82,7 @@ export default function ServicesPage() {
       <section className="bg-ink text-cream">
         <Container className="py-20 md:py-28">
           <Reveal>
-            <Kicker className="text-gold-300">The process</Kicker>
+            <Kicker className="text-accent-300">The process</Kicker>
           </Reveal>
           <Reveal delay={80}>
             <h2 className="font-display mt-5 max-w-2xl text-4xl md:text-5xl">
@@ -92,7 +92,7 @@ export default function ServicesPage() {
           <div className="mt-14 grid gap-10 md:grid-cols-4">
             {processSteps.map((step, i) => (
               <Reveal key={step.n} delay={i * 80}>
-                <span className="font-display text-4xl text-gold-300">
+                <span className="font-display text-4xl text-accent-300">
                   {step.n}
                 </span>
                 <h3 className="font-display mt-3 text-xl">{step.title}</h3>
@@ -102,7 +102,7 @@ export default function ServicesPage() {
           </div>
           <Reveal delay={120}>
             <div className="mt-14">
-              <Button href="/contact" variant="gold">
+              <Button href="/contact" variant="accent">
                 Get a free quote
               </Button>
             </div>
@@ -117,7 +117,7 @@ export default function ServicesPage() {
               Not sure where to start? Call us at{" "}
               <a
                 href={`tel:${site.contact.phoneHref}`}
-                className="text-gold underline-offset-4 hover:underline"
+                className="text-accent underline-offset-4 hover:underline"
               >
                 {site.contact.phone}
               </a>

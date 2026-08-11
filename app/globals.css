@@ -3,7 +3,7 @@
 
 /* ---------------------------------------------------------------------------
    Kayglo Solar — design tokens
-   A restrained, premium system: deep slate ink, warm solar gold, warm cream.
+   A restrained, premium system: deep slate ink, deep energy green, warm cream.
 --------------------------------------------------------------------------- */
 @theme {
   /* Neutrals — warm-tinted, never pure gray */
@@ -16,10 +16,10 @@
   --color-slate: #3d443a;
   --color-mute: #6b6f66;
 
-  /* Brand — warm solar gold + a deep evergreen for balance */
-  --color-gold: #c98a2b;
-  --color-gold-400: #dba24a;
-  --color-gold-300: #ecc079;
+  /* Brand — a deep green for clean energy, with evergreen depths behind it */
+  --color-accent: #146b4a;
+  --color-accent-400: #2a8a62;
+  --color-accent-300: #7fc8a2;
   --color-ever: #1f3a2e;
   --color-ever-400: #2f5343;
 
@@ -125,7 +125,53 @@ body {
   }
 }
 
+/* Presence markers on the Nigeria map */
+@keyframes map-pulse {
+  0% {
+    opacity: 0.9;
+    transform: scale(1);
+  }
+  70%,
+  100% {
+    opacity: 0;
+    transform: scale(2.6);
+  }
+}
+
+@keyframes map-float {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 -10px;
+  }
+}
+
+@keyframes map-breathe {
+  0%,
+  100% {
+    opacity: 0.92;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
 @media (prefers-reduced-motion: no-preference) {
+  .map-breathe {
+    animation: map-breathe 11s ease-in-out infinite;
+  }
+  /* Uses `translate` so it composes with the stage's tilt transform */
+  .map-float {
+    animation: map-float 16s ease-in-out infinite;
+  }
+  .map-pulse {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: map-pulse 2.6s var(--ease-out-soft) infinite;
+  }
+
   /* Slow drift on whichever card is showing — restarts as each one is dealt */
   .stack-drift {
     animation: stack-drift 9s var(--ease-out-soft) both;
@@ -152,13 +198,13 @@ body {
   --tw-prose-body: var(--color-slate);
   --tw-prose-headings: var(--color-ink);
   --tw-prose-lead: var(--color-slate);
-  --tw-prose-links: var(--color-gold);
+  --tw-prose-links: var(--color-accent);
   --tw-prose-bold: var(--color-ink);
   --tw-prose-counters: var(--color-mute);
-  --tw-prose-bullets: var(--color-gold);
+  --tw-prose-bullets: var(--color-accent);
   --tw-prose-hr: color-mix(in oklab, var(--color-ink) 12%, transparent);
   --tw-prose-quotes: var(--color-ink);
-  --tw-prose-quote-borders: var(--color-gold);
+  --tw-prose-quote-borders: var(--color-accent);
   --tw-prose-captions: var(--color-mute);
   --tw-prose-code: var(--color-ink);
   --tw-prose-th-borders: color-mix(in oklab, var(--color-ink) 20%, transparent);
@@ -173,12 +219,12 @@ body {
 }
 
 ::selection {
-  background: color-mix(in oklab, var(--color-gold) 30%, transparent);
+  background: color-mix(in oklab, var(--color-accent) 30%, transparent);
 }
 
 /* Thin, tasteful focus ring for accessibility */
 :focus-visible {
-  outline: 2px solid var(--color-gold);
+  outline: 2px solid var(--color-accent);
   outline-offset: 3px;
   border-radius: 2px;
 }

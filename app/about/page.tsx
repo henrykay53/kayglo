@@ -34,7 +34,7 @@ export default function AboutPage() {
   return (
     <>
       <section className="grain relative overflow-hidden border-b border-ink/10">
-        <RayBurst className="pointer-events-none absolute -left-24 -top-16 h-80 w-80 text-gold/10" />
+        <RayBurst className="pointer-events-none absolute -left-24 -top-16 h-80 w-80 text-accent/10" />
         <Container className="relative py-20 md:py-28">
           <Reveal>
             <Kicker>Who we are</Kicker>
@@ -95,7 +95,7 @@ export default function AboutPage() {
       <section className="bg-ink text-cream">
         <Container className="py-20 md:py-28">
           <Reveal>
-            <Kicker className="text-gold-300">What we stand for</Kicker>
+            <Kicker className="text-accent-300">What we stand for</Kicker>
           </Reveal>
           <Reveal delay={80}>
             <h2 className="font-display mt-5 max-w-2xl text-4xl md:text-5xl">
@@ -106,7 +106,7 @@ export default function AboutPage() {
             {values.map((v, i) => (
               <Reveal key={v.title} delay={i * 70}>
                 <div className="h-full bg-ink p-8 md:p-10">
-                  <span className="font-display text-sm text-gold-300">
+                  <span className="font-display text-sm text-accent-300">
                     0{i + 1}
                   </span>
                   <h3 className="font-display mt-3 text-2xl">{v.title}</h3>

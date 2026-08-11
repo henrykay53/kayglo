@@ -64,7 +64,7 @@ export function ContactForm() {
   }
 
   const field =
-    "mt-2 w-full rounded-xl border border-ink/15 bg-cream px-4 py-3 text-ink transition-colors placeholder:text-mute/60 focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/30";
+    "mt-2 w-full rounded-xl border border-ink/15 bg-cream px-4 py-3 text-ink transition-colors placeholder:text-mute/60 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/30";
   const label = "text-sm font-medium text-ink";
 
   return (
@@ -166,7 +166,7 @@ export function ContactForm() {
       <button
         type="submit"
         disabled={status === "submitting"}
-        className="group inline-flex items-center gap-2 rounded-full bg-ink px-7 py-3.5 text-sm font-medium text-cream transition-colors hover:bg-gold disabled:opacity-60"
+        className="group inline-flex items-center gap-2 rounded-full bg-ink px-7 py-3.5 text-sm font-medium text-cream transition-colors hover:bg-accent disabled:opacity-60"
       >
         {status === "submitting" ? "Sending…" : "Get my free quote"}
         <span className="transition-transform duration-300 group-hover:translate-x-0.5">

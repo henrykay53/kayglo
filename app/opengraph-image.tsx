@@ -30,7 +30,7 @@ export default function OgImage() {
             width: 520,
             height: 520,
             borderRadius: "50%",
-            background: "radial-gradient(circle, rgba(236,192,121,0.32), rgba(236,192,121,0))",
+            background: "radial-gradient(circle, rgba(127,200,162,0.32), rgba(127,200,162,0))",
             display: "flex",
           }}
         />
@@ -41,7 +41,7 @@ export default function OgImage() {
               height: 44,
               borderRadius: 12,
               background: "#1a1e18",
-              border: "2px solid #ecc079",
+              border: "2px solid #7fc8a2",
               display: "flex",
             }}
           />
@@ -52,7 +52,7 @@ export default function OgImage() {
           <div
             style={{
               fontSize: 34,
-              color: "#c98a2b",
+              color: "#146b4a",
               letterSpacing: 4,
               textTransform: "uppercase",
               marginBottom: 24,

@@ -41,7 +41,7 @@ export default function PrivacyPage() {
           <h2 className="font-display text-2xl text-ink">Contact</h2>
           <p>
             Questions? Email{" "}
-            <a href={`mailto:${site.contact.email}`} className="text-gold">
+            <a href={`mailto:${site.contact.email}`} className="text-accent">
               {site.contact.email}
             </a>
             .

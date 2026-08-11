@@ -249,7 +249,7 @@ export function ProjectStack({
               {/* A warm hairline keeps the front card feeling lit. */}
               <div
                 aria-hidden="true"
-                className="pointer-events-none absolute inset-0 rounded-3xl ring-1 ring-inset ring-gold/25"
+                className="pointer-events-none absolute inset-0 rounded-3xl ring-1 ring-inset ring-accent/25"
               />
             </div>
           );
@@ -288,7 +288,7 @@ export function ProjectStack({
                       <span
                         key={photo.src}
                         className={`h-1.5 rounded-full transition-all duration-500 ${
-                          id === front ? "w-6 bg-gold" : "w-1.5 bg-cream/40"
+                          id === front ? "w-6 bg-accent" : "w-1.5 bg-cream/40"
                         }`}
                       />
                     ))}
@@ -304,7 +304,7 @@ export function ProjectStack({
                         ? `Resume the ${label} slideshow`
                         : `Pause the ${label} slideshow`
                     }
-                    className="pointer-events-auto inline-flex h-8 w-8 items-center justify-center rounded-full border border-cream/25 bg-ink/40 text-cream backdrop-blur-sm transition-colors duration-300 hover:border-gold hover:bg-gold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cream"
+                    className="pointer-events-auto inline-flex h-8 w-8 items-center justify-center rounded-full border border-cream/25 bg-ink/40 text-cream backdrop-blur-sm transition-colors duration-300 hover:border-accent hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cream"
                   >
                     {stopped ? (
                       <svg
@@ -335,7 +335,7 @@ export function ProjectStack({
                     e.stopPropagation();
                     shuffle();
                   }}
-                  className="pointer-events-auto inline-flex items-center gap-2 rounded-full border border-cream/30 bg-ink/40 px-4 py-2 text-xs font-medium text-cream backdrop-blur-sm transition-colors duration-300 hover:border-gold hover:bg-gold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cream"
+                  className="pointer-events-auto inline-flex items-center gap-2 rounded-full border border-cream/30 bg-ink/40 px-4 py-2 text-xs font-medium text-cream backdrop-blur-sm transition-colors duration-300 hover:border-accent hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cream"
                   aria-label={`${label} — show next photo (${front + 1} of ${total})`}
                 >
                   <svg
@@ -368,7 +368,7 @@ export function ProjectStack({
           >
             <span
               key={front}
-              className="block h-full w-full origin-left bg-gold"
+              className="block h-full w-full origin-left bg-accent"
               style={{
                 animation: `stack-countdown ${autoMs}ms linear forwards`,
                 animationPlayState: paused ? "paused" : "running",

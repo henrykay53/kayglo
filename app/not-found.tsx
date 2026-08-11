@@ -5,7 +5,7 @@ export default function NotFound() {
   return (
     <section className="py-28 md:py-36">
       <Container className="max-w-xl text-center">
-        <Mark className="mx-auto h-12 w-12 text-gold" />
+        <Mark className="mx-auto h-12 w-12 text-accent" />
         <p className="font-display mt-8 text-7xl text-ink">404</p>
         <h1 className="font-display mt-4 text-3xl text-ink">
           This page went off-grid.
