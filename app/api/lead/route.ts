@@ -21,11 +21,72 @@ type Lead = {
   name?: string;
   email?: string;
   phone?: string;
+  /** Power assessment answers */
+  location?: string;
+  propertyType?: string;
+  appliances?: string;
+  equipmentNotes?: string;
+  backupDuration?: string;
+  generatorUse?: string;
+  fuelSpend?: string;
+  electricityBill?: string;
+  /** Acquisition attribution — see lib/attribution.ts */
+  source?: string;
+  medium?: string;
+  campaign?: string;
+  term?: string;
+  content?: string;
+  gclid?: string;
+  fbclid?: string;
+  landingPage?: string;
+  referrer?: string;
+  firstSource?: string;
+  firstMedium?: string;
+  firstCampaign?: string;
+  firstSeen?: string;
+  visits?: string;
+  /** Kept for any older form still posting here */
   postal?: string;
   service?: string;
   message?: string;
   company?: string; // honeypot
 };
+
+/** Field order and labels for the notification email. */
+const FIELDS: [keyof Lead, string][] = [
+  ["name", "Name"],
+  ["phone", "Phone"],
+  ["email", "Email"],
+  ["location", "Location"],
+  ["propertyType", "Property type"],
+  ["appliances", "Must stay on"],
+  ["equipmentNotes", "Equipment notes"],
+  ["backupDuration", "Backup wanted"],
+  ["generatorUse", "Generator use"],
+  ["fuelSpend", "Monthly fuel spend"],
+  ["electricityBill", "Monthly electricity bill"],
+  ["postal", "Area / city"],
+  ["service", "Interested in"],
+  ["message", "Message"],
+];
+
+/** Kept apart in the email so the channel is readable at a glance. */
+const ATTRIBUTION_FIELDS: [keyof Lead, string][] = [
+  ["source", "Source"],
+  ["medium", "Medium"],
+  ["campaign", "Campaign"],
+  ["term", "Keyword"],
+  ["content", "Ad content"],
+  ["landingPage", "Landed on"],
+  ["referrer", "Referrer"],
+  ["gclid", "Google click id"],
+  ["fbclid", "Meta click id"],
+  ["firstSource", "First touch — source"],
+  ["firstMedium", "First touch — medium"],
+  ["firstCampaign", "First touch — campaign"],
+  ["firstSeen", "First seen"],
+  ["visits", "Visits before enquiry"],
+];
 
 function isEmail(v: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
@@ -51,30 +112,49 @@ async function deliver(lead: Record<string, string>) {
   const { Resend } = await import("resend");
   const resend = new Resend(apiKey);
 
-  const rows = Object.entries(lead)
-    .filter(([, v]) => v)
-    .map(
+  const entries = FIELDS.map(([key, heading]) => [heading, lead[key] ?? ""])
+    .concat([["Received", lead.receivedAt ?? ""]])
+    .filter(([, v]) => v);
+
+  const attribution = ATTRIBUTION_FIELDS.map(([key, heading]) => [
+    heading,
+    lead[key] ?? "",
+  ]).filter(([, v]) => v);
+
+  const toRows = (pairs: string[][]) =>
+    pairs
+      .map(
       ([k, v]) =>
-        `<tr><td style="padding:6px 14px 6px 0;color:#6b6f66;text-transform:capitalize">${esc(
-          k,
-        )}</td><td style="padding:6px 0;color:#10130f">${esc(v)}</td></tr>`,
-    )
-    .join("");
+          `<tr><td style="padding:6px 14px 6px 0;color:#6b6f66;vertical-align:top;white-space:nowrap">${esc(
+            k,
+          )}</td><td style="padding:6px 0;color:#10130f">${esc(v)}</td></tr>`,
+      )
+      .join("");
+
+  const channel = lead.source
+    ? `${lead.source}${lead.medium ? ` / ${lead.medium}` : ""}${
+        lead.campaign ? ` — ${lead.campaign}` : ""
+      }`
+    : "unknown";
 
   await resend.emails.send({
     from,
     to: inbox,
-    replyTo: lead.email,
-    subject: `New consultation request — ${lead.name}`,
+    replyTo: lead.email || undefined,
+    subject: `Power assessment — ${lead.name}, ${lead.location || "location not given"} [${channel}]`,
     html: `
-      <div style="font-family:system-ui,sans-serif;max-width:560px">
-        <h2 style="color:#10130f">New consultation request</h2>
-        <table style="border-collapse:collapse;font-size:15px">${rows}</table>
+      <div style="font-family:system-ui,sans-serif;max-width:600px">
+        <h2 style="color:#10130f">New power assessment request</h2>
+        <p style="color:#6b6f66;font-size:14px">Send back: estimated system size, recommended package, estimated cost, and payment option.</p>
+        <table style="border-collapse:collapse;font-size:15px">${toRows(entries)}</table>
+        ${
+          attribution.length
+            ? `<h3 style="color:#10130f;margin-top:28px;font-size:15px">Where this lead came from</h3>
+        <table style="border-collapse:collapse;font-size:14px;color:#3d443a">${toRows(attribution)}</table>`
+            : ""
+        }
       </div>`,
-    text: Object.entries(lead)
-      .filter(([, v]) => v)
-      .map(([k, v]) => `${k}: ${v}`)
-      .join("\n"),
+    text: [...entries, ...attribution].map(([k, v]) => `${k}: ${v}`).join("\n"),
   });
 }
 
@@ -92,22 +172,54 @@ export async function POST(request: Request) {
   }
 
   const name = body.name?.trim();
+  const phone = body.phone?.trim();
   const email = body.email?.trim();
 
-  if (!name || !email || !isEmail(email)) {
+  if (!name || (!phone && !email)) {
     return NextResponse.json(
-      { error: "A valid name and email are required." },
+      { error: "A name and a phone number are required." },
       { status: 422 },
     );
   }
 
-  const lead = {
+  if (email && !isEmail(email)) {
+    return NextResponse.json(
+      { error: "That email address doesn't look right." },
+      { status: 422 },
+    );
+  }
+
+  const text = (v?: string) => v?.trim() ?? "";
+
+  const lead: Record<string, string> = {
     name,
-    email,
-    phone: body.phone?.trim() ?? "",
-    postal: body.postal?.trim() ?? "",
-    service: body.service?.trim() ?? "",
-    message: body.message?.trim() ?? "",
+    phone: text(phone),
+    email: text(email),
+    location: text(body.location),
+    propertyType: text(body.propertyType),
+    appliances: text(body.appliances),
+    equipmentNotes: text(body.equipmentNotes),
+    backupDuration: text(body.backupDuration),
+    generatorUse: text(body.generatorUse),
+    fuelSpend: text(body.fuelSpend),
+    electricityBill: text(body.electricityBill),
+    source: text(body.source),
+    medium: text(body.medium),
+    campaign: text(body.campaign),
+    term: text(body.term),
+    content: text(body.content),
+    gclid: text(body.gclid),
+    fbclid: text(body.fbclid),
+    landingPage: text(body.landingPage),
+    referrer: text(body.referrer),
+    firstSource: text(body.firstSource),
+    firstMedium: text(body.firstMedium),
+    firstCampaign: text(body.firstCampaign),
+    firstSeen: text(body.firstSeen),
+    visits: text(body.visits),
+    postal: text(body.postal),
+    service: text(body.service),
+    message: text(body.message),
     receivedAt: new Date().toISOString(),
   };
 

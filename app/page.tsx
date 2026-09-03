@@ -22,12 +22,8 @@ export default function Home() {
           <div className="absolute -left-32 top-40 h-96 w-96 rounded-full bg-ever/10 blur-3xl" />
         </div>
 
-        <div className="relative">
-        {/* The map is the hero's ground, not a panel sitting on it */}
-        <PowerMap className="absolute inset-0" />
-
-        <Container className="pointer-events-none relative grid gap-12 pb-16 pt-16 md:grid-cols-12 md:gap-8 md:pb-24 md:pt-24">
-          <div className="pointer-events-auto md:col-span-7 md:pr-6">
+        <Container className="relative grid items-center gap-14 pb-16 pt-16 md:grid-cols-12 md:gap-10 md:pb-24 md:pt-24">
+          <div className="md:col-span-7 md:pr-6">
             <Reveal>
               <Kicker>Your power partner in Nigeria</Kicker>
             </Reveal>
@@ -63,10 +59,8 @@ export default function Home() {
             </Reveal>
           </div>
 
-          {/* Reserves the map's half of the hero on desktop */}
-          <div className="hidden md:col-span-5 md:block md:min-h-[30rem]" />
+          <PowerMap className="mx-auto w-full max-w-md md:col-span-5 md:mx-0 md:w-auto md:max-w-none md:-mr-6 lg:-mr-16" />
         </Container>
-        </div>
 
         {/* Stat bar */}
         <div className="border-y border-ink/10 bg-cream-200/50">
@@ -189,6 +183,31 @@ export default function Home() {
               </Reveal>
             ))}
           </div>
+        </Container>
+      </section>
+
+      {/* ========================= GENERATOR COST ======================== */}
+      <section className="border-y border-ink/10 bg-ever text-cream">
+        <Container className="grid items-center gap-10 py-16 md:grid-cols-12 md:py-20">
+          <Reveal className="md:col-span-7">
+            <Kicker className="text-accent-300">The real cost</Kicker>
+            <h2 className="font-display mt-5 text-3xl leading-tight md:text-4xl">
+              How much is your generator really costing you?
+            </h2>
+            <p className="mt-5 max-w-lg text-cream/70">
+              Fuel, servicing, oil, repairs — most people never add up the year.
+              Put your numbers in and see the figure you&apos;re already
+              spending, before you spend a naira with us.
+            </p>
+          </Reveal>
+          <Reveal delay={120} className="md:col-span-5 md:justify-self-end">
+            <Button href="/generator-cost" variant="light">
+              Work out my generator cost
+            </Button>
+            <p className="mt-4 text-sm text-cream/50">
+              Takes about a minute. No details required.
+            </p>
+          </Reveal>
         </Container>
       </section>
 

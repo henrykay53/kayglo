@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { ProjectStack } from "@/components/ProjectStack";
 import { Reveal } from "@/components/Reveal";
 import { Button, Container, Kicker } from "@/components/ui";
@@ -63,6 +64,18 @@ export default function ProjectsPage() {
                   </div>
                 ))}
               </dl>
+              <Link
+                href={`/projects/${p.slug}`}
+                className="group mt-8 inline-flex items-center gap-2 text-sm font-medium text-ink transition-colors hover:text-accent"
+              >
+                Read the full case study
+                <span
+                  aria-hidden="true"
+                  className="transition-transform duration-300 group-hover:translate-x-0.5"
+                >
+                  →
+                </span>
+              </Link>
             </Reveal>
           </Container>
         </section>

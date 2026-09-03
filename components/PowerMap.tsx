@@ -5,18 +5,19 @@ import { NIGERIA_VIEWBOX, nigeriaStates } from "@/lib/nigeria-map";
 import { presenceStates } from "@/lib/site";
 
 /** How long between one state lighting up and the next. */
-const STEP_MS = 1700;
+const STEP_MS = 2000;
 /** How many roaming states glow at once before the oldest fades out. */
-const TRAIL = 3;
+const TRAIL = 2;
 
 /** Depth of field, and how far the map leans toward the pointer. */
-const PERSPECTIVE = 1600;
-const TILT_X = 3.5;
-const TILT_Y = 5.5;
-/** How far the whole map drifts as the hero scrolls past. */
-const SCROLL_DRIFT = 46;
+const PERSPECTIVE = 1400;
+const TILT_X = 4;
+const TILT_Y = 6;
 
 const PRESENT = new Set(presenceStates);
+const served = nigeriaStates.filter((s) => PRESENT.has(s.id));
+/** The FCT is a territory, not a state — count it separately in the legend. */
+const statesServed = served.filter((s) => s.id !== "NG-FC").length;
 const roamable = nigeriaStates.filter((s) => !PRESENT.has(s.id));
 
 /**
@@ -47,30 +48,37 @@ const subscribeVisibility = (onChange: () => void) => {
 };
 
 /** One line per border, no doubling — a state's whole look in one place. */
-function strokeFor(state: "base" | "lit" | "present" | "hover") {
+function look(state: "base" | "lit" | "present" | "hover") {
   switch (state) {
     case "hover":
-      return { stroke: "rgba(20,107,74,1)", width: 2, fill: "rgba(20,107,74,0.14)" };
+      return { stroke: "rgba(20,107,74,1)", width: 2, fill: "url(#ng-hover)" };
     case "present":
-      return { stroke: "rgba(20,107,74,0.95)", width: 1.7, fill: "rgba(20,107,74,0.3)" };
+      return {
+        stroke: "rgba(20,107,74,0.95)",
+        width: 1.7,
+        fill: "url(#ng-served)",
+      };
     case "lit":
-      return { stroke: "rgba(20,107,74,0.7)", width: 1.4, fill: "rgba(20,107,74,0.12)" };
+      return {
+        stroke: "rgba(20,107,74,0.62)",
+        width: 1.4,
+        fill: "rgba(20,107,74,0.13)",
+      };
     default:
-      return { stroke: "rgba(31,58,46,0.26)", width: 1, fill: "rgba(31,58,46,0.055)" };
+      return {
+        stroke: "rgba(31,58,46,0.34)",
+        width: 1,
+        fill: "url(#ng-base)",
+      };
   }
 }
 
 /**
- * Nigeria, all 36 states and the FCT, laid into the page like light on paper —
- * no frame, no panel. The states Kayglo has installed in stay lit, the rest
- * take their turn, and the country leans gently toward the pointer.
+ * Nigeria, all 36 states and the FCT. The states Kayglo services stay lit and
+ * marked, the rest take their turn, and the country leans gently toward the
+ * pointer. Sits in the page as a normal block — size it with the parent.
  */
-export function PowerMap({
-  className = "",
-}: {
-  /** Must position the map — e.g. `absolute inset-0` over a `relative` parent. */
-  className?: string;
-}) {
+export function PowerMap({ className = "" }: { className?: string }) {
   const reduced = useSyncExternalStore(
     subscribeMotion,
     () => window.matchMedia("(prefers-reduced-motion: reduce)").matches,
@@ -115,21 +123,20 @@ export function PowerMap({
     return () => clearInterval(tick);
   }, [running]);
 
-  // Lean and drift. The pointer sets a target and a chase loop eases toward it,
-  // so the map trails the cursor rather than snapping to it. One transform on
-  // one element per frame — nothing re-renders.
+  // Lean toward the pointer. A chase loop eases toward the target so the map
+  // trails the cursor rather than snapping to it — one transform, one element,
+  // per frame, and nothing re-renders.
   useEffect(() => {
-    const band = host.current?.parentElement;
     const el = stage.current;
-    if (!band || !el || reduced || !onScreen) return;
+    const area = host.current;
+    if (!el || !area || reduced || !onScreen) return;
 
     const target = { x: 0, y: 0 };
     const eased = { x: 0, y: 0 };
-    let drift = 0;
     let frame = 0;
 
     const onMove = (e: PointerEvent) => {
-      const r = band.getBoundingClientRect();
+      const r = area.getBoundingClientRect();
       target.x = ((e.clientX - r.left) / r.width) * 2 - 1;
       target.y = ((e.clientY - r.top) / r.height) * 2 - 1;
     };
@@ -139,38 +146,30 @@ export function PowerMap({
     };
 
     const loop = () => {
-      eased.x += (target.x - eased.x) * 0.05;
-      eased.y += (target.y - eased.y) * 0.05;
-
-      const r = band.getBoundingClientRect();
-      // 0 while the hero sits in place, 1 once it has scrolled away.
-      const progress = Math.min(Math.max(-r.top / (r.height || 1), 0), 1);
-      drift += (progress * SCROLL_DRIFT - drift) * 0.12;
-
+      eased.x += (target.x - eased.x) * 0.06;
+      eased.y += (target.y - eased.y) * 0.06;
       el.style.transform =
-        `perspective(${PERSPECTIVE}px) translate3d(0, ${(-drift).toFixed(2)}px, 0) ` +
+        `perspective(${PERSPECTIVE}px) ` +
         `rotateX(${(-eased.y * TILT_X).toFixed(2)}deg) ` +
         `rotateY(${(eased.x * TILT_Y).toFixed(2)}deg)`;
-
       frame = requestAnimationFrame(loop);
     };
 
-    band.addEventListener("pointermove", onMove);
-    band.addEventListener("pointerleave", onLeave);
+    area.addEventListener("pointermove", onMove);
+    area.addEventListener("pointerleave", onLeave);
     frame = requestAnimationFrame(loop);
     return () => {
-      band.removeEventListener("pointermove", onMove);
-      band.removeEventListener("pointerleave", onLeave);
+      area.removeEventListener("pointermove", onMove);
+      area.removeEventListener("pointerleave", onLeave);
       cancelAnimationFrame(frame);
     };
   }, [reduced, onScreen]);
 
   const glowing = new Set(lit);
-  const present = nigeriaStates.filter((s) => PRESENT.has(s.id));
-  const presentNames = present.map((s) => s.name);
-  const hoveredName = nigeriaStates.find((s) => s.id === hovered)?.name;
+  const servedNames = served.map((s) => s.name);
+  const hoveredState = nigeriaStates.find((s) => s.id === hovered);
 
-  // The hovered state paints last so its thick outline is never clipped by a
+  // The hovered state paints last so its outline is never clipped by a
   // neighbour drawn over it.
   const ordered = hovered
     ? [
@@ -181,34 +180,44 @@ export function PowerMap({
 
   return (
     <div ref={host} className={className}>
-      <div
-        className="absolute inset-5 md:inset-y-4 md:left-[39%] md:right-4"
-        style={{ perspective: `${PERSPECTIVE}px` }}
-      >
-        <div
-          ref={stage}
-          className="map-float relative h-full w-full opacity-40 md:opacity-100"
-        >
+      <div style={{ perspective: `${PERSPECTIVE}px` }}>
+        <div ref={stage} className="map-float relative">
           {/* Light pooling under the country */}
           <div
             aria-hidden="true"
-            className="absolute inset-0"
+            className="pointer-events-none absolute inset-0 -z-10"
             style={{
               background:
-                "radial-gradient(52% 50% at 50% 48%, rgba(20,107,74,0.16), transparent 72%)",
+                "radial-gradient(58% 54% at 50% 50%, rgba(20,107,74,0.15), transparent 70%)",
             }}
           />
 
           <svg
             viewBox={NIGERIA_VIEWBOX}
             preserveAspectRatio="xMidYMid meet"
-            className="map-breathe absolute inset-0 h-full w-full"
+            className="map-breathe h-auto w-full overflow-visible"
             role="img"
-            aria-label={`Map of Nigeria showing all 36 states and the Federal Capital Territory. Kayglo has installed and services systems in ${presentNames.join(" and ")}, and supplies and installs nationwide.`}
+            aria-label={`Map of Nigeria showing all 36 states and the Federal Capital Territory. Kayglo services ${servedNames.join(", ")}, and supplies and installs nationwide.`}
           >
+            <defs>
+              {/* Light falls from the top-left, so the country is never flat */}
+              <linearGradient id="ng-base" x1="0" y1="0" x2="0.8" y2="1">
+                <stop offset="0%" stopColor="rgba(31,58,46,0.12)" />
+                <stop offset="100%" stopColor="rgba(31,58,46,0.05)" />
+              </linearGradient>
+              <linearGradient id="ng-served" x1="0" y1="0" x2="0.6" y2="1">
+                <stop offset="0%" stopColor="rgba(20,107,74,0.42)" />
+                <stop offset="100%" stopColor="rgba(20,107,74,0.2)" />
+              </linearGradient>
+              <linearGradient id="ng-hover" x1="0" y1="0" x2="0.6" y2="1">
+                <stop offset="0%" stopColor="rgba(20,107,74,0.3)" />
+                <stop offset="100%" stopColor="rgba(20,107,74,0.14)" />
+              </linearGradient>
+            </defs>
+
             <g strokeLinejoin="round">
               {ordered.map((s) => {
-                const look = strokeFor(
+                const l = look(
                   hovered === s.id
                     ? "hover"
                     : PRESENT.has(s.id)
@@ -225,29 +234,38 @@ export function PowerMap({
                     onPointerLeave={() =>
                       setHovered((h) => (h === s.id ? null : h))
                     }
-                    className="pointer-events-auto transition-[fill,stroke,stroke-width] duration-[900ms] ease-out"
-                    fill={look.fill}
-                    stroke={look.stroke}
-                    strokeWidth={look.width}
+                    className="transition-[fill,stroke,stroke-width] duration-700 ease-out"
+                    fill={l.fill}
+                    stroke={l.stroke}
+                    strokeWidth={l.width}
                   />
                 );
               })}
             </g>
 
-            {/* Where we are */}
+            {/* Where we service — a slow sonar, staggered so it reads as a
+                heartbeat crossing the country rather than one flash */}
             <g className="pointer-events-none">
-              {present.map((s) => (
+              {served.map((s, i) => (
                 <g key={s.id}>
                   <circle
                     cx={s.c[0]}
                     cy={s.c[1]}
-                    r="7"
+                    r="6"
                     fill="none"
                     stroke="#146b4a"
-                    strokeWidth="1.6"
+                    strokeWidth="1.4"
                     className="map-pulse"
+                    style={{ animationDelay: `${i * 0.42}s` }}
                   />
-                  <circle cx={s.c[0]} cy={s.c[1]} r="4.5" fill="#146b4a" />
+                  <circle
+                    cx={s.c[0]}
+                    cy={s.c[1]}
+                    r="5.5"
+                    fill="#f7f4ec"
+                    opacity="0.9"
+                  />
+                  <circle cx={s.c[0]} cy={s.c[1]} r="3.6" fill="#146b4a" />
                 </g>
               ))}
             </g>
@@ -255,21 +273,22 @@ export function PowerMap({
         </div>
       </div>
 
-      {/* A quiet caption — it answers the map rather than labelling it */}
-      <div className="pointer-events-none absolute inset-x-0 bottom-4 hidden justify-end px-6 sm:px-8 md:flex">
-        <div className="max-w-xs text-right">
-          <p
-            key={hoveredName ?? "idle"}
-            className="stack-caption font-display text-lg text-ink/85"
-          >
-            {hoveredName ?? "Powering Nigeria, state by state"}
-          </p>
-          <p className="mt-1.5 text-xs leading-relaxed text-mute">
-            <span className="mr-2 inline-block h-1.5 w-1.5 rounded-full bg-accent align-middle shadow-[0_0_8px_2px_rgba(20,107,74,0.5)]" />
-            Installed &amp; serviced in {presentNames.join(" & ")} · nationwide
-            supply and installation
-          </p>
-        </div>
+      {/* Legend — answers the map rather than labelling it */}
+      <div className="mt-5 flex items-baseline justify-between gap-4 border-t border-ink/10 pt-4">
+        <p className="flex items-center gap-2.5 text-xs text-mute">
+          <span
+            aria-hidden="true"
+            className="h-1.5 w-1.5 shrink-0 rounded-full bg-accent shadow-[0_0_8px_2px_rgba(20,107,74,0.45)]"
+          />
+          <span>{`Servicing ${statesServed} states & the FCT — installing nationwide`}</span>
+        </p>
+        <p
+          key={hoveredState?.id ?? "idle"}
+          className="stack-caption font-display shrink-0 text-base text-ink/80"
+          aria-live="polite"
+        >
+          {hoveredState?.name ?? ""}
+        </p>
       </div>
     </div>
   );

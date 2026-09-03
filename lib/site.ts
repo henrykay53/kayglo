@@ -132,11 +132,21 @@ export type ProjectPhoto = {
 };
 
 /**
- * States lit permanently on the homepage map — where Kayglo has installed and
- * services systems. Taken from the project cases below; add ISO codes from
- * lib/nigeria-map.ts (e.g. "NG-RI" for Rivers) as new states come on stream.
+ * States Kayglo currently services — lit permanently on the homepage map.
+ * Cities map to their state: Port Harcourt → Rivers, Benin City → Edo.
+ * Codes come from lib/nigeria-map.ts.
  */
-export const presenceStates = ["NG-LA", "NG-FC"];
+export const presenceStates = [
+  "NG-LA", // Lagos
+  "NG-FC", // Abuja (FCT)
+  "NG-OG", // Ogun
+  "NG-OY", // Oyo
+  "NG-KW", // Kwara
+  "NG-ED", // Edo — Benin City
+  "NG-DE", // Delta
+  "NG-RI", // Rivers — Port Harcourt
+  "NG-IM", // Imo
+];
 
 /** The auto-shuffling stack of site photography in the homepage hero. */
 export const heroGallery: ProjectPhoto[] = [
@@ -176,6 +186,33 @@ export type ProjectCase = {
   hue: string; // brand-consistent artwork tint
   /** Shot on site. Rendered as a shuffleable card stack — first one is the hero. */
   gallery: ProjectPhoto[];
+  /**
+   * The case study, in the order a buyer actually asks the questions.
+   * Solar is a high-trust purchase — someone is handing over millions and
+   * letting a stranger wire their building. Evidence is what closes that gap.
+   */
+  study?: {
+    /** The situation before we arrived. */
+    before: string;
+    /** What it was costing them — money, time, sleep, trade. */
+    problem: string;
+    /** The setup they already had. */
+    existing: string;
+    /** What the system had to carry. */
+    needs: string[];
+    /** What we installed. Only list what is genuinely on site. */
+    installed: string[];
+    /** How the installation went. */
+    install: string;
+    /** Life after commissioning. */
+    after: string;
+    /**
+     * A real customer quote, in their own words, with their permission.
+     * Leave this out entirely until you have one — an invented testimonial is
+     * worse than no testimonial.
+     */
+    quote?: { text: string; name: string; role?: string };
+  };
 };
 
 
@@ -195,6 +232,30 @@ export const projects: ProjectCase[] = [
       { label: "Payback", value: "3.4 yrs" },
     ],
     hue: "#2f5343",
+    study: {
+      // TODO — verify these details against your own job notes before launch.
+      before:
+        "A large family home in Ikoyi running two diesel generators on rotation. The compound was never quiet, and the fuel run had become part of somebody's job description.",
+      problem:
+        "Two generators meant two servicing schedules, two sets of repairs and a fuel bill that moved with the pump price. The noise carried into every room at the back of the house, and an outage still meant a gap while somebody went out to start a machine.",
+      existing:
+        "Grid supply with two diesel generators as the working power source, switched by hand.",
+      needs: [
+        "The whole house through the evening peak, not just the lights",
+        "Air conditioning in the bedrooms overnight",
+        "Fridges and freezers with no interruption at changeover",
+        "Silence — the generators to become an emergency-only backup",
+      ],
+      installed: [
+        "Solar array mounted on a purpose-built carport structure over the forecourt",
+        "Hybrid inverter and lithium battery bank in a dedicated plant room",
+        "Automatic changeover between solar, battery, grid and generator",
+      ],
+      install:
+        "The array is carried on a steel carport built over the parking forecourt rather than the roof — it shades the cars, keeps the panels reachable for cleaning, and avoided touching the roof covering. The crew set the structure, mounted and cabled the array, and commissioned the plant room in one continuous visit.",
+      after:
+        "The generators now sit as emergency backup and are started a handful of times a year rather than every evening. The house runs silently through the changeover, and the fuel run is no longer anybody's job.",
+    },
     gallery: [
       {
         src: "/projects/ikoyi-residence/01.jpg",
@@ -229,6 +290,30 @@ export const projects: ProjectCase[] = [
       { label: "Payback", value: "3.1 yrs" },
     ],
     hue: "#8a5a1f",
+    study: {
+      // TODO — verify these details against your own job notes before launch.
+      before:
+        "A corporate head office carrying its entire working day on diesel whenever the grid failed, which was most days.",
+      problem:
+        "Generator fuel had become one of the largest controllable costs in the building, and every outage put a gap in the working day while systems came back up. For a business selling professional hours, that gap is the product.",
+      existing:
+        "Grid supply with a diesel generator carrying the working day and no storage of any kind.",
+      needs: [
+        "Workstations, servers and networking with no interruption",
+        "Lighting and selected cooling across the working floors",
+        "CCTV and access control at all hours",
+        "A measurable reduction in diesel spend, not a vague one",
+      ],
+      installed: [
+        "Rooftop solar array laid across the building's metal roof on weather-sealed rails",
+        "Hybrid inverter with a wall-mounted lithium battery bank",
+        "Protected distribution board with surge protection on the PV and grid sides",
+      ],
+      install:
+        "The array was set out row by row across the roof sheets, clamped to purpose-made rails rather than drilled through the covering, and cabled back to a plant wall carrying the inverter, batteries and a new protected board. Work was staged so trading floors were never without power.",
+      after:
+        "Solar and storage now carry the working day, with the grid and a single generator held as fallback rather than run as the primary source. The diesel bill dropped immediately and the day no longer stops when the grid does.",
+    },
     gallery: [
       {
         src: "/projects/maitama-office/01.jpg",
@@ -269,6 +354,30 @@ export const projects: ProjectCase[] = [
       { label: "Payback", value: "3.8 yrs" },
     ],
     hue: "#1f3a2e",
+    study: {
+      // TODO — verify these details against your own job notes before launch.
+      before:
+        "A modern Lekki home where the owners wanted power to be a non-event — no changeover, no noise, no thinking about it.",
+      problem:
+        "The generator was reliable enough, but it announced every outage: the drop, the pause, the start-up, then the drone for the rest of the evening. In a house designed around quiet, it was the loudest thing in it.",
+      existing:
+        "Grid supply with a generator started manually at each outage.",
+      needs: [
+        "Round-the-clock power with an unnoticeable changeover",
+        "Air conditioning and refrigeration carried through the night",
+        "Enough storage to ride out a bad grid week",
+        "A system nobody in the house has to operate",
+      ],
+      installed: [
+        "Solar array on a steel canopy over the parking court",
+        "Hybrid inverters and a lithium battery bank in a dedicated plant room",
+        "Automatic changeover with grid and generator as fallback",
+      ],
+      install:
+        "The canopy structure was set first, then the array mounted and cabled back to the plant room, where the inverter wall and battery bank were built out and commissioned. Cable runs were kept in trunking and the board relabelled so a future engineer can read the system at a glance.",
+      after:
+        "The home now runs 24/7 on solar and storage. The changeover happens in milliseconds and nobody in the house notices it — which was the entire brief.",
+    },
     gallery: [
       {
         src: "/projects/lekki-smart-home/01.jpg",
@@ -297,6 +406,30 @@ export const projects: ProjectCase[] = [
       { label: "Payback", value: "3.6 yrs" },
     ],
     hue: "#2f5343",
+    study: {
+      // TODO — verify these details against your own job notes before launch.
+      before:
+        "A busy family home on a tight urban plot, hemmed in by neighbours, with a generator that woke the whole street.",
+      problem:
+        "Fuel queues, a machine that ran most evenings, and no roof space where the obvious answer would fit. The plot made a straightforward rooftop install impossible.",
+      existing:
+        "Grid supply with a petrol generator run through the evening peak.",
+      needs: [
+        "Lighting, fans and entertainment through the evening",
+        "Refrigeration overnight",
+        "Enough headroom to add cooling later",
+        "An end to the generator noise in a dense residential street",
+      ],
+      installed: [
+        "Solar array laid across the outbuilding roof beside the main house",
+        "Twin hybrid inverters with a lithium battery bank in a dedicated plant room",
+        "New changeover panel wired into the existing house board",
+      ],
+      install:
+        "With no usable roof on the main house, the array went onto the outbuilding — panels hoisted up from the balcony by hand, one at a time, and set out across the flat roof. The plant room was built out with twin inverters and batteries, then tied into the house board through a new changeover panel.",
+      after:
+        "The generator now sits idle for weeks at a time. The array is sized with headroom, so cooling can be added later without replacing the inverters or the battery bank.",
+    },
     gallery: [
       {
         src: "/projects/surulere-residence/01.jpg",
@@ -359,9 +492,381 @@ export const testimonials = [
 ];
 
 export const nav = [
+  { href: "/solutions/residential", label: "Homes" },
+  { href: "/solutions/business", label: "Business" },
   { href: "/services", label: "Services" },
   { href: "/financing", label: "Pricing" },
   { href: "/projects", label: "Projects" },
   { href: "/blog", label: "Insights" },
   { href: "/about", label: "About" },
+];
+
+export type PowerPackage = {
+  slug: string;
+  name: string;
+  /** Who the tier is for — homes or business. */
+  audience: string;
+  tagline: string;
+  /** Relative size of the system, 1–4. Drives the little load meter. */
+  level: number;
+  /** Heading above the list, e.g. "Keeps running" or "Adds". */
+  listLabel: string;
+  /** Named when a tier builds on the one before it. */
+  builtOn?: string;
+  covers: string[];
+};
+
+/**
+ * Solution tiers, not equipment lists. Customers shouldn't have to become
+ * solar engineers to buy — they pick the loads they need to keep alive, and
+ * the power audit decides the kVA and kWh behind it.
+ */
+export const packages: PowerPackage[] = [
+  {
+    slug: "essential",
+    name: "Essential",
+    audience: "For homes",
+    tagline:
+      "The things you notice the second they go off — lights, fans, the router, phones on charge.",
+    level: 1,
+    listLabel: "Keeps running",
+    covers: [
+      "Lighting",
+      "Fans",
+      "TV",
+      "WiFi",
+      "Phones",
+      "Small appliances",
+    ],
+  },
+  {
+    slug: "comfort",
+    name: "Comfort",
+    audience: "For homes",
+    tagline:
+      "The whole home carries on: food stays cold, and the rooms you use stay cool.",
+    level: 2,
+    listLabel: "Adds",
+    builtOn: "Essential",
+    covers: ["Refrigeration & freezers", "Selected AC loads"],
+  },
+  {
+    slug: "business",
+    name: "Business",
+    audience: "For business",
+    tagline:
+      "The office keeps working through the outage — no restart, no lost hour, no generator.",
+    level: 3,
+    listLabel: "Keeps running",
+    covers: [
+      "Office equipment",
+      "Networking",
+      "CCTV",
+      "Computers",
+      "Printers",
+      "Lighting",
+      "Selected cooling",
+    ],
+  },
+  {
+    slug: "business-plus",
+    name: "Business Plus",
+    audience: "For business",
+    tagline:
+      "Heavier loads, longer backup, and a system you can see, measure, and grow.",
+    level: 4,
+    listLabel: "Adds",
+    builtOn: "Business",
+    covers: [
+      "Higher loads",
+      "Longer backup",
+      "Solar generation",
+      "Energy monitoring",
+      "Scalable battery storage",
+    ],
+  },
+];
+
+/**
+ * Generator sizes for the cost calculator, with a starting estimate for what
+ * each costs to keep alive per month — servicing, oil, filters and the repairs
+ * that come with them.
+ *
+ * NOTE: the servicing figures are  // TODO  placeholders. Replace them with
+ * your own field experience — you know these numbers better than any average
+ * does. Visitors can edit the figure themselves, so it is only a starting point.
+ */
+export const generatorSizes = [
+  { kva: "2.5 kVA", servicing: 8_000 },
+  { kva: "5 kVA", servicing: 12_000 },
+  { kva: "7.5 kVA", servicing: 18_000 },
+  { kva: "10 kVA", servicing: 25_000 },
+  { kva: "15 kVA", servicing: 35_000 },
+  { kva: "20 kVA", servicing: 45_000 },
+  { kva: "30 kVA", servicing: 60_000 },
+  { kva: "60 kVA", servicing: 100_000 },
+  { kva: "100 kVA and above", servicing: 150_000 },
+];
+
+export type Segment = {
+  slug: string;
+  /** Short label for navigation and cards. */
+  name: string;
+  /** Who this page is written for, in one line. */
+  audience: string;
+  kicker: string;
+  headline: string;
+  intro: string;
+  metaTitle: string;
+  metaDescription: string;
+  /** Where these customers tend to be — used as a plain-language service list. */
+  areas?: string[];
+  /** The situation they are actually living with, in their words. */
+  pains: { title: string; body: string }[];
+  /** What the system has to carry. */
+  keeps: string[];
+  /**
+   * For business segments: the specific trade, and the single argument that
+   * matters to it. A pharmacy and a barbershop do not buy for the same reason.
+   */
+  trades?: { type: string; argument: string }[];
+  /** Package slugs that usually fit this segment. */
+  packages: string[];
+  /** Project slugs to show as proof. */
+  proof: string[];
+  faqs: { q: string; a: string }[];
+};
+
+/**
+ * Audience landing pages. Search ads and social campaigns point here rather
+ * than at the homepage — someone searching "solar for my restaurant" should
+ * land on a page about restaurants, not a page about us.
+ */
+export const segments: Segment[] = [
+  {
+    slug: "residential",
+    name: "Homes",
+    audience: "For homes and families",
+    kicker: "Residential solar",
+    headline: "Reliable electricity for your home, without depending on your generator.",
+    intro:
+      "No more listening for the grid to go. No more sending someone out for fuel at 9pm. The lights stay on, the fridge stays cold, the ACs keep running, and the house stays quiet — because the changeover happens without anyone noticing.",
+    metaTitle: "Home Solar & Inverter Systems",
+    metaDescription:
+      "Silent, round-the-clock power for Nigerian homes. Kayglo Citadel designs, supplies and installs genuine solar and battery systems — so your home simply has power, day and night. Free power assessment.",
+    areas: [
+      "Lekki",
+      "Ikoyi",
+      "Victoria Island",
+      "Ajah",
+      "Chevron",
+      "Osapa",
+      "Yaba",
+      "Surulere",
+      "Ikeja",
+      "Gbagada",
+      "Magodo",
+      "Maitama & Abuja",
+    ],
+    pains: [
+      {
+        title: "The generator runs your evenings",
+        body: "It goes on at dusk and off at bedtime, and everything in between happens over the noise of it. The fuel bill is now a fixed monthly cost you never agreed to.",
+      },
+      {
+        title: "Nobody sleeps through a changeover",
+        body: "The grid drops, the house goes dark, someone goes downstairs. Every night. A properly designed system switches over in milliseconds and nobody wakes up.",
+      },
+      {
+        title: "You've already bought equipment that died",
+        body: "A battery that lasted eight months. An inverter that trips under load. Nigeria's market is full of counterfeits, and the price of the cheap option is buying it twice.",
+      },
+    ],
+    keeps: [
+      "Lighting throughout the house",
+      "Fans and air conditioning",
+      "Fridges and freezers",
+      "WiFi, TV and entertainment",
+      "Water pump and borehole",
+      "Security lighting and CCTV",
+    ],
+    packages: ["essential", "comfort"],
+    proof: ["ikoyi-residence", "lekki-smart-home", "surulere-residence"],
+    faqs: [
+      {
+        q: "Can solar really run my air conditioners?",
+        a: "Yes — but it has to be designed for it. ACs are the heaviest load in most homes, and a system sized for lights and fans will trip the moment one starts. That is exactly what the power assessment establishes: which ACs, how many hours, and what that means for the inverter and battery. Then we size for it honestly, rather than selling you a system that disappoints in week one.",
+      },
+      {
+        q: "Do I have to get rid of my generator?",
+        a: "Not on day one. Most of our residential clients keep the generator as a rarely-used backup and simply stop running it — from every evening, to a handful of times a year. Once you have lived with the system through a rainy season, plenty of people sell the generator.",
+      },
+      {
+        q: "Will it work through the rainy season?",
+        a: "This is where sizing matters most. We design around your worst week, not your best — enough panel area and enough storage that a run of overcast days does not leave you in the dark. If your site cannot support that, we will tell you before you spend anything.",
+      },
+      {
+        q: "How long does the installation take?",
+        a: "Most homes are a two to four day job on site, once the equipment is on the ground. We work in one visit rather than dragging it out, and we leave the cabling, mounting and distribution board tidy — you can judge a lot about an installer from what the inverter wall looks like when they leave.",
+      },
+    ],
+  },
+  {
+    slug: "business",
+    name: "Business & SME",
+    audience: "For shops, offices, clinics and small businesses",
+    kicker: "Business solar",
+    headline: "Keep your business running when the grid goes off.",
+    intro:
+      "An outage is not an inconvenience for a business — it is lost stock, lost hours, lost customers and a diesel bill that eats the margin. We design systems around the equipment that must never stop, so trading carries on whether or not the grid does.",
+    metaTitle: "Solar for Business & SMEs",
+    metaDescription:
+      "Stop losing hours, stock and diesel money to outages. Kayglo Citadel designs and installs solar and battery systems for Nigerian shops, offices, clinics, salons and small businesses. Free power assessment.",
+    pains: [
+      {
+        title: "Diesel is now a line item you can't control",
+        body: "The price moves, the queue costs a staff member half a day, and none of it produces anything. It is the one large cost in the business with no asset at the end of it.",
+      },
+      {
+        title: "Every outage costs you twice",
+        body: "Once in lost trading, once in the restart — systems rebooting, stock at risk, staff standing around, customers walking out to somewhere with lights on.",
+      },
+      {
+        title: "The generator is a single point of failure",
+        body: "When it will not start on a Monday morning, the business does not open. A battery system has no starting motor, no fuel and no warm-up.",
+      },
+    ],
+    keeps: [
+      "POS terminals and card machines",
+      "Refrigeration and cold storage",
+      "Computers, servers and networking",
+      "CCTV and access control",
+      "Lighting and selected cooling",
+      "Printers and workshop equipment",
+    ],
+    trades: [
+      {
+        type: "Restaurants & bars",
+        argument: "Refrigeration and POS never go down, so service never stops and stock never spoils.",
+      },
+      {
+        type: "Pharmacies",
+        argument: "Temperature-sensitive stock stays inside its range through every outage — no losses, no compliance risk.",
+      },
+      {
+        type: "Clinics & labs",
+        argument: "Power that does not interrupt a procedure, a fridge of vaccines, or a piece of diagnostic equipment mid-run.",
+      },
+      {
+        type: "Salons & barbershops",
+        argument: "Dryers, clippers and ACs running all day — and clients who can hear the conversation instead of the generator.",
+      },
+      {
+        type: "Hotels & short-lets",
+        argument: "Guests who never hear a changeover, and reviews that stop mentioning the power.",
+      },
+      {
+        type: "Supermarkets & cold rooms",
+        argument: "An unbroken cold chain, and freezer stock that survives a bad grid week.",
+      },
+      {
+        type: "Offices & professional firms",
+        argument: "The team keeps working through outages instead of waiting for the generator to warm up.",
+      },
+      {
+        type: "Schools",
+        argument: "Classes, labs and admin that carry on, without the noise or fumes of a generator near the classrooms.",
+      },
+      {
+        type: "Churches",
+        argument: "Sound, lighting and cooling that hold up through a full service, without a generator behind the building.",
+      },
+      {
+        type: "Laundries & printing",
+        argument: "Machines that finish the job they started — no half-done loads or ruined print runs.",
+      },
+      {
+        type: "Cyber cafés & tech",
+        argument: "Uninterrupted workstations and networking, with clean power that protects the equipment itself.",
+      },
+      {
+        type: "Small factories & workshops",
+        argument: "Production hours that no longer depend on when the diesel arrives.",
+      },
+    ],
+    packages: ["business", "business-plus"],
+    proof: ["maitama-office", "surulere-residence"],
+    faqs: [
+      {
+        q: "How do I know it will pay for itself?",
+        a: "Start from what you already spend. Add a year of diesel, servicing, oil and repairs, then compare it with a system sized to displace most of that. For businesses running a generator daily, the ongoing cost usually dwarfs the one-time cost of solar. Our generator cost check does that arithmetic with your own numbers in about a minute.",
+      },
+      {
+        q: "Can we start small and grow?",
+        a: "Yes, and for most businesses that is the sensible route. We design the system so storage and panel capacity can be added later without replacing what you have already bought — which means the first phase can be sized to your current budget rather than your eventual need.",
+      },
+      {
+        q: "Do you work outside business hours?",
+        a: "Where the work would interrupt trading, yes. Restaurants, clinics and retail usually need the noisy and disruptive parts done outside opening hours, and we plan the installation around that rather than around our own convenience.",
+      },
+      {
+        q: "What happens if something fails while we're trading?",
+        a: "You call us and we come. Every system is backed by scheduled servicing and fault response, and the design keeps the grid and, if you still have one, the generator available as fallback — so a fault is an inconvenience rather than a shutdown.",
+      },
+    ],
+  },
+  {
+    slug: "commercial",
+    name: "Commercial",
+    audience: "For larger buildings, estates and industrial sites",
+    kicker: "Commercial solar",
+    headline: "Displace the diesel. Keep the operation running.",
+    intro:
+      "For office complexes, estates, hotels, cold stores and light industry, power is an operating cost with a spreadsheet behind it. We engineer commercial solar and storage around your load profile and uptime requirement, then show you the payback before you commit.",
+    metaTitle: "Commercial & Industrial Solar",
+    metaDescription:
+      "Commercial-grade solar and storage for Nigerian offices, estates, hotels and light industry. Displace diesel spend, protect uptime, and see the payback before you commit. Kayglo Citadel.",
+    pains: [
+      {
+        title: "Diesel spend that scales with your success",
+        body: "The busier you are, the more you burn. Energy becomes the cost that grows fastest and returns least, and it is almost never on anyone's improvement list.",
+      },
+      {
+        title: "Uptime you have to guarantee to someone else",
+        body: "Tenants, guests, patients, a production line. When power is part of what you sell, the backup strategy is not an internal matter.",
+      },
+      {
+        title: "No visibility into where the energy goes",
+        body: "Without monitoring, nobody can say which loads are expensive, which are wasteful, or whether last month was better or worse. Metering turns arguments into numbers.",
+      },
+    ],
+    keeps: [
+      "Whole-building lighting and small power",
+      "HVAC and selected heavy cooling",
+      "Lifts, pumps and plant",
+      "Servers, networking and security",
+      "Cold storage and process equipment",
+      "Metering and remote monitoring",
+    ],
+    packages: ["business-plus"],
+    proof: ["maitama-office", "lekki-smart-home"],
+    faqs: [
+      {
+        q: "Can solar carry our whole load?",
+        a: "Sometimes, but that is rarely the right question. For most commercial sites the economics are strongest when solar and storage carry the working day and the predictable base load, with the grid and a single backup generator covering the extremes. We model that split rather than selling you the largest possible system.",
+      },
+      {
+        q: "How do you handle a site that's still growing?",
+        a: "We design in phases with headroom — inverter capacity, cable sizing and mounting planned for the eventual system, even when only the first phase is installed. Adding capacity later then costs what it should, rather than requiring a rebuild.",
+      },
+      {
+        q: "What does the assessment involve for a commercial site?",
+        a: "More than a form. We review your bills and generator logs, look at the load profile across a working week, survey the roof or ground area and the electrical room, then come back with a sized design, a cost, and the payback arithmetic. That work is free and there is no obligation attached to it.",
+      },
+      {
+        q: "Do you provide monitoring and maintenance contracts?",
+        a: "Yes. Commercial systems are specified with monitoring as standard, and we offer scheduled maintenance covering performance checks, battery health, inverter servicing and cleaning. An unmonitored commercial array quietly under-performs for months before anyone notices.",
+      },
+    ],
+  },
 ];

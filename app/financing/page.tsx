@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { RayBurst } from "@/components/Brand";
 import { Reveal } from "@/components/Reveal";
+import { Tiers } from "@/components/Tiers";
 import { Button, Container, Kicker } from "@/components/ui";
 import { site } from "@/lib/site";
 
@@ -108,6 +109,9 @@ export default function FinancingPage() {
         </Container>
       </section>
 
+      {/* Solution tiers */}
+      <Tiers />
+
       {/* Ways to pay */}
       <section className="py-16 md:py-24">
         <Container>
@@ -160,6 +164,11 @@ export default function FinancingPage() {
                 solar system. Solar simply moves that money from a bottomless
                 pit into an asset that pays you back — quietly, and for years.
               </p>
+              <div className="mt-7">
+                <Button href="/generator-cost" variant="light">
+                  Work out what yours costs
+                </Button>
+              </div>
             </Reveal>
           </div>
         </Container>

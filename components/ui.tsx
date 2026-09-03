@@ -33,7 +33,7 @@ export function Kicker({
 type ButtonProps = {
   href: string;
   children: ReactNode;
-  variant?: "accent" | "outline" | "dark" | "ghost";
+  variant?: "accent" | "outline" | "dark" | "ghost" | "light";
   className?: string;
 } & Omit<ComponentProps<typeof Link>, "href">;
 
@@ -52,6 +52,8 @@ export function Button({
     outline:
       "border border-ink/25 text-ink hover:border-ink hover:bg-ink hover:text-cream",
     ghost: "text-ink hover:text-accent",
+    // For dark sections, where an accent-on-green button would go muddy
+    light: "bg-cream text-ink hover:bg-accent hover:text-cream shadow-sm",
   };
   return (
     <Link href={href} className={`${base} ${variants[variant]} ${className}`} {...rest}>

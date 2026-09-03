@@ -33,7 +33,7 @@ export function Header() {
           <Logo />
         </Link>
 
-        <nav className="hidden items-center gap-7 lg:gap-8 md:flex" aria-label="Primary">
+        <nav className="hidden items-center gap-6 xl:gap-8 lg:flex" aria-label="Primary">
           {nav.map((item) => {
             const active = pathname.startsWith(item.href);
             return (
@@ -59,7 +59,7 @@ export function Header() {
         <button
           type="button"
           onClick={() => setOpen((v) => !v)}
-          className="flex h-10 w-10 items-center justify-center md:hidden"
+          className="flex h-10 w-10 items-center justify-center lg:hidden"
           aria-expanded={open}
           aria-controls="mobile-menu"
           aria-label={open ? "Close menu" : "Open menu"}
@@ -87,7 +87,7 @@ export function Header() {
       {/* Mobile menu */}
       <div
         id="mobile-menu"
-        className={`overflow-hidden border-t border-ink/10 bg-cream md:hidden ${
+        className={`overflow-hidden border-t border-ink/10 bg-cream lg:hidden ${
           open ? "max-h-96" : "max-h-0"
         } transition-[max-height] duration-500 ease-out`}
       >

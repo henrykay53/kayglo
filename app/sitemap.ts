@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 import { getAllPosts } from "@/lib/posts";
-import { site } from "@/lib/site";
+import { projects, segments, site } from "@/lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = site.url;
@@ -9,6 +9,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "", priority: 1, changeFrequency: "monthly" as const },
     { path: "/services", priority: 0.9, changeFrequency: "monthly" as const },
     { path: "/financing", priority: 0.9, changeFrequency: "monthly" as const },
+    {
+      path: "/generator-cost",
+      priority: 0.9,
+      changeFrequency: "monthly" as const,
+    },
     { path: "/projects", priority: 0.8, changeFrequency: "monthly" as const },
     { path: "/blog", priority: 0.8, changeFrequency: "weekly" as const },
     { path: "/about", priority: 0.6, changeFrequency: "yearly" as const },
@@ -20,6 +25,20 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: r.priority,
   }));
 
+  const segmentRoutes = segments.map((s) => ({
+    url: `${base}/solutions/${s.slug}`,
+    lastModified: new Date(),
+    changeFrequency: "monthly" as const,
+    priority: 0.9,
+  }));
+
+  const caseStudyRoutes = projects.map((p) => ({
+    url: `${base}/projects/${p.slug}`,
+    lastModified: new Date(),
+    changeFrequency: "yearly" as const,
+    priority: 0.7,
+  }));
+
   const postRoutes = getAllPosts().map((post) => ({
     url: `${base}/blog/${post.slug}`,
     lastModified: new Date(post.date),
@@ -27,5 +46,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }));
 
-  return [...staticRoutes, ...postRoutes];
+  return [...staticRoutes, ...segmentRoutes, ...caseStudyRoutes, ...postRoutes];
 }
