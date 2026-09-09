@@ -44,6 +44,16 @@ export const site = {
     linkedin: "https://linkedin.com/company/kayglo", // TODO
   },
 
+  /**
+   * Aggregate review data for the LocalBusiness schema.
+   *
+   * LEAVE AS null UNTIL THE REVIEWS ARE REAL AND COUNTABLE — ideally straight
+   * off the Google Business Profile. Publishing a rating you cannot evidence is
+   * a Google spam-policy violation (manual action) as well as a false claim to
+   * customers. When you have them, set e.g. { value: 4.8, count: 23 }.
+   */
+  reviews: null as { value: number; count: number } | null,
+
   // Trust signals surfaced across the site.
   stats: [
     { value: "4.9/5", label: "Average client rating" },
@@ -470,26 +480,109 @@ export const processSteps = [
   },
 ];
 
-export const testimonials = [
+export type Testimonial = {
+  quote: string;
+  author: string;
+  location: string;
+  /** The specific numbers that make a testimonial believable (§26). */
+  detail?: string;
+  /** Case study this customer belongs to, if there is one. */
+  project?: string;
+  /** Video is the strongest form — a file in /public/testimonials, or a YouTube id. */
+  video?: { src?: string; youtube?: string; poster?: string };
+  /**
+   * GATE. Only testimonials marked true are published.
+   *
+   * Set this to true ONLY for words a real customer actually said, with their
+   * permission to use them. An invented testimonial is worse than none: it is
+   * the exact thing that destroys trust in a market already full of it.
+   */
+  verified: boolean;
+};
+
+/**
+ * Customer testimonials. The three below are PLACEHOLDER COPY from the original
+ * build — they are not real quotes, so they are gated off and do not appear on
+ * the site. Replace the words with what customers actually told you, then flip
+ * `verified` to true. Video first wherever you can get it.
+ */
+export const testimonials: Testimonial[] = [
   {
     quote:
       "We haven't switched on the generator in months. The house is silent at night and our diesel bill is gone. Kayglo used genuine batteries and inverter — you can feel the quality.",
     author: "Adebayo & Ngozi O.",
     location: "Ikoyi, Lagos",
+    project: "ikoyi-residence",
+    verified: false, // TODO — real words, real permission, then true
   },
   {
     quote:
       "They cut our office diesel costs by more than half and we run through every outage without a flicker. What impressed me most is the after-sales — they actually come when you call.",
     author: "Managing Director",
     location: "Maitama, Abuja",
+    project: "maitama-office",
+    verified: false, // TODO
   },
   {
     quote:
       "Kayglo sized the system to what we truly use instead of overselling us. Two years on, it still performs exactly as promised, and servicing has been faultless.",
     author: "Chidi E.",
     location: "Lekki, Lagos",
+    project: "lekki-smart-home",
+    verified: false, // TODO
   },
 ];
+
+/** Only these reach the site. */
+export const publishedTestimonials = () =>
+  testimonials.filter((t) => t.verified);
+
+/**
+ * The evidence a stranger needs before handing over millions (§28).
+ * Every field is optional and every section disappears when empty — so the
+ * page never claims something you haven't supplied.
+ */
+export const credentials = {
+  /** CAC registration number, e.g. "RC 1234567". */
+  registration: null as string | null,
+  /** Year the business started trading. */
+  founded: null as number | null,
+  /** What is warranted, and for how long. Only terms you will honour. */
+  warranty: [] as { item: string; term: string }[],
+  /** Equipment brands you actually supply. */
+  brands: [] as string[],
+  /** The standards you install to. */
+  standards: [] as string[],
+  /** The people who do the work. Photos optional: /public/team/<file>. */
+  team: [] as { name: string; role: string; note?: string; photo?: string }[],
+  /** How customers can pay. */
+  payment: [
+    "Outright purchase",
+    "Staged payments across the installation",
+    "Instalment plans over an agreed period",
+  ],
+};
+
+/**
+ * The referral partner programme (§21). Rates are deliberately null until you
+ * decide them — the page shows the structure without inventing numbers.
+ */
+export const partnerProgramme = {
+  /** e.g. "5% of contract value" or "₦150,000 per closed installation". */
+  rate: null as string | null,
+  /** When the partner is paid. */
+  terms: null as string | null,
+  types: [
+    { role: "Estate agents & property managers", why: "Your buyer's first question after \u201cwhat about power?\u201d has an answer you trust." },
+    { role: "Facility managers", why: "Cut the diesel line in your service charge and stop fielding outage complaints." },
+    { role: "Property developers", why: "Hand over homes that already have silent, working power — and price them accordingly." },
+    { role: "Architects & interior designers", why: "Plant rooms, cable routes and roof loads designed in from the start, not retro-fitted." },
+    { role: "Electrical contractors", why: "Take on solar work without carrying the design risk or the equipment sourcing." },
+    { role: "Generator & AC technicians", why: "Your customers are already asking. Refer the ones you can't serve." },
+    { role: "CCTV & security installers", why: "Systems that keep running through outages make your own work look good." },
+    { role: "Construction companies", why: "A single power partner across every site you hand over." },
+  ],
+};
 
 export const nav = [
   { href: "/solutions/residential", label: "Homes" },

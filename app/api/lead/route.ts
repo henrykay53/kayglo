@@ -45,6 +45,10 @@ type Lead = {
   firstCampaign?: string;
   firstSeen?: string;
   visits?: string;
+  /** Partner programme applications (§21) */
+  enquiryType?: string;
+  businessName?: string;
+  partnerType?: string;
   /** Kept for any older form still posting here */
   postal?: string;
   service?: string;
@@ -54,9 +58,12 @@ type Lead = {
 
 /** Field order and labels for the notification email. */
 const FIELDS: [keyof Lead, string][] = [
+  ["enquiryType", "Enquiry"],
   ["name", "Name"],
   ["phone", "Phone"],
   ["email", "Email"],
+  ["businessName", "Business"],
+  ["partnerType", "Line of work"],
   ["location", "Location"],
   ["propertyType", "Property type"],
   ["appliances", "Must stay on"],
@@ -141,11 +148,17 @@ async function deliver(lead: Record<string, string>) {
     from,
     to: inbox,
     replyTo: lead.email || undefined,
-    subject: `Power assessment — ${lead.name}, ${lead.location || "location not given"} [${channel}]`,
+    subject: lead.enquiryType
+      ? `${lead.enquiryType} — ${lead.name}${lead.businessName ? `, ${lead.businessName}` : ""} [${channel}]`
+      : `Power assessment — ${lead.name}, ${lead.location || "location not given"} [${channel}]`,
     html: `
       <div style="font-family:system-ui,sans-serif;max-width:600px">
-        <h2 style="color:#10130f">New power assessment request</h2>
-        <p style="color:#6b6f66;font-size:14px">Send back: estimated system size, recommended package, estimated cost, and payment option.</p>
+        <h2 style="color:#10130f">${esc(lead.enquiryType || "New power assessment request")}</h2>
+        ${
+          lead.enquiryType
+            ? ""
+            : `<p style="color:#6b6f66;font-size:14px">Send back: estimated system size, recommended package, estimated cost, and payment option.</p>`
+        }
         <table style="border-collapse:collapse;font-size:15px">${toRows(entries)}</table>
         ${
           attribution.length
@@ -195,6 +208,9 @@ export async function POST(request: Request) {
     name,
     phone: text(phone),
     email: text(email),
+    enquiryType: text(body.enquiryType),
+    businessName: text(body.businessName),
+    partnerType: text(body.partnerType),
     location: text(body.location),
     propertyType: text(body.propertyType),
     appliances: text(body.appliances),

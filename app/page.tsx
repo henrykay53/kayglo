@@ -3,13 +3,13 @@ import Link from "next/link";
 import { RayBurst } from "@/components/Brand";
 import { PowerMap } from "@/components/PowerMap";
 import { Reveal } from "@/components/Reveal";
+import { Testimonials } from "@/components/Testimonials";
 import { Button, Container, Kicker } from "@/components/ui";
 import {
   processSteps,
   projects,
   services,
   site,
-  testimonials,
 } from "@/lib/site";
 
 export default function Home() {
@@ -273,31 +273,7 @@ export default function Home() {
       </section>
 
       {/* ========================== TESTIMONIALS ========================= */}
-      <section className="py-20 md:py-28">
-        <Container>
-          <Reveal>
-            <Kicker>In their words</Kicker>
-          </Reveal>
-          <div className="mt-12 grid gap-8 md:grid-cols-3">
-            {testimonials.map((t, i) => (
-              <Reveal key={t.author} delay={i * 90}>
-                <figure className="flex h-full flex-col rounded-2xl border border-ink/10 bg-cream p-8">
-                  <div className="text-accent" aria-hidden="true">
-                    ★★★★★
-                  </div>
-                  <blockquote className="font-display mt-5 flex-1 text-lg leading-snug text-ink">
-                    “{t.quote}”
-                  </blockquote>
-                  <figcaption className="mt-6 text-sm">
-                    <span className="font-medium text-ink">{t.author}</span>
-                    <span className="text-mute"> · {t.location}</span>
-                  </figcaption>
-                </figure>
-              </Reveal>
-            ))}
-          </div>
-        </Container>
-      </section>
+      <Testimonials />
 
       {/* ============================== CTA ============================== */}
       <section className="pb-24">

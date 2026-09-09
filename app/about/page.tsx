@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { RayBurst } from "@/components/Brand";
+import { Credentials } from "@/components/Credentials";
 import { Reveal } from "@/components/Reveal";
 import { Button, Container, Kicker } from "@/components/ui";
 import { site } from "@/lib/site";
@@ -117,6 +118,8 @@ export default function AboutPage() {
           </div>
         </Container>
       </section>
+
+      <Credentials />
 
       <section className="py-20 text-center md:py-28">
         <Container>

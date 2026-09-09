@@ -34,6 +34,23 @@ export function Footer() {
                 </Link>
               </li>
             ))}
+            {/* Not in the header, but both earn their own search traffic */}
+            <li>
+              <Link
+                href="/generator-cost"
+                className="text-cream/70 transition-colors hover:text-accent-300"
+              >
+                Generator cost check
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/partners"
+                className="text-cream/70 transition-colors hover:text-accent-300"
+              >
+                Partner programme
+              </Link>
+            </li>
           </ul>
         </div>
 

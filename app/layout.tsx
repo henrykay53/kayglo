@@ -96,11 +96,16 @@ function StructuredData() {
     areaServed: site.areasServed.map((name) => ({ "@type": "City", name })),
     openingHours: "Mo-Fr 08:00-18:00",
     sameAs: [site.social.instagram, site.social.linkedin],
-    aggregateRating: {
-      "@type": "AggregateRating",
-      ratingValue: "4.9",
-      reviewCount: "214",
-    },
+    // Only ever published when real, countable reviews exist — see site.reviews
+    ...(site.reviews
+      ? {
+          aggregateRating: {
+            "@type": "AggregateRating",
+            ratingValue: String(site.reviews.value),
+            reviewCount: String(site.reviews.count),
+          },
+        }
+      : {}),
   };
   return (
     <script

@@ -18,6 +18,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/blog", priority: 0.8, changeFrequency: "weekly" as const },
     { path: "/about", priority: 0.6, changeFrequency: "yearly" as const },
     { path: "/contact", priority: 0.7, changeFrequency: "yearly" as const },
+    { path: "/partners", priority: 0.7, changeFrequency: "yearly" as const },
   ].map((r) => ({
     url: `${base}${r.path}`,
     lastModified: new Date(),
