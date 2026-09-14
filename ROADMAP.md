@@ -3,7 +3,7 @@
 Living document. Updated as milestones are crossed — every session that moves
 something forward updates this file and the log at the bottom.
 
-**Last updated:** 2026-09-09
+**Last updated:** 2026-09-14
 **Strategy source:** the 43-point marketing plan (referenced below as §n)
 
 | Legend | |
@@ -67,11 +67,11 @@ in that state.
 | 1 | C | Strip the fake rating schema; make rating data-driven |
 | 2 | K | Decide the stats band — true numbers or remove |
 | 2 | C | Apply real facts to `lib/site.ts`; update privacy policy |
-| 3 | K | Create GA4 property → `G-` ID |
-| 3 | K | Create Google Ads conversion action → `AW-` ID + label |
-| 3 | K | Create Meta pixel → ID |
-| 4 | K | Four env vars into Vercel → **redeploy** → run the 5-step verification |
-| 4 | K | Mark `generate_lead` as a key event in GA4 |
+| 3 | K | ~~Create GA4 property → `G-` ID~~ ✅ `G-FF2M4ZVBJ6`, verified firing locally |
+| 3 | K | Google Ads conversion action → `AW-` ID + label — **deferred**, account exists (262-501-4405), not needed until campaigns run in Week 4 |
+| 3 | K | Create Meta pixel → ID — **deferred**, needed before retargeting |
+| 4 | K | `NEXT_PUBLIC_GA_ID` into Vercel → **redeploy** → check GA4 Realtime ← **next action** |
+| 4 | K | Mark `generate_lead` as a key event — waiting on GA4's events table to populate |
 | 5 | K | Verify case studies; correct the Surulere entry; set servicing figures |
 | 5 | K | Write the tagging convention into a note the whole team can see |
 | 5 | K | Tag every link already in the wild — Instagram bio, WhatsApp profile, email signatures |
@@ -167,6 +167,12 @@ Before spending: establish maximum allowable CAC from gross profit per job (§32
 
 ## Log
 
+- **2026-09-14** — GA4 live: `G-FF2M4ZVBJ6` in `.env.local`, tag verified
+  loading and the full funnel confirmed firing (`page_view`, `form_start`,
+  `generate_lead`). Ads and Meta deferred by decision — the site degrades
+  gracefully without them. Footer rebuilt (LinkedIn removed, serviced states
+  added, assessment CTA band); homepage CTA card centred.
+
 - **2026-09-09** — Roadmap created. WhatsApp and location pages dropped by
   decision. Shipped: partner programme page, video-first testimonials,
   credentials section, and data-driven rating markup. **Removed two published
@@ -176,3 +182,5 @@ Before spending: establish maximum allowable CAC from gross profit per job (§32
   measurement layer (§31), generator calculator (§24–25), package tiers (§4)
   and the free assessment offer (§5) shipped to `staging`. Measurement reference
   PDF delivered.
+
+

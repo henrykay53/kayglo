@@ -280,16 +280,17 @@ export default function Home() {
         <Container>
           <div className="grain relative overflow-hidden rounded-3xl bg-ever px-8 py-16 text-cream md:px-16 md:py-20">
             <RayBurst className="pointer-events-none absolute -right-16 -top-16 h-72 w-72 text-accent-300/20" />
-            <div className="relative max-w-2xl">
+            <RayBurst className="pointer-events-none absolute -bottom-24 -left-20 h-64 w-64 text-accent-300/10" />
+            <div className="relative mx-auto max-w-2xl text-center">
               <h2 className="font-display text-4xl md:text-5xl">
                 Let&apos;s solve your power problem.
               </h2>
-              <p className="mt-5 text-lg text-cream/70">
+              <p className="mx-auto mt-5 max-w-xl text-lg text-cream/70">
                 Tell us what you&apos;re dealing with — the blackouts, the
                 generator, the bills. We&apos;ll recommend exactly what you need,
                 nothing you don&apos;t, and stand by it long after.
               </p>
-              <div className="mt-9 flex flex-wrap gap-4">
+              <div className="mt-9 flex flex-wrap justify-center gap-4">
                 <Button href="/contact">Get a free quote</Button>
                 <a
                   href={`tel:${site.contact.phoneHref}`}
