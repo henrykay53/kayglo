@@ -6,7 +6,9 @@ import { Footer } from "@/components/Footer";
 import { ScrollToTop } from "@/components/ScrollToTop";
 import { Analytics } from "@/components/Analytics";
 import { AttributionTracker } from "@/components/AttributionTracker";
-import { site } from "@/lib/site";
+import { ContactTracker } from "@/components/ContactTracker";
+import { heroGallery, presenceStates, site } from "@/lib/site";
+import { nigeriaStates } from "@/lib/nigeria-map";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -70,22 +72,25 @@ function StructuredData() {
   const { contact } = site;
   const json = {
     "@context": "https://schema.org",
-    "@type": "SolarInstallation",
+    // "SolarInstallation" is not a schema.org type, so Google could not
+    // classify the business. Electrician covers the installation and
+    // servicing; Store covers the equipment sales.
+    "@type": ["Electrician", "Store"],
     "@id": `${site.url}/#business`,
     name: site.legalName,
     description: site.description,
     url: site.url,
     telephone: contact.phone,
     email: contact.email,
-    priceRange: "$$$",
-    image: `${site.url}/opengraph-image`,
+    priceRange: "₦₦₦",
+    // Real installation photography, not the generated text card.
+    image: heroGallery.map((p) => `${site.url}${p.src}`),
     logo: `${site.url}/icon.svg`,
     address: {
       "@type": "PostalAddress",
       streetAddress: contact.address.street,
-      addressLocality: contact.address.city,
+      addressLocality: contact.address.locality,
       addressRegion: contact.address.region,
-      postalCode: contact.address.postalCode,
       addressCountry: contact.address.country,
     },
     geo: {
@@ -93,9 +98,16 @@ function StructuredData() {
       latitude: contact.geo.lat,
       longitude: contact.geo.lng,
     },
-    areaServed: site.areasServed.map((name) => ({ "@type": "City", name })),
+    areaServed: [
+      { "@type": "Country", name: "Nigeria" },
+      ...nigeriaStates
+        .filter((s) => presenceStates.includes(s.id))
+        .map((s) => ({ "@type": "State", name: s.name })),
+    ],
     openingHours: "Mo-Fr 08:00-18:00",
-    sameAs: [site.social.instagram, site.social.linkedin],
+    // Only profiles confirmed as Kayglo's. Add LinkedIn, Facebook and the
+    // Google Business Profile URL here once each one is live and verified.
+    sameAs: [site.social.instagram],
     // Only ever published when real, countable reviews exist — see site.reviews
     ...(site.reviews
       ? {
@@ -124,6 +136,7 @@ export default function RootLayout({
         <StructuredData />
         <ScrollToTop />
         <AttributionTracker />
+        <ContactTracker />
         <a
           href="#main"
           className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-ink focus:px-5 focus:py-2 focus:text-sm focus:text-cream"

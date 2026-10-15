@@ -1,15 +1,28 @@
 import type { Metadata } from "next";
 import { RayBurst } from "@/components/Brand";
 import { Credentials } from "@/components/Credentials";
+import { Photo } from "@/components/Photo";
 import { Reveal } from "@/components/Reveal";
 import { Button, Container, Kicker } from "@/components/ui";
-import { site } from "@/lib/site";
+import { aboutPhotos, site } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "About Kayglo Citadel",
   description:
     "Kayglo Citadel is a Nigerian solar company built by people who live the same power struggles you do — genuine products, honest advice, and after-sales support that treats you like family.",
   alternates: { canonical: "/about" },
+  openGraph: {
+    title: `About ${site.name}`,
+    url: "/about",
+    images: [
+      {
+        url: aboutPhotos.crew[0].src,
+        width: aboutPhotos.crew[0].width,
+        height: aboutPhotos.crew[0].height,
+        alt: aboutPhotos.crew[0].alt,
+      },
+    ],
+  },
 };
 
 const values = [
@@ -46,6 +59,39 @@ export default function AboutPage() {
               too.
             </h1>
           </Reveal>
+          <Reveal delay={140}>
+            <p className="mt-7 max-w-2xl text-lg leading-relaxed text-slate">
+              A Lagos solar company that supplies genuine equipment, installs it
+              with our own crew, and keeps servicing it long after — one team
+              from the first conversation onwards.
+            </p>
+          </Reveal>
+
+          {/* The crew, at work. Who you are actually letting into the building. */}
+          {/* Columns 3:5:3 give the landscape shot its own shape between two
+              4:5 portraits, so nothing is cropped hard. */}
+          <div className="mt-14 grid grid-cols-2 gap-3 md:grid-cols-[3fr_5fr_3fr] md:gap-4">
+            {aboutPhotos.crew.map((photo, i) => (
+              <Photo
+                key={photo.src}
+                photo={photo}
+                preload={i === 0}
+                sizes={
+                  i === 0
+                    ? "(min-width: 1152px) 470px, (min-width: 768px) 42vw, 92vw"
+                    : "(min-width: 1152px) 280px, (min-width: 768px) 26vw, 46vw"
+                }
+                className={
+                  i === 0
+                    ? "col-span-2 aspect-[4/3] md:order-2 md:col-span-1 md:aspect-auto"
+                    : `aspect-[4/5] ${i === 1 ? "md:order-1" : "md:order-3"}`
+                }
+              />
+            ))}
+          </div>
+          <p className="mt-3 text-xs text-mute">
+            Our crew on site. Every photo here is a Kayglo job.
+          </p>
         </Container>
       </section>
 
@@ -77,18 +123,11 @@ export default function AboutPage() {
             </div>
           </Reveal>
           <Reveal delay={120} className="md:col-span-4 md:col-start-9">
-            <div className="rounded-2xl border border-ink/10 bg-cream-200/60 p-8">
-              <dl className="space-y-6">
-                {site.stats.map((s) => (
-                  <div key={s.label}>
-                    <dt className="font-display text-3xl text-ink">
-                      {s.value}
-                    </dt>
-                    <dd className="text-sm text-mute">{s.label}</dd>
-                  </div>
-                ))}
-              </dl>
-            </div>
+            <Photo
+              photo={aboutPhotos.story}
+              sizes="(min-width: 1152px) 360px, (min-width: 768px) 32vw, 92vw"
+              className="aspect-[4/5]"
+            />
           </Reveal>
         </Container>
       </section>
@@ -119,6 +158,40 @@ export default function AboutPage() {
         </Container>
       </section>
 
+      {/* ------------------------- WORKMANSHIP ------------------------- */}
+      <section className="py-16 md:py-24">
+        <Container>
+          <Reveal>
+            <Kicker>Judge us on the details</Kicker>
+          </Reveal>
+          <Reveal delay={80}>
+            <h2 className="font-display mt-5 max-w-2xl text-3xl text-ink md:text-4xl">
+              You can tell a lot about an installer from what they leave
+              behind.
+            </h2>
+          </Reveal>
+          <div className="mt-12 grid gap-10 md:grid-cols-3 md:gap-8">
+            {aboutPhotos.workmanship.map((w, i) => (
+              <Reveal key={w.title} delay={i * 90}>
+                <figure>
+                  <Photo
+                    photo={w.photo}
+                    sizes="(min-width: 1152px) 360px, (min-width: 768px) 30vw, 92vw"
+                    className="aspect-[4/5]"
+                  />
+                  <figcaption>
+                    <h3 className="font-display mt-6 text-xl text-ink">
+                      {w.title}
+                    </h3>
+                    <p className="mt-2 leading-relaxed text-slate">{w.body}</p>
+                  </figcaption>
+                </figure>
+              </Reveal>
+            ))}
+          </div>
+        </Container>
+      </section>
+
       <Credentials />
 
       <section className="py-20 text-center md:py-28">
@@ -128,10 +201,17 @@ export default function AboutPage() {
               Let&apos;s solve it together.
             </h2>
             <p className="mx-auto mt-5 max-w-lg text-slate">
-              Real people, real support — wherever you are in Nigeria.
+              Start with a free power assessment — an engineer sizes the system
+              to what you actually run, with no obligation to buy.
             </p>
-            <div className="mt-9 flex justify-center">
-              <Button href="/contact">Talk to us</Button>
+            <div className="mt-9 flex flex-wrap items-center justify-center gap-x-6 gap-y-4">
+              <Button href="/contact">Get a free power assessment</Button>
+              <a
+                href={`tel:${site.contact.phoneHref}`}
+                className="link-underline inline-block text-accent"
+              >
+                Or call {site.contact.phone}
+              </a>
             </div>
           </Reveal>
         </Container>

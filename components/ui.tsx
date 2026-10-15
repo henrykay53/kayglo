@@ -46,14 +46,18 @@ export function Button({
 }: ButtonProps) {
   const base =
     "group inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-medium transition-all duration-300 focus-visible:outline-2";
+  // Filled variants carry a transparent border so every variant is the same
+  // height as the outline one — they line up when stacked or side by side.
   const variants: Record<string, string> = {
-    accent: "bg-accent text-cream hover:bg-ink hover:text-cream shadow-sm",
-    dark: "bg-ink text-cream hover:bg-ever-400",
+    accent:
+      "border border-transparent bg-accent text-cream hover:bg-ink hover:text-cream shadow-sm",
+    dark: "border border-transparent bg-ink text-cream hover:bg-ever-400",
     outline:
       "border border-ink/25 text-ink hover:border-ink hover:bg-ink hover:text-cream",
     ghost: "text-ink hover:text-accent",
     // For dark sections, where an accent-on-green button would go muddy
-    light: "bg-cream text-ink hover:bg-accent hover:text-cream shadow-sm",
+    light:
+      "border border-transparent bg-cream text-ink hover:bg-accent hover:text-cream shadow-sm",
   };
   return (
     <Link href={href} className={`${base} ${variants[variant]} ${className}`} {...rest}>

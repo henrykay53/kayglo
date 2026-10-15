@@ -25,11 +25,11 @@ export function Reveal({
     const el = ref.current;
     if (!el) return;
     if (typeof IntersectionObserver === "undefined") {
-      setShown(true);
-      return;
+      // No observer to wait for — show it on the next frame.
+      const id = requestAnimationFrame(() => setShown(true));
+      return () => cancelAnimationFrame(id);
     }
 
-    
     const io = new IntersectionObserver(
       (entries) => {
         entries.forEach((e) => {

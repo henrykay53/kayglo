@@ -3,7 +3,7 @@
 Living document. Updated as milestones are crossed — every session that moves
 something forward updates this file and the log at the bottom.
 
-**Last updated:** 2026-09-14
+**Last updated:** 2026-10-09
 **Strategy source:** the 43-point marketing plan (referenced below as §n)
 
 | Legend | |
@@ -27,8 +27,16 @@ the generator campaign (§24–25) and measurement plumbing (§31) are built.
 Google Business Profile, CRM, WhatsApp, ad accounts — plus the real business
 facts the site is still carrying placeholders for.
 
-**Blocking everything:** fabricated proof still published (see Phase 0), and
-measurement not switched on.
+**Measurement is live.** GA4 `G-FF2M4ZVBJ6` is firing on production.
+
+**Google Business Profile is created but not yet verified** — approval is
+stuck. The site already carries the real NAP (phone, emails, Ajah address);
+keep the profile identical to it, character for character, or local SEO
+reads them as two businesses (§10).
+
+**Still blocking a launch:** lead email delivery — `RESEND_API_KEY` and
+`LEAD_INBOX` are empty locally and unconfirmed in Vercel (see Phase 0). The
+invented stats are now gated off the site; real testimonials still missing.
 
 ---
 
@@ -45,11 +53,21 @@ in that state.
       (`site.reviews`, null until real)
 - [x] **C** Gate the three placeholder testimonials — they were invented copy
       published as real customer quotes. Now hidden until `verified: true`
+- [ ] **K** **Lead delivery** — create the Resend key, verify the
+      kayglocitadel.com domain, set `RESEND_API_KEY`, `LEAD_INBOX` and
+      `LEAD_FROM` in Vercel, redeploy, then submit one real test on the live
+      form. Until then production shows visitors the WhatsApp/call fallback
+- [ ] **K** Case-study locations — photo GPS puts the "Maitama, Abuja" office
+      job in Ajah, Lagos, and the "Ikoyi" home in the Lekki–Chevron corridor.
+      Confirm the real locations and correct `lib/site.ts`
+- [x] **C** Gate the four invented stats (`verified` flag) — homepage band
+      shows promises instead; About no longer shows them ✅ 2026-10-09
 - [ ] **K** Get 3+ real testimonials with permission, then flip `verified`
 - [ ] **K** Decide the four homepage stats: supply true numbers or cut the band
       (currently "4.9/5", "25 yr", "500+", "38 MWh" — all invented)
-- [ ] **K** Real NAP — phone, email, address, coordinates, socials. Must match
-      the Google Business Profile character for character (§10)
+- [x] **K** Real NAP — phone, emails, address ✅ in `lib/site.ts` 2026-10-01
+- [ ] **K** Remaining NAP details — exact map coordinates (copy the GBP pin),
+      real Instagram / LinkedIn URLs, postal code if the profile lists one
 - [ ] **K** Verify the four case studies against job notes
 - [ ] **K** Surulere project — real name, location, metrics
 - [ ] **K** Servicing-cost figures for the generator calculator
@@ -70,7 +88,7 @@ in that state.
 | 3 | K | ~~Create GA4 property → `G-` ID~~ ✅ `G-FF2M4ZVBJ6`, verified firing locally |
 | 3 | K | Google Ads conversion action → `AW-` ID + label — **deferred**, account exists (262-501-4405), not needed until campaigns run in Week 4 |
 | 3 | K | Create Meta pixel → ID — **deferred**, needed before retargeting |
-| 4 | K | `NEXT_PUBLIC_GA_ID` into Vercel → **redeploy** → check GA4 Realtime ← **next action** |
+| 4 | K | ~~`NEXT_PUBLIC_GA_ID` into Vercel → redeploy~~ ✅ verified live on production 2026-09-14 |
 | 4 | K | Mark `generate_lead` as a key event — waiting on GA4's events table to populate |
 | 5 | K | Verify case studies; correct the Surulere entry; set servicing figures |
 | 5 | K | Write the tagging convention into a note the whole team can see |
@@ -84,8 +102,8 @@ in that state.
 
 | Day | Owner | Task |
 |---|---|---|
-| 6 | K | Create the Google Business Profile |
-| 7 | K | Complete it aggressively — photos, services, service areas, hours, WhatsApp link |
+| 6 | K | ~~Create the Google Business Profile~~ ✅ created 2026-10-01 — **verification still pending** ← **blocking** |
+| 7 | K | Complete it aggressively — photos, services, service areas, hours, WhatsApp link. **Tag the website link**: `?utm_source=gbp&utm_medium=profile&utm_campaign=maps` (after verification) |
 | 8 | K | Call 5 past customers: ask for a testimonial and permission to use it |
 | 8 | C | ~~Build the trust page structure~~ ✅ done early — credentials section on `/about` |
 | 9 | K | Film 2 video testimonials — specific numbers, not "great service" |
@@ -157,6 +175,11 @@ Before spending: establish maximum allowable CAC from gross profit per job (§32
 - [x] Trust page (§28) — credentials section on `/about`; every block hides
       until the fact behind it is supplied
 - [x] Rating markup driven by real reviews (§10, §28)
+- [x] Lead capture fails honestly + pre-filled WhatsApp/call/email fallback ✅ 2026-10-09
+- [x] Photos: GPS stripped, resized, watermarked (`npm run photos`) ✅ 2026-10-09
+- [x] Homes / Business / Commercial / About rebuilt around real photography ✅ 2026-10-09
+- [x] `contact_click` + `lead_delivery_failed` events; schema type fixed ✅ 2026-10-09
+- [ ] Mark `contact_click` as a key event in GA4 (K — in the GA4 admin)
 - [ ] New case studies as jobs complete (§7)
 - [ ] Wire real reviews into the schema once the GBP has them
 - [-] Persistent WhatsApp (§13) — dropped 2026-09-09, not in the final product
@@ -166,6 +189,40 @@ Before spending: establish maximum allowable CAC from gross profit per job (§32
 ---
 
 ## Log
+
+- **2026-10-09 (c)** — Less talk, more work. Homepage below the hero now goes
+  straight to four photo service cards (swipe row on phones), "Solar for"
+  pathways, and a photo grid of the four installations linking to their case
+  studies; process cut to one-liners; the manifesto paragraph removed.
+  Unverified savings figures no longer appear on the homepage (still on the
+  case-study pages, pending verification). Business trade cards got a
+  trade-specific icon set (`components/TradeIcon.tsx`).
+
+- **2026-10-09 (b)** — Mobile + contact pass. Mobile menu root cause: a fixed
+  24rem cap with overflow hidden sliced "About" and hid the CTA; now capped to
+  the dynamic viewport below the sticky header, scrolls inside itself, inert
+  when closed, Escape closes. Assessment form rebuilt as four validated steps
+  (same fields, payload and endpoint); new `assessment_step` event shows where
+  people drop off. Contact page rebuilt around channels + after-sales route.
+  Hero CTAs full-width on phones.
+
+- **2026-10-09** — Marketing pass. Found the lead route ignored Resend errors
+  (the SDK returns them, it does not throw) and logged leads to the console
+  when unconfigured — visitors saw "thank you" either way. Now a 502 plus a
+  pre-filled WhatsApp/call/email fallback. Found 9 public photos carrying
+  customers' GPS positions; all photos now re-exported clean, watermarked,
+  8.2 MB → 2.9 MB. Invented stats gated. Homes/Business/Commercial/About got
+  real photography; mobile header got a Call button; mobile menu CTA was
+  clipped and is fixed; Proof stacks no longer overlap their captions.
+  LocalBusiness schema type was invalid ("SolarInstallation") — now
+  Electrician + Store. Future data plan: `docs/data-architecture.md`.
+
+- **2026-10-06** — Correction: the Google Business Profile is **not** yet
+  verified; approval is stuck. Reviews and the rating schema wait on it.
+
+- **2026-10-01** — Google Business Profile created. Real NAP applied
+  site-wide the same day: +234 805 077 7800, info@/sales@/support@kayglocitadel.com,
+  House 1, Kelly John Avenue Infinity Estate, Ajah, Lagos.
 
 - **2026-09-14** — GA4 live: `G-FF2M4ZVBJ6` in `.env.local`, tag verified
   loading and the full funnel confirmed firing (`page_view`, `form_start`,

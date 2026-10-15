@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Reveal } from "@/components/Reveal";
 import { Button, Container, Kicker } from "@/components/ui";
-import { site } from "@/lib/site";
+import { site, whatsappLink } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Your assessment is on its way",
@@ -33,9 +33,9 @@ const next = [
 
 export default function ThankYouPage() {
   const { contact } = site;
-  const whatsapp = `https://wa.me/${contact.phoneHref.replace(/\D/g, "")}?text=${encodeURIComponent(
+  const whatsapp = whatsappLink(
     "Hello Kayglo, I just submitted a power assessment on your website.",
-  )}`;
+  );
 
   return (
     <>

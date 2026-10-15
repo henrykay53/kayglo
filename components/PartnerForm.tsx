@@ -3,10 +3,14 @@
 import { useRouter } from "next/navigation";
 import { useState, type FormEvent } from "react";
 import { getAttribution } from "@/lib/attribution";
+import { LeadFallback } from "./LeadFallback";
 import { trackEvent } from "@/lib/track";
 import { partnerProgramme } from "@/lib/site";
 
-type Status = "idle" | "submitting" | "error";
+type Status = "idle" | "submitting" | "error" | "undelivered";
+
+/** Names this form in analytics events. */
+const FORM = "partner";
 
 const field =
   "mt-2 w-full rounded-xl border border-ink/15 bg-cream px-4 py-3 text-ink transition-colors placeholder:text-mute/60 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/30";
@@ -16,6 +20,8 @@ export function PartnerForm() {
   const router = useRouter();
   const [status, setStatus] = useState<Status>("idle");
   const [error, setError] = useState("");
+  // Kept so an undelivered enquiry can be re-sent by WhatsApp or email.
+  const [answers, setAnswers] = useState<Record<string, unknown>>({});
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -23,6 +29,13 @@ export function PartnerForm() {
     setError("");
 
     const form = e.currentTarget;
+    // The browser's own checks are switched off (noValidate) so the styling
+    // stays ours — run them here, before anything is sent.
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      setStatus("idle");
+      return;
+    }
     const data = new FormData(form);
     if (data.get("company")) {
       setStatus("idle");
@@ -42,15 +55,30 @@ export function PartnerForm() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
-      if (!res.ok) throw new Error("Request failed");
+      if (!res.ok) {
+        const reply = await res.json().catch(() => ({}));
+        if (reply.undelivered) {
+          // Our side failed, not theirs — keep the answers and offer a route
+          // that cannot fail. Counted, so a broken inbox shows up in GA4.
+          setAnswers(payload);
+          setStatus("undelivered");
+          trackEvent("lead_delivery_failed", { form: FORM });
+          return;
+        }
+        throw new Error(reply.error || "Request failed");
+      }
       trackEvent("partner_application", {
         partner_type: String(data.get("partnerType") ?? ""),
       });
       form.reset();
       router.push("/thank-you");
-    } catch {
+    } catch (err) {
       setStatus("error");
-      setError("Something went wrong. Please call us or try again.");
+      setError(
+        err instanceof Error && err.message !== "Request failed"
+          ? err.message
+          : "Something went wrong. Please try again, or call us.",
+      );
     }
   }
 
@@ -154,6 +182,9 @@ export function PartnerForm() {
         <p role="alert" className="text-sm text-red-700">
           {error}
         </p>
+      )}
+      {status === "undelivered" && (
+        <LeadFallback answers={answers} intro="I'd like to join the partner programme." />
       )}
 
       <div>

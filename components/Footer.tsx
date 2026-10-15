@@ -60,8 +60,8 @@ export function Footer() {
           <address className="mt-6 not-italic text-sm leading-relaxed text-cream/60">
             {contact.address.street}
             <br />
-            {contact.address.city}, {contact.address.region}{" "}
-            {contact.address.postalCode}
+            {contact.address.locality}, {contact.address.city},{" "}
+            {contact.address.countryName}
           </address>
           <a
             href={site.social.instagram}

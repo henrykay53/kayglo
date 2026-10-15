@@ -188,8 +188,16 @@ export function ProjectStack({
   const current = photos[front];
   const paused = auto && !running;
 
+  // The cards behind the front one are shifted down and rotated, so they hang
+  // below the frame — about 5% of the width per card. Reserve that space, or
+  // whatever follows the stack (a caption, a heading) sits underneath them.
+  const fanned = Math.min(total - 1, 3);
+
   return (
-    <div className={`relative ${className}`}>
+    <div
+      className={`relative ${className}`}
+      style={fanned > 0 ? { paddingBottom: `${fanned * 5}%` } : undefined}
+    >
       <div
         ref={frameEl}
         onClick={shuffle}

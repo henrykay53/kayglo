@@ -1,6 +1,6 @@
 import { Reveal } from "@/components/Reveal";
 import { Container, Kicker } from "@/components/ui";
-import { credentials, site } from "@/lib/site";
+import { credentials, presenceStates, site } from "@/lib/site";
 
 /**
  * The verifiable facts (§28). Solar is a high-trust purchase — a stranger is
@@ -15,8 +15,10 @@ export function Credentials() {
   const facts = [
     registration && { label: "Registered company", value: registration },
     founded && { label: "Trading since", value: String(founded) },
-    { label: "Office", value: `${site.contact.address.street}, ${site.contact.address.city}` },
+    { label: "Office", value: `${site.contact.address.street}, ${site.contact.address.locality}, ${site.contact.address.city}` },
     { label: "Hours", value: site.contact.hours },
+    { label: "Phone", value: site.contact.phone },
+    { label: "Crews install in", value: `${presenceStates.length} states, and supply nationwide` },
   ].filter(Boolean) as { label: string; value: string }[];
 
   const hasBlocks =
@@ -36,7 +38,12 @@ export function Credentials() {
         </Reveal>
 
         <Reveal delay={140}>
-          <dl className="mt-12 grid gap-px overflow-hidden rounded-2xl border border-ink/10 bg-ink/10 sm:grid-cols-2 lg:grid-cols-4">
+          <dl
+            className={`mt-12 grid gap-px overflow-hidden rounded-2xl border border-ink/10 bg-ink/10 sm:grid-cols-2 ${
+              // Six facts (once registration and founding year are in) sit in threes.
+              facts.length % 3 === 0 ? "lg:grid-cols-3" : "lg:grid-cols-4"
+            }`}
+          >
             {facts.map((f) => (
               <div key={f.label} className="bg-cream p-6">
                 <dt className="kicker text-mute">{f.label}</dt>

@@ -6,13 +6,17 @@ import { site } from "@/lib/site";
  *
  * Delivery is automatic once configured:
  *   • Set RESEND_API_KEY and LEAD_INBOX in your environment → leads are emailed.
- *   • If those aren't set, leads are logged to the server console (dev-safe),
- *     so nothing breaks and nothing is lost while you set things up.
+ *   • In development without a key, leads are logged to the server console.
+ *   • In production, a lead that cannot be emailed is reported back to the
+ *     visitor as a failure — never a fake "thank you". The form then hands
+ *     them a pre-filled WhatsApp message, call and email, so the enquiry
+ *     still reaches us. A server log is not a lead inbox: nobody reads it,
+ *     and Vercel only keeps it for a short time.
  *
  * Get a free key at https://resend.com, verify your sending domain, then add:
- *   RESEND_API_KEY=re_...          (your Resend key)
- *   LEAD_INBOX=you@kayglo.com      (where leads should land)
- *   LEAD_FROM=leads@kayglo.com     (a verified sender on your domain; optional)
+ *   RESEND_API_KEY=re_...                (your Resend key)
+ *   LEAD_INBOX=sales@kayglocitadel.com   (where leads should land)
+ *   LEAD_FROM=leads@kayglocitadel.com    (a verified sender on your domain; optional)
  */
 
 export const runtime = "nodejs";
@@ -108,10 +112,13 @@ function esc(s: string) {
 
 async function deliver(lead: Record<string, string>) {
   const apiKey = process.env.RESEND_API_KEY;
-  const inbox = process.env.LEAD_INBOX || site.contact.email;
+  const inbox = process.env.LEAD_INBOX || site.contact.salesEmail;
   const from = process.env.LEAD_FROM || "Kayglo Leads <onboarding@resend.dev>";
 
   if (!apiKey) {
+    if (process.env.NODE_ENV === "production") {
+      throw new Error("RESEND_API_KEY is not set — leads cannot be delivered.");
+    }
     console.log("[kayglo] New lead (email not configured):", lead);
     return;
   }
@@ -144,7 +151,9 @@ async function deliver(lead: Record<string, string>) {
       }`
     : "unknown";
 
-  await resend.emails.send({
+  // Resend reports failures in the result rather than by throwing — an
+  // unverified domain or a test-mode recipient comes back here, not in catch.
+  const { error } = await resend.emails.send({
     from,
     to: inbox,
     replyTo: lead.email || undefined,
@@ -169,6 +178,10 @@ async function deliver(lead: Record<string, string>) {
       </div>`,
     text: [...entries, ...attribution].map(([k, v]) => `${k}: ${v}`).join("\n"),
   });
+
+  if (error) {
+    throw new Error(`Resend rejected the lead email: ${error.name} — ${error.message}`);
+  }
 }
 
 export async function POST(request: Request) {
@@ -191,6 +204,14 @@ export async function POST(request: Request) {
   if (!name || (!phone && !email)) {
     return NextResponse.json(
       { error: "A name and a phone number are required." },
+      { status: 422 },
+    );
+  }
+
+  // The form checks this too; this is the guard for anything posting directly.
+  if (phone && !/^[+\d\s().-]{7,20}$/.test(phone)) {
+    return NextResponse.json(
+      { error: "That phone number doesn't look right." },
       { status: 422 },
     );
   }
@@ -242,10 +263,15 @@ export async function POST(request: Request) {
   try {
     await deliver(lead);
   } catch (err) {
-    // Don't lose the lead if the email provider hiccups — log it and still
-    // report success to the visitor so they aren't asked to resubmit.
+    // Tell the visitor the truth. Reporting success here is how leads vanish:
+    // they see "thank you", we never see the enquiry. The form answers a 502
+    // by offering WhatsApp, a call and email with their answers pre-filled.
     console.error("[kayglo] Lead delivery failed:", err);
-    console.log("[kayglo] Lead (fallback):", lead);
+    console.error("[kayglo] Undelivered lead:", JSON.stringify(lead));
+    return NextResponse.json(
+      { error: "We couldn't send your request.", undelivered: true },
+      { status: 502 },
+    );
   }
 
   return NextResponse.json({ ok: true });

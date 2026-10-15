@@ -3,7 +3,9 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Reveal } from "@/components/Reveal";
 import { Button, Container, Kicker } from "@/components/ui";
+import { Photo } from "@/components/Photo";
 import { ProjectStack } from "@/components/ProjectStack";
+import { TradeIcon } from "@/components/TradeIcon";
 import { packages, projects, segments, site } from "@/lib/site";
 
 export function generateStaticParams() {
@@ -26,6 +28,16 @@ export async function generateMetadata({
       title: `${segment.metaTitle} · ${site.name}`,
       description: segment.metaDescription,
       url: `/solutions/${segment.slug}`,
+      // A real installation photo — this is what shows when the page is
+      // shared on WhatsApp, Instagram or Facebook.
+      images: [
+        {
+          url: segment.hero.src,
+          width: segment.hero.width,
+          height: segment.hero.height,
+          alt: segment.hero.alt,
+        },
+      ],
     },
   };
 }
@@ -40,7 +52,10 @@ export default async function SegmentPage({
   if (!segment) notFound();
 
   const tiers = packages.filter((p) => segment.packages.includes(p.slug));
-  const proof = projects.filter((p) => segment.proof.includes(p.slug));
+  // In the segment's own order — it chooses which case studies lead.
+  const proof = segment.proof
+    .map((slug) => projects.find((p) => p.slug === slug))
+    .filter((p) => p !== undefined);
 
   const faqSchema = {
     "@context": "https://schema.org",
@@ -65,30 +80,57 @@ export default async function SegmentPage({
           <div className="absolute -right-24 -top-32 h-[30rem] w-[30rem] rounded-full bg-accent/10 blur-3xl" />
         </div>
         <Container className="py-16 md:py-24">
-          <Reveal>
-            <Kicker>{segment.kicker}</Kicker>
-          </Reveal>
-          <Reveal delay={80}>
-            <h1 className="font-display mt-6 max-w-4xl text-4xl leading-tight text-ink sm:text-5xl md:text-6xl">
-              {segment.headline}
-            </h1>
-          </Reveal>
-          <Reveal delay={140}>
-            <p className="mt-7 max-w-2xl text-lg leading-relaxed text-slate">
-              {segment.intro}
-            </p>
-          </Reveal>
-          <Reveal delay={200}>
-            <div className="mt-9 flex flex-wrap items-center gap-4">
-              <Button href="/contact">Get a free power assessment</Button>
-              <Link
-                href="/generator-cost"
-                className="link-underline inline-block self-center text-accent"
-              >
-                Work out what your generator costs
-              </Link>
+          <div className="grid items-center gap-12 md:grid-cols-12 md:gap-10">
+            <div className="md:col-span-7">
+              <Reveal>
+                <Kicker>{segment.kicker}</Kicker>
+              </Reveal>
+              <Reveal delay={80}>
+                <h1 className="font-display mt-6 text-4xl leading-tight text-ink sm:text-5xl lg:text-6xl">
+                  {segment.headline}
+                </h1>
+              </Reveal>
+              <Reveal delay={140}>
+                <p className="mt-7 max-w-xl text-lg leading-relaxed text-slate">
+                  {segment.intro}
+                </p>
+              </Reveal>
+              <Reveal delay={200}>
+                <div className="mt-9 flex flex-wrap items-center gap-x-6 gap-y-4">
+                  <Button href="/contact">Get a free power assessment</Button>
+                  <a
+                    href={`tel:${site.contact.phoneHref}`}
+                    className="link-underline inline-block self-center text-accent"
+                  >
+                    Or call {site.contact.phone}
+                  </a>
+                </div>
+                <p className="mt-5 text-sm text-mute">
+                  Not ready to talk?{" "}
+                  <Link
+                    href="/generator-cost"
+                    className="text-ink underline decoration-ink/30 underline-offset-4 hover:text-accent"
+                  >
+                    Work out what your generator really costs
+                  </Link>
+                  .
+                </p>
+              </Reveal>
             </div>
-          </Reveal>
+
+            {/* Not wrapped in Reveal: this is the LCP, it must paint at once. */}
+            <figure className="md:col-span-5">
+              <Photo
+                photo={segment.hero}
+                preload
+                sizes="(min-width: 1152px) 440px, (min-width: 768px) 40vw, 92vw"
+                className="aspect-[4/3] shadow-2xl shadow-ink/15 md:aspect-[4/5]"
+              />
+              <figcaption className="mt-3 text-xs text-mute">
+                A Kayglo installation — every photo on this site is our own work.
+              </figcaption>
+            </figure>
+          </div>
 
           {segment.areas && (
             <Reveal delay={260}>
@@ -126,6 +168,55 @@ export default async function SegmentPage({
         </Container>
       </section>
 
+      {/* ---------------------------- GALLERY ----------------------------- */}
+      {segment.gallery && segment.gallery.length >= 5 && (
+        <section className="pb-16 md:pb-24">
+          <Container>
+            <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
+              <div>
+                <Reveal>
+                  <Kicker>What it looks like when we leave</Kicker>
+                </Reveal>
+                <Reveal delay={80}>
+                  <h2 className="font-display mt-5 max-w-xl text-3xl text-ink md:text-4xl">
+                    Homes we&apos;ve already taken off the generator.
+                  </h2>
+                </Reveal>
+              </div>
+              <Reveal delay={140}>
+                <Link
+                  href="/projects"
+                  className="link-underline inline-block text-accent"
+                >
+                  See the full case studies
+                </Link>
+              </Reveal>
+            </div>
+            <Reveal delay={120}>
+              <div className="mt-10 grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-4">
+                {segment.gallery.slice(0, 5).map((photo, i) => (
+                  <Photo
+                    key={photo.src}
+                    photo={photo}
+                    sizes={
+                      i === 0
+                        ? "(min-width: 768px) 360px, 92vw"
+                        : "(min-width: 768px) 360px, 46vw"
+                    }
+                    className={
+                      i === 0
+                        ? "col-span-2 aspect-[4/3] md:col-span-1 md:row-span-2 md:aspect-auto"
+                        : "aspect-[4/3]"
+                    }
+                    position={i === 0 ? "center 30%" : undefined}
+                  />
+                ))}
+              </div>
+            </Reveal>
+          </Container>
+        </section>
+      )}
+
       {/* ---------------------------- TRADES ------------------------------ */}
       {segment.trades && (
         <section className="border-y border-ink/10 bg-ink py-16 text-cream md:py-24">
@@ -145,16 +236,28 @@ export default async function SegmentPage({
                 the argument that matters to you is the one we build around.
               </p>
             </Reveal>
-            <div className="mt-12 grid gap-px overflow-hidden rounded-2xl border border-cream/10 bg-cream/10 sm:grid-cols-2 lg:grid-cols-3">
+            {/* Icon beside the name so a visitor can scan for their trade;
+                the argument underneath is the one reason that trade buys. */}
+            <ul className="mt-12 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
               {segment.trades.map((t) => (
-                <div key={t.type} className="bg-ink p-6 md:p-7">
-                  <h3 className="font-display text-lg text-cream">{t.type}</h3>
-                  <p className="mt-2.5 text-sm leading-relaxed text-cream/60">
-                    {t.argument}
-                  </p>
-                </div>
+                <li
+                  key={t.type}
+                  className="flex gap-4 rounded-2xl border border-cream/10 bg-cream/[0.03] p-5 md:p-6"
+                >
+                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-accent-300/10 text-accent-300 ring-1 ring-inset ring-accent-300/20">
+                    <TradeIcon name={t.icon} />
+                  </span>
+                  <div>
+                    <h3 className="font-display text-lg leading-snug text-cream">
+                      {t.type}
+                    </h3>
+                    <p className="mt-1.5 text-sm leading-relaxed text-cream/60">
+                      {t.argument}
+                    </p>
+                  </div>
+                </li>
               ))}
-            </div>
+            </ul>
             <Reveal delay={120}>
               <p className="mt-8 text-sm text-cream/50">
                 Not listed? It only means we haven&apos;t written yours down —
@@ -184,6 +287,20 @@ export default async function SegmentPage({
                 your assessment.
               </p>
             </Reveal>
+            {segment.plant && (
+              <Reveal delay={180}>
+                <figure className="mt-10">
+                  <Photo
+                    photo={segment.plant}
+                    sizes="(min-width: 1152px) 440px, (min-width: 768px) 40vw, 92vw"
+                    className="aspect-[4/5]"
+                  />
+                  <figcaption className="mt-3 text-sm text-mute">
+                    {segment.plant.caption}
+                  </figcaption>
+                </figure>
+              </Reveal>
+            )}
           </div>
           <div className="md:col-span-6 md:col-start-7">
             <Reveal delay={100}>

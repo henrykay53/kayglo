@@ -20,18 +20,21 @@ export const site = {
 
   // NAP — must match your Google Business Profile exactly (local SEO).
   contact: {
-    phone: "08050777800", // TODO
-    phoneHref: "+2348050777800", // TODO
-    email: "hello@kayglo.com", // TODO
+    phone: "+234 805 077 7800",
+    phoneHref: "+2348050777800",
+    email: "info@kayglocitadel.com",
+    salesEmail: "sales@kayglocitadel.com",
+    supportEmail: "support@kayglocitadel.com",
     address: {
-      street: "House 1, Kelly John Close Infinity Estate", // TODO
-      city: "Lagos", // TODO
-      region: "LA", // TODO
-      postalCode: "11001", // TODO
+      street: "House 1, Kelly John Avenue Infinity Estate",
+      locality: "Ajah",
+      city: "Lagos",
+      region: "Lagos",
       country: "NG",
+      countryName: "Nigeria",
     },
     // For LocalBusiness geo — set to your office coordinates.
-    geo: { lat: 6.5244, lng: 3.3792 }, // TODO — Lagos; set to your exact office coordinates
+    geo: { lat: 6.4698, lng: 3.5852 }, // TODO — central Ajah; set to the exact pin from your Google Business Profile
     hours: "Mon–Fri 8:00–18:00",
   },
 
@@ -54,18 +57,44 @@ export const site = {
    */
   reviews: null as { value: number; count: number } | null,
 
-  // Trust signals surfaced across the site.
+  /**
+   * Headline numbers for the homepage band.
+   *
+   * GATE, like testimonials: only figures marked `verified: true` are shown.
+   * The four below were invented during the original build — no rating
+   * exists yet, and no warranty, job count or energy total has been
+   * confirmed. Replace each with a number you can evidence, then flip it.
+   * Until at least two are verified the band shows what Kayglo can stand
+   * behind today instead (see `promises` below).
+   */
   stats: [
-    { value: "4.9/5", label: "Average client rating" },
-    { value: "25 yr", label: "Workmanship warranty" },
-    { value: "500+", label: "Homes & businesses powered" },
-    { value: "38 MWh", label: "Clean energy annually" },
+    { value: "4.9/5", label: "Average client rating", verified: false },
+    { value: "25 yr", label: "Workmanship warranty", verified: false },
+    { value: "500+", label: "Homes & businesses powered", verified: false },
+    { value: "38 MWh", label: "Clean energy annually", verified: false },
   ],
 } as const;
+
+/** Only these reach the site. */
+export const publishedStats = () => site.stats.filter((s) => s.verified);
+
+/** A WhatsApp chat with the business number, with the message pre-typed. */
+export const whatsappLink = (text: string) =>
+  `https://wa.me/${site.contact.phoneHref.replace(/\D/g, "")}?text=${encodeURIComponent(text)}`;
+
+/** The office address as one line, e.g. for a maps search. */
+export const addressLine = () => {
+  const a = site.contact.address;
+  return `${a.street}, ${a.locality}, ${a.city}, ${a.countryName}`;
+};
 
 export type Service = {
   slug: string;
   title: string;
+  /** One line for the homepage cards — the page shows, it doesn't explain. */
+  short: string;
+  /** A real Kayglo photo for the homepage card. Set in `serviceImages` below. */
+  image?: ProjectPhoto;
   summary: string;
   detail: string;
   points: string[];
@@ -75,6 +104,7 @@ export const services: Service[] = [
   {
     slug: "home-solar",
     title: "Home Solar & Inverter Systems",
+    short: "Silent, 24/7 power for your home — panels, inverter and batteries, installed.",
     summary:
       "Complete solar and inverter systems for your home — silent, round-the-clock power that ends blackouts and retires the generator.",
     detail:
@@ -89,6 +119,7 @@ export const services: Service[] = [
   {
     slug: "products",
     title: "Genuine Products & Supply",
+    short: "Authentic, warranty-backed batteries, inverters and panels.",
     summary:
       "Authentic batteries, inverters, and solar panels from trusted brands — supplied with warranty and honest guidance on what you actually need.",
     detail:
@@ -103,6 +134,7 @@ export const services: Service[] = [
   {
     slug: "commercial-solar",
     title: "Commercial Solar",
+    short: "Cut diesel spend and keep trading through every outage.",
     summary:
       "Cut diesel spend and power your business reliably with commercial-grade solar and storage, engineered to keep operations running.",
     detail:
@@ -117,6 +149,7 @@ export const services: Service[] = [
   {
     slug: "servicing",
     title: "Servicing & After-Sales",
+    short: "Maintenance, repairs and battery & inverter servicing, long after install.",
     summary:
       "We don't disappear after installation. Ongoing maintenance, repairs, and responsive support keep your system performing for years.",
     detail:
@@ -156,6 +189,17 @@ export const presenceStates = [
   "NG-DE", // Delta
   "NG-RI", // Rivers — Port Harcourt
   "NG-IM", // Imo
+];
+
+/**
+ * What the homepage band says while there are no verified numbers. Every line
+ * is a commitment the business makes on every job, not a statistic.
+ */
+export const promises = [
+  { value: "Genuine", label: "Warranty-backed equipment only" },
+  { value: "Free", label: "Power assessment, no obligation" },
+  { value: String(presenceStates.length), label: "States our crews install in" },
+  { value: "After-sales", label: "Servicing & repairs that answer the phone" },
 ];
 
 /** The auto-shuffling stack of site photography in the homepage hero. */
@@ -270,20 +314,20 @@ export const projects: ProjectCase[] = [
       {
         src: "/projects/ikoyi-residence/01.jpg",
         alt: "Kayglo crew fitting solar panels onto the carport array at the Ikoyi family residence.",
-        width: 2048,
-        height: 1536,
+        width: 1600,
+        height: 1200,
       },
       {
         src: "/projects/ikoyi-residence/02.jpg",
         alt: "The steel carport frame going up in the compound before the panels are laid.",
-        width: 2048,
-        height: 1536,
+        width: 1600,
+        height: 1200,
       },
       {
         src: "/projects/ikoyi-residence/03.jpg",
         alt: "Inverter, changeover panel and stacked battery rack in the glazed plant room.",
-        width: 1536,
-        height: 2048,
+        width: 1200,
+        height: 1600,
       },
     ],
   },
@@ -328,26 +372,26 @@ export const projects: ProjectCase[] = [
       {
         src: "/projects/maitama-office/01.jpg",
         alt: "A Kayglo installer torquing down a rooftop panel array above the office complex.",
-        width: 1536,
-        height: 2048,
+        width: 1200,
+        height: 1600,
       },
       {
         src: "/projects/maitama-office/02.jpg",
         alt: "Setting out the first rows of panels across the building's metal roof.",
-        width: 1536,
-        height: 2048,
+        width: 1200,
+        height: 1600,
       },
       {
         src: "/projects/maitama-office/03.jpg",
         alt: "The finished rooftop array, clamped and cabled, with a Kayglo hard hat resting on it.",
-        width: 1536,
-        height: 2048,
+        width: 1200,
+        height: 1600,
       },
       {
         src: "/projects/maitama-office/04.jpg",
         alt: "Wall-mounted hybrid inverter, distribution board and lithium battery bank.",
-        width: 1536,
-        height: 2048,
+        width: 1200,
+        height: 1600,
       },
     ],
   },
@@ -392,14 +436,14 @@ export const projects: ProjectCase[] = [
       {
         src: "/projects/lekki-smart-home/01.jpg",
         alt: "Completed solar carport shading the parking court, seen from an upper floor.",
-        width: 1536,
-        height: 2048,
+        width: 1200,
+        height: 1600,
       },
       {
         src: "/projects/lekki-smart-home/02.jpg",
         alt: "Inverter wall and lithium battery bank feeding the property's changeover panel.",
-        width: 1536,
-        height: 2048,
+        width: 1200,
+        height: 1600,
       },
     ],
   },
@@ -457,25 +501,99 @@ export const projects: ProjectCase[] = [
   },
 ];
 
+/** A photo from a case study's gallery, by project slug and 1-based number. */
+function shot(project: string, n: number): ProjectPhoto {
+  const photo = projects.find((p) => p.slug === project)?.gallery[n - 1];
+  if (!photo) throw new Error(`No photo ${n} in project "${project}"`);
+  return photo;
+}
+
+/** Each service, shown by a photo of that kind of work — all Kayglo jobs. */
+const serviceImages: Record<string, ProjectPhoto> = {
+  "home-solar": heroGallery[0],
+  products: {
+    ...shot("lekki-smart-home", 2),
+    alt: "A bank of batteries and four wall-mounted inverters installed in a plant room.",
+  },
+  "commercial-solar": {
+    ...shot("maitama-office", 3),
+    alt: "A finished commercial rooftop array on a metal roof, with a Kayglo hard hat resting on a panel.",
+  },
+  servicing: {
+    ...shot("maitama-office", 4),
+    alt: "A hybrid inverter, distribution board and lithium batteries on a plant-room wall.",
+  },
+};
+for (const s of services) s.image = serviceImages[s.slug];
+
+/**
+ * The /about page. Every photo is Kayglo's own crew on a real job — the point
+ * is to show the people a customer is about to let into their building.
+ */
+export const aboutPhotos = {
+  crew: [
+    // Landscape first: it leads full-width on a phone, and sits in the
+    // middle (wider column) on desktop — see app/about/page.tsx.
+    {
+      ...shot("ikoyi-residence", 1),
+      alt: "The Kayglo crew fitting panels onto a steel carport structure, with a ladder and a colleague steadying the frame.",
+    },
+    {
+      ...shot("surulere-residence", 1),
+      alt: "A Kayglo installer in a hi-vis vest passing a solar panel up from a balcony to the crew on the roof.",
+    },
+    {
+      ...shot("maitama-office", 1),
+      alt: "A Kayglo installer in a hard hat and harness fastening a panel on a sloped metal roof.",
+    },
+  ],
+  story: {
+    ...shot("maitama-office", 2),
+    alt: "A Kayglo installer setting out the first row of panels across a metal roof.",
+  },
+  /** Up-close evidence of the workmanship, each with what to look for. */
+  workmanship: [
+    {
+      photo: shot("maitama-office", 4),
+      title: "A wall you can read",
+      body: "Inverter, protected distribution board and batteries laid out so the next engineer understands the system at a glance.",
+    },
+    {
+      photo: shot("lekki-smart-home", 2),
+      title: "Storage built as a bank",
+      body: "Batteries and inverters installed as one engineered plant room, not a stack of boxes in a corner.",
+    },
+    {
+      photo: heroGallery[1],
+      title: "Mounted to the roof, not through it",
+      body: "Panels on weather-sealed rails along the pitch — no leaks after the rains, no rattle in the wind.",
+    },
+  ],
+};
+
 export const processSteps = [
   {
     n: "01",
     title: "Consultation & Survey",
+    short: "A survey of your loads, space and budget — free.",
     body: "A conversation, not a sales pitch. We assess your power needs, your space, and your budget — then recommend only what you actually need.",
   },
   {
     n: "02",
     title: "Design & Genuine Supply",
+    short: "Sized to your load, built from genuine, warranty-backed kit.",
     body: "We design a system sized to your load and supply only authentic, warranty-backed panels, inverters, and batteries — no counterfeits, no shortcuts.",
   },
   {
     n: "03",
     title: "Professional Install",
+    short: "A clean, safe install with automatic changeover.",
     body: "A dedicated crew installs cleanly and safely, with tidy cabling and a seamless changeover between solar, battery, and the grid.",
   },
   {
     n: "04",
     title: "After-Sales Support",
+    short: "Servicing and repairs for the life of the system.",
     body: "We stay with you — scheduled servicing, fast repairs, and a team that answers the phone for the full life of your system.",
   },
 ];
@@ -584,9 +702,9 @@ export const partnerProgramme = {
   ],
 };
 
+// Homes / Business / Commercial are reached from the homepage's "Solar for"
+// row and the footer's Solutions column, so they stay out of the header.
 export const nav = [
-  { href: "/solutions/residential", label: "Homes" },
-  { href: "/solutions/business", label: "Business" },
   { href: "/services", label: "Services" },
   { href: "/financing", label: "Pricing" },
   { href: "/projects", label: "Projects" },
@@ -701,6 +819,21 @@ export const generatorSizes = [
   { kva: "100 kVA and above", servicing: 150_000 },
 ];
 
+/** Icons drawn in components/TradeIcon.tsx — one per kind of trade. */
+export type TradeIcon =
+  | "dining"
+  | "pharmacy"
+  | "clinic"
+  | "salon"
+  | "hotel"
+  | "supermarket"
+  | "office"
+  | "school"
+  | "church"
+  | "laundry"
+  | "tech"
+  | "factory";
+
 export type Segment = {
   slug: string;
   /** Short label for navigation and cards. */
@@ -722,7 +855,16 @@ export type Segment = {
    * For business segments: the specific trade, and the single argument that
    * matters to it. A pharmacy and a barbershop do not buy for the same reason.
    */
-  trades?: { type: string; argument: string }[];
+  trades?: { type: string; icon: TradeIcon; argument: string }[];
+  /** Lead photo beside the headline. Preloaded — it is the page's LCP. */
+  hero: ProjectPhoto;
+  /**
+   * Homes buy on how the finished job looks: a mosaic of completed
+   * installations. Lead with a portrait — it takes the tall slot.
+   */
+  gallery?: ProjectPhoto[];
+  /** Businesses buy on engineering: the plant shown beside "what stays on". */
+  plant?: ProjectPhoto & { caption: string };
   /** Package slugs that usually fit this segment. */
   packages: string[];
   /** Project slugs to show as proof. */
@@ -783,8 +925,23 @@ export const segments: Segment[] = [
       "Water pump and borehole",
       "Security lighting and CCTV",
     ],
+    hero: heroGallery[1],
+    gallery: [
+      {
+        ...shot("lekki-smart-home", 1),
+        alt: "A finished solar carport shading a home's parking court, seen from an upper floor.",
+      },
+      heroGallery[0],
+      heroGallery[2],
+      shot("surulere-residence", 2),
+      {
+        ...shot("ikoyi-residence", 2),
+        alt: "A steel solar carport going up in a family compound, beside the house.",
+      },
+    ],
     packages: ["essential", "comfort"],
-    proof: ["ikoyi-residence", "lekki-smart-home", "surulere-residence"],
+    // Surulere before Lekki: the Lekki carport already leads the gallery above.
+    proof: ["ikoyi-residence", "surulere-residence", "lekki-smart-home"],
     faqs: [
       {
         q: "Can solar really run my air conditioners?",
@@ -840,53 +997,74 @@ export const segments: Segment[] = [
     trades: [
       {
         type: "Restaurants & bars",
+        icon: "dining",
         argument: "Refrigeration and POS never go down, so service never stops and stock never spoils.",
       },
       {
         type: "Pharmacies",
+        icon: "pharmacy",
         argument: "Temperature-sensitive stock stays inside its range through every outage — no losses, no compliance risk.",
       },
       {
         type: "Clinics & labs",
+        icon: "clinic",
         argument: "Power that does not interrupt a procedure, a fridge of vaccines, or a piece of diagnostic equipment mid-run.",
       },
       {
         type: "Salons & barbershops",
+        icon: "salon",
         argument: "Dryers, clippers and ACs running all day — and clients who can hear the conversation instead of the generator.",
       },
       {
         type: "Hotels & short-lets",
+        icon: "hotel",
         argument: "Guests who never hear a changeover, and reviews that stop mentioning the power.",
       },
       {
         type: "Supermarkets & cold rooms",
+        icon: "supermarket",
         argument: "An unbroken cold chain, and freezer stock that survives a bad grid week.",
       },
       {
         type: "Offices & professional firms",
+        icon: "office",
         argument: "The team keeps working through outages instead of waiting for the generator to warm up.",
       },
       {
         type: "Schools",
+        icon: "school",
         argument: "Classes, labs and admin that carry on, without the noise or fumes of a generator near the classrooms.",
       },
       {
         type: "Churches",
+        icon: "church",
         argument: "Sound, lighting and cooling that hold up through a full service, without a generator behind the building.",
       },
       {
         type: "Laundries & printing",
+        icon: "laundry",
         argument: "Machines that finish the job they started — no half-done loads or ruined print runs.",
       },
       {
         type: "Cyber cafés & tech",
+        icon: "tech",
         argument: "Uninterrupted workstations and networking, with clean power that protects the equipment itself.",
       },
       {
         type: "Small factories & workshops",
+        icon: "factory",
         argument: "Production hours that no longer depend on when the diesel arrives.",
       },
     ],
+    hero: {
+      ...shot("maitama-office", 2),
+      alt: "A Kayglo installer setting out solar panels across the metal roof of a commercial building.",
+    },
+    plant: {
+      ...shot("lekki-smart-home", 2),
+      alt: "A plant room with four wall-mounted inverters above a bank of batteries, wired to the changeover panel.",
+      caption: "Inverters and battery bank in a dedicated plant room — built to be serviced, not hidden.",
+    },
     packages: ["business", "business-plus"],
     proof: ["maitama-office", "surulere-residence"],
     faqs: [
@@ -941,6 +1119,15 @@ export const segments: Segment[] = [
       "Cold storage and process equipment",
       "Metering and remote monitoring",
     ],
+    hero: {
+      ...shot("maitama-office", 3),
+      alt: "A finished rooftop array clamped and cabled across a metal roof, with a Kayglo hard hat resting on a panel.",
+    },
+    plant: {
+      ...shot("maitama-office", 4),
+      alt: "A hybrid inverter, protected distribution board and lithium battery bank mounted on a plant-room wall.",
+      caption: "Hybrid inverter, protected board and lithium storage — every circuit labelled for the next engineer.",
+    },
     packages: ["business-plus"],
     proof: ["maitama-office", "lekki-smart-home"],
     faqs: [
