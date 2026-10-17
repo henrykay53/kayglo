@@ -71,7 +71,7 @@ in that state.
 - [ ] **K** Verify the four case studies against job notes
 - [ ] **K** Surulere project — real name, location, metrics
 - [ ] **K** Servicing-cost figures for the generator calculator
-- [ ] **K** Privacy policy to name GA4 and the Meta pixel
+- [-] **K** Privacy policy to name GA4 and the Meta pixel — dropped 2026-10-17: privacy & terms pages removed by decision. Revisit before running Google Ads / Meta ads, whose policies expect one
 
 ---
 
@@ -84,7 +84,7 @@ in that state.
 | 1 | K | Gather real business facts: phone, email, address, coordinates, socials, warranty terms, registration number |
 | 1 | C | Strip the fake rating schema; make rating data-driven |
 | 2 | K | Decide the stats band — true numbers or remove |
-| 2 | C | Apply real facts to `lib/site.ts`; update privacy policy |
+| 2 | C | Apply real facts to `lib/site.ts`; ~~update privacy policy~~ — privacy & terms pages removed 2026-10-17 by decision |
 | 3 | K | ~~Create GA4 property → `G-` ID~~ ✅ `G-FF2M4ZVBJ6`, verified firing locally |
 | 3 | K | Google Ads conversion action → `AW-` ID + label — **deferred**, account exists (262-501-4405), not needed until campaigns run in Week 4 |
 | 3 | K | Create Meta pixel → ID — **deferred**, needed before retargeting |
@@ -133,6 +133,7 @@ in that state.
 
 | Day | Owner | Task |
 |---|---|---|
+| 16 | K | ⚠️ **First:** write the privacy policy & terms copy — removed 2026-10-17, but Google Ads, Meta lead ads, GA4 and the NDPA 2023 expect them once you collect leads from ads. Claude rebuilds the pages and lifts the redirects in `next.config.ts` |
 | 16 | K | Build 6 intent-based Google Search campaigns (§11) |
 | 17 | K | Write ad copy; map each campaign to its landing page |
 | 18 | K | Meta lead ads + click-to-WhatsApp ads (§12) |

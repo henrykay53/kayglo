@@ -170,14 +170,6 @@ export function Footer() {
             © {new Date().getFullYear()} {site.legalName}. Genuine solar,
             expert installation &amp; trusted after-sales across Nigeria.
           </p>
-          <div className="flex gap-5">
-            <Link href="/privacy" className="hover:text-cream/70">
-              Privacy
-            </Link>
-            <Link href="/terms" className="hover:text-cream/70">
-              Terms
-            </Link>
-          </div>
         </div>
       </div>
     </footer>

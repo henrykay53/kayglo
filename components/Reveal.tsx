@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
+import { isHistoryNavigation } from "@/lib/navigation";
 
 /**
  * Fades content up as it enters the viewport. Progressive enhancement:
@@ -19,11 +20,14 @@ export function Reveal({
   className?: string;
 }) {
   const ref = useRef<HTMLElement | null>(null);
-  const [shown, setShown] = useState(false);
+  // Back / Forward: the visitor has already seen this page, so it appears as
+  // they left it instead of animating in again. Always false on the first
+  // load, so server and client markup still match.
+  const [shown, setShown] = useState(isHistoryNavigation);
 
   useEffect(() => {
     const el = ref.current;
-    if (!el) return;
+    if (!el || shown) return;
     if (typeof IntersectionObserver === "undefined") {
       // No observer to wait for — show it on the next frame.
       const id = requestAnimationFrame(() => setShown(true));
@@ -43,7 +47,7 @@ export function Reveal({
     );
     io.observe(el);
     return () => io.disconnect();
-  }, []);
+  }, [shown]);
 
   const Component = Tag as "div";
   return (

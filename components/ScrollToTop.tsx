@@ -1,27 +1,26 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { useEffect } from "react";
+import { useLayoutEffect } from "react";
+import { settleScroll } from "@/lib/navigation";
 
 /**
- * Forces the window to the top on every route change.
+ * Puts the window in the right place after every route change:
+ *   • a new page (link click) opens at the top;
+ *   • Back / Forward returns to where the visitor was on that page;
+ *   • an #anchor link is left to the browser.
  *
- * Next.js normally scrolls to top on navigation, but our global
- * `scroll-behavior: smooth` (in globals.css) interferes with that reset —
- * leaving you partway down the new page. We override it here with an
- * explicit `behavior: "instant"` scroll, which wins over the CSS.
- *
- * In-page anchor navigation (e.g. /services#products from the footer) is
- * left alone: if the URL has a hash, we let the browser jump to that element.
+ * It used to force the top on every change, Back included — which threw the
+ * visitor off their place and made returning to a page feel like a reload.
+ * The logic lives in lib/navigation.ts.
  */
 export function ScrollToTop() {
   const pathname = usePathname();
 
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    // Respect anchor links — don't yank the user to the top of the page.
-    if (window.location.hash) return;
-    window.scrollTo({ top: 0, left: 0, behavior: "instant" as ScrollBehavior });
+  // Layout effect: settle before the browser paints the new page, so there
+  // is no flash of the wrong scroll position.
+  useLayoutEffect(() => {
+    settleScroll();
   }, [pathname]);
 
   return null;

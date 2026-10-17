@@ -248,7 +248,7 @@ export default function Home() {
                 >
                   <Link
                     href={`/projects/${p.slug}`}
-                    className="group relative block aspect-[4/3] h-full overflow-hidden rounded-3xl border border-ink/10 bg-ink md:aspect-auto"
+                    className="group relative block aspect-[4/3] h-full overflow-hidden rounded-3xl border border-ink/10 bg-cream-200 md:aspect-auto"
                   >
                     <Image
                       src={photo.src}
