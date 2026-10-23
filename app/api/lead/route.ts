@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { REFERENCE_PATTERN, makeReference } from "@/lib/lead-message";
 import { site } from "@/lib/site";
 
 /**
@@ -58,10 +59,13 @@ type Lead = {
   service?: string;
   message?: string;
   company?: string; // honeypot
+  /** Shared with the WhatsApp message — see lib/lead-message.ts */
+  reference?: string;
 };
 
 /** Field order and labels for the notification email. */
 const FIELDS: [keyof Lead, string][] = [
+  ["reference", "Reference"],
   ["enquiryType", "Enquiry"],
   ["name", "Name"],
   ["phone", "Phone"],
@@ -158,8 +162,8 @@ async function deliver(lead: Record<string, string>) {
     to: inbox,
     replyTo: lead.email || undefined,
     subject: lead.enquiryType
-      ? `${lead.enquiryType} — ${lead.name}${lead.businessName ? `, ${lead.businessName}` : ""} [${channel}]`
-      : `Power assessment — ${lead.name}, ${lead.location || "location not given"} [${channel}]`,
+      ? `${lead.enquiryType} ${lead.reference} — ${lead.name}${lead.businessName ? `, ${lead.businessName}` : ""} [${channel}]`
+      : `Power assessment ${lead.reference} — ${lead.name}, ${lead.location || "location not given"} [${channel}]`,
     html: `
       <div style="font-family:system-ui,sans-serif;max-width:600px">
         <h2 style="color:#10130f">${esc(lead.enquiryType || "New power assessment request")}</h2>
@@ -225,7 +229,15 @@ export async function POST(request: Request) {
 
   const text = (v?: string) => v?.trim() ?? "";
 
+  // The browser makes the reference so it exists even offline; accept it if
+  // it is in our format, otherwise issue a fresh one.
+  const reference =
+    body.reference && REFERENCE_PATTERN.test(body.reference)
+      ? body.reference
+      : makeReference();
+
   const lead: Record<string, string> = {
+    reference,
     name,
     phone: text(phone),
     email: text(email),
@@ -269,10 +281,10 @@ export async function POST(request: Request) {
     console.error("[kayglo] Lead delivery failed:", err);
     console.error("[kayglo] Undelivered lead:", JSON.stringify(lead));
     return NextResponse.json(
-      { error: "We couldn't send your request.", undelivered: true },
+      { error: "We couldn't send your request.", undelivered: true, reference },
       { status: 502 },
     );
   }
 
-  return NextResponse.json({ ok: true });
+  return NextResponse.json({ ok: true, reference });
 }

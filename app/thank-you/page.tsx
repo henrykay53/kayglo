@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Reveal } from "@/components/Reveal";
+import { RecentHandoff } from "@/components/WhatsAppHandoff";
 import { Button, Container, Kicker } from "@/components/ui";
 import { site, whatsappLink } from "@/lib/site";
 
@@ -63,6 +64,12 @@ export default function ThankYouPage() {
               system. Here&apos;s exactly what happens next.
             </p>
           </Reveal>
+
+          {/* The submission just made on this device, ready to send on
+              WhatsApp — where the team prepares the quotation. */}
+          <div className="mt-10 max-w-2xl">
+            <RecentHandoff />
+          </div>
 
           <div className="mt-14 grid gap-8 border-t border-ink/10 pt-10 md:grid-cols-3">
             {next.map((s, i) => (

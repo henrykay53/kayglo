@@ -191,6 +191,27 @@ Before spending: establish maximum allowable CAC from gross profit per job (§32
 
 ## Log
 
+- **2026-10-23 (c)** — Forms now hand off to WhatsApp. Both lead forms
+  (free power assessment on /contact, partner application on /partners) build
+  a sectioned message with every answer, a reference (`KC-YYMMDD-XXXX`, also
+  in the email subject) and a Lagos timestamp, and open it addressed to
+  `site.contact.whatsapp` — the customer still presses Send. Email via
+  /api/lead still runs first; if it fails (it does today: no Resend key), the
+  customer stays on the form with the WhatsApp button and every answer kept,
+  and an unsent assessment is remembered on the device. New GA4 event:
+  `whatsapp_handoff`. Formatter: `lib/lead-message.ts`; panel:
+  `components/WhatsAppHandoff.tsx` (replaces LeadFallback).
+
+- **2026-10-23 (b)** — Each case study page (/projects/[slug]) now tells its
+  story as a connected roadmap: the seven chapters, Before → After, are
+  numbered milestones on one spine (zig-zag on desktop, left rail on mobile)
+  that lights as you scroll; static and fully lit under reduced motion.
+  /projects keeps its layout; its meta description was fixed (it still
+  described US "vineyard estates").
+  Phone CTAs are now one icon-only `CallButton` in the header's ink — the
+  written number is kept where it is contact info (footer NAP, contact card,
+  thank-you, in-sentence mentions).
+
 - **2026-10-23** — Mobile hero 1,523px → 1,080px tall (375px wide): proof
   points became one row of tappable chips on phones (desktop band unchanged),
   copy cut from 76 to 50 words, footnote removed. Floating WhatsApp button

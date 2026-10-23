@@ -19,13 +19,19 @@ import {
   bandFromParam,
 } from "@/lib/assessment";
 import { getAttribution } from "@/lib/attribution";
-import { LeadFallback } from "./LeadFallback";
+import { formatLeadMessage, makeReference } from "@/lib/lead-message";
+import {
+  PendingHandoff,
+  WhatsAppHandoff,
+  saveHandoff,
+  type Handoff,
+} from "./WhatsAppHandoff";
 import { trackEvent, trackLead } from "@/lib/track";
 
 type Status = "idle" | "submitting" | "sent" | "error" | "undelivered";
 
 /** Names this form in analytics events. */
-const FORM = "assessment";
+const FORM = "assessment" as const;
 
 /**
  * The four steps, in the order an engineer would ask on a survey call. `fields`
@@ -123,8 +129,8 @@ export function AssessmentForm() {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [status, setStatus] = useState<Status>("idle");
   const [error, setError] = useState("");
-  // Kept so an undelivered enquiry can be re-sent by WhatsApp or email.
-  const [answers, setAnswers] = useState<Record<string, unknown>>({});
+  // The WhatsApp handoff for a submission that didn't reach the inbox.
+  const [handoff, setHandoff] = useState<Handoff | null>(null);
   const [started, setStarted] = useState(false);
   // Whether the current card's rules all pass — drives the Next button's
   // colour. Computed silently: errors only appear once someone tries to move on.
@@ -288,9 +294,13 @@ export function AssessmentForm() {
       return;
     }
 
+    // One reference for the email and the WhatsApp message, so the team can
+    // match them up.
+    const reference = makeReference();
     const payload = {
       ...Object.fromEntries(data.entries()),
       appliances: data.getAll("appliances").join(", "),
+      reference,
       // Which channel earned this lead — see lib/attribution.ts
       ...getAttribution(),
     };
@@ -299,41 +309,70 @@ export function AssessmentForm() {
     setStatus("submitting");
     setError("");
 
+    /** Builds the WhatsApp handoff, keeps it on this device, returns it. */
+    const handOff = (ref: string, delivered: boolean) => {
+      const h: Handoff = {
+        kind: FORM,
+        reference: ref,
+        // Only the customer's answers — the attribution fields stay out.
+        message: formatLeadMessage(FORM, payload, { reference: ref }),
+        delivered,
+        createdAt: Date.now(),
+      };
+      saveHandoff(h);
+      setHandoff(h);
+      return h;
+    };
+
+    let res: Response;
     try {
-      const res = await fetch("/api/lead", {
+      res = await fetch("/api/lead", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
-      if (!res.ok) {
-        const reply = await res.json().catch(() => ({}));
-        if (reply.undelivered) {
-          // Our side failed, not theirs — keep the answers and offer a route
-          // that cannot fail. Counted, so a broken inbox shows up in GA4.
-          setAnswers(payload);
-          setStatus("undelivered");
-          trackEvent("lead_delivery_failed", { form: FORM });
-          return;
-        }
-        throw new Error(reply.error || "Request failed");
-      }
+    } catch {
+      // No connection to the website — WhatsApp may still work, so hand the
+      // answers over there rather than asking them to start again.
+      sending.current = false;
+      handOff(reference, false);
+      setStatus("undelivered");
+      trackEvent("lead_delivery_failed", { form: FORM, reason: "network" });
+      return;
+    }
+
+    const reply = await res.json().catch(() => ({}));
+    const ref = typeof reply.reference === "string" ? reply.reference : reference;
+    sending.current = false;
+
+    if (res.ok) {
+      handOff(ref, true);
       trackLead({
         property_type: String(data.get("propertyType") ?? ""),
         fuel_spend: String(data.get("fuelSpend") ?? ""),
       });
       setStatus("sent");
-      // A real URL for the conversion, so Google Ads and Meta can both count it.
+      // A real URL for the conversion, so Google Ads and Meta can both count
+      // it. The thank-you page offers the WhatsApp handoff from there.
       router.push("/thank-you");
-    } catch (err) {
-      setStatus("error");
-      setError(
-        err instanceof Error && err.message !== "Request failed"
-          ? err.message
-          : "Your request didn't go through. Your answers are all still here — please try again, or call us.",
-      );
-    } finally {
-      sending.current = false;
+      return;
     }
+
+    if (reply.undelivered) {
+      // Our inbox failed, not them — WhatsApp becomes the route. Counted, so
+      // a broken inbox shows up in GA4.
+      handOff(ref, false);
+      setStatus("undelivered");
+      trackEvent("lead_delivery_failed", { form: FORM });
+      return;
+    }
+
+    // The server rejected an answer (it re-checks the essentials).
+    setStatus("error");
+    setError(
+      reply.error ||
+        "Your request didn't go through. Your answers are all still here — please try again, or call us.",
+    );
   }
 
   // ---- field helpers --------------------------------------------------------
@@ -365,6 +404,8 @@ export function AssessmentForm() {
         aria-hidden="true"
         className="absolute left-[-9999px] h-0 w-0 opacity-0"
       />
+
+      {status === "idle" && <PendingHandoff kind={FORM} />}
 
       <div
         ref={cardRef}
@@ -648,10 +689,10 @@ export function AssessmentForm() {
                 {error}
               </p>
             )}
-            {status === "undelivered" && (
-              <LeadFallback
-                answers={answers}
-                intro="I'd like a free power assessment."
+            {status === "undelivered" && handoff && (
+              <WhatsAppHandoff
+                handoff={handoff}
+                onRetry={() => formRef.current?.requestSubmit()}
               />
             )}
           </Panel>
