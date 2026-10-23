@@ -5,7 +5,7 @@ import { PowerMap } from "@/components/PowerMap";
 import { ProofChips } from "@/components/ProofChips";
 import { Reveal } from "@/components/Reveal";
 import { Testimonials } from "@/components/Testimonials";
-import { Button, Container, Kicker } from "@/components/ui";
+import { Button, Container, Kicker, CallButton } from "@/components/ui";
 import {
   processSteps,
   projects,
@@ -13,7 +13,6 @@ import {
   publishedStats,
   segments,
   services,
-  site,
 } from "@/lib/site";
 
 export default function Home() {
@@ -343,12 +342,7 @@ export default function Home() {
               </p>
               <div className="mt-9 flex flex-wrap justify-center gap-4">
                 <Button href="/contact">Get a free quote</Button>
-                <a
-                  href={`tel:${site.contact.phoneHref}`}
-                  className="inline-flex items-center gap-2 rounded-full border border-cream/25 px-6 py-3 text-sm font-medium text-cream transition-colors hover:bg-cream hover:text-ink"
-                >
-                  Call {site.contact.phone}
-                </a>
+                <CallButton onDark />
               </div>
             </div>
           </div>

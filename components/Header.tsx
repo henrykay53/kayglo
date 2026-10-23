@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { nav, site } from "@/lib/site";
 import { Logo } from "./Brand";
+import { CallButton } from "./ui";
 
 export function Header() {
   const pathname = usePathname();
@@ -82,24 +83,7 @@ export function Header() {
 
           <div className="flex items-center gap-1.5 lg:hidden">
             {/* On a phone the call is the conversion — keep it one tap away. */}
-            <a
-              href={`tel:${site.contact.phoneHref}`}
-              className="inline-flex items-center gap-1.5 rounded-full bg-ink px-4 py-2 text-sm font-medium text-cream transition-colors hover:bg-accent"
-            >
-              <svg
-                viewBox="0 0 24 24"
-                className="h-3.5 w-3.5"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                aria-hidden="true"
-              >
-                <path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z" />
-              </svg>
-              Call
-            </a>
+            <CallButton size="sm" tooltip="bottom" />
             <button
               type="button"
               onClick={() => setOpen((v) => !v)}

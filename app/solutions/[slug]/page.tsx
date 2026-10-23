@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Reveal } from "@/components/Reveal";
-import { Button, Container, Kicker } from "@/components/ui";
+import { Button, Container, Kicker, CallButton } from "@/components/ui";
 import { Photo } from "@/components/Photo";
 import { ProjectStack } from "@/components/ProjectStack";
 import { TradeIcon } from "@/components/TradeIcon";
@@ -98,12 +98,7 @@ export default async function SegmentPage({
               <Reveal delay={200}>
                 <div className="mt-9 flex flex-wrap items-center gap-x-6 gap-y-4">
                   <Button href="/contact">Get a free power assessment</Button>
-                  <a
-                    href={`tel:${site.contact.phoneHref}`}
-                    className="link-underline inline-block self-center text-accent"
-                  >
-                    Or call {site.contact.phone}
-                  </a>
+                  <CallButton />
                 </div>
                 <p className="mt-5 text-sm text-mute">
                   Not ready to talk?{" "}

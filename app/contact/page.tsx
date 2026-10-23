@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Suspense, type ReactNode } from "react";
 import { AssessmentForm } from "@/components/AssessmentForm";
 import { Reveal } from "@/components/Reveal";
-import { Container, Kicker } from "@/components/ui";
+import { CallButton, Container, Kicker } from "@/components/ui";
 import { servedPlaces } from "@/lib/places";
 import {
   addressLine,
@@ -111,22 +111,18 @@ export default function ContactPage() {
             </p>
           </Reveal>
           <Reveal delay={200}>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-6">
+            {/* The assessment leads; the call sits beside it as a handset. */}
+            <div className="mt-8 flex items-center gap-3">
               <a
                 href="#assessment"
-                className="group inline-flex w-full items-center justify-center gap-2 rounded-full border border-transparent bg-accent px-6 py-3 text-sm font-medium text-cream shadow-sm transition-colors hover:bg-ink sm:w-auto"
+                className="group inline-flex flex-1 items-center justify-center gap-2 rounded-full border border-transparent bg-accent px-6 py-3 text-sm font-medium text-cream shadow-sm transition-colors hover:bg-ink sm:flex-none"
               >
                 Start the free assessment
                 <span aria-hidden="true" className="transition-transform duration-300 group-hover:translate-y-0.5">
                   ↓
                 </span>
               </a>
-              <a
-                href={`tel:${contact.phoneHref}`}
-                className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-ink/25 px-6 py-3 text-sm font-medium text-ink transition-colors hover:border-ink hover:bg-ink hover:text-cream sm:w-auto"
-              >
-                <PhoneIcon /> Call {contact.phone}
-              </a>
+              <CallButton />
             </div>
           </Reveal>
         </Container>

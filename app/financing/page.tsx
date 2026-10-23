@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 import { RayBurst } from "@/components/Brand";
 import { Reveal } from "@/components/Reveal";
 import { Tiers } from "@/components/Tiers";
-import { Button, Container, Kicker } from "@/components/ui";
-import { site } from "@/lib/site";
+import { Button, Container, Kicker, CallButton } from "@/components/ui";
 
 export const metadata: Metadata = {
   title: "Payment Plans & Value",
@@ -215,12 +214,7 @@ export default function FinancingPage() {
             </p>
             <div className="mt-8 flex flex-wrap justify-center gap-4">
               <Button href="/contact">Request a free quote</Button>
-              <a
-                href={`tel:${site.contact.phoneHref}`}
-                className="inline-flex items-center gap-2 rounded-full border border-cream/25 px-6 py-3 text-sm font-medium text-cream transition-colors hover:bg-cream hover:text-ink"
-              >
-                Call {site.contact.phone}
-              </a>
+              <CallButton onDark />
             </div>
           </div>
         </Container>

@@ -3,7 +3,7 @@ import { RayBurst } from "@/components/Brand";
 import { Credentials } from "@/components/Credentials";
 import { Photo } from "@/components/Photo";
 import { Reveal } from "@/components/Reveal";
-import { Button, Container, Kicker } from "@/components/ui";
+import { Button, Container, Kicker, CallButton } from "@/components/ui";
 import { aboutPhotos, site } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -206,12 +206,7 @@ export default function AboutPage() {
             </p>
             <div className="mt-9 flex flex-wrap items-center justify-center gap-x-6 gap-y-4">
               <Button href="/contact">Get a free power assessment</Button>
-              <a
-                href={`tel:${site.contact.phoneHref}`}
-                className="link-underline inline-block text-accent"
-              >
-                Or call {site.contact.phone}
-              </a>
+              <CallButton />
             </div>
           </Reveal>
         </Container>
