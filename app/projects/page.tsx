@@ -8,7 +8,7 @@ import { projects } from "@/lib/site";
 export const metadata: Metadata = {
   title: "Solar Projects & Case Studies",
   description:
-    "A selection of Kayglo residential solar and battery installations — from cliffside modern homes to off-grid-capable vineyard estates. See the systems, savings, and results.",
+    "Kayglo Citadel solar and battery installations for Nigerian homes and businesses — what each one replaced, the system we installed, and the results.",
   alternates: { canonical: "/projects" },
 };
 

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { CaseRoadmap, Milestone } from "@/components/CaseRoadmap";
 import { ProjectStack } from "@/components/ProjectStack";
 import { Reveal } from "@/components/Reveal";
 import { Button, Container, Kicker } from "@/components/ui";
@@ -31,29 +32,6 @@ export async function generateMetadata({
       images: [{ url: project.gallery[0].src }],
     },
   };
-}
-
-/** A labelled block of the case study — the order buyers ask in. */
-function Chapter({
-  n,
-  title,
-  children,
-}: {
-  n: string;
-  title: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <Reveal className="border-t border-ink/10 pt-8">
-      <div className="grid gap-6 md:grid-cols-12">
-        <div className="md:col-span-4">
-          <p className="font-display text-sm text-accent">{n}</p>
-          <h2 className="font-display mt-2 text-2xl text-ink">{title}</h2>
-        </div>
-        <div className="md:col-span-7 md:col-start-6">{children}</div>
-      </div>
-    </Reveal>
-  );
 }
 
 export default async function ProjectPage({
@@ -129,25 +107,34 @@ export default async function ProjectPage({
               <Kicker>The case study</Kicker>
             </Reveal>
 
-            <Chapter n="01" title="Before">
-              <p className="text-lg leading-relaxed text-slate">
-                {study.before}
-              </p>
-            </Chapter>
+            {/* The study as a journey: each chapter a milestone on one path,
+                lit as the reader scrolls — components/CaseRoadmap. */}
+            <CaseRoadmap>
+              <Milestone index={0}>
+                <h2 className="font-display text-2xl text-ink">Before</h2>
+                <p className="mt-3 text-lg leading-relaxed text-slate">
+                  {study.before}
+                </p>
+              </Milestone>
 
-            <Chapter n="02" title="The problem">
-              <p className="leading-relaxed text-slate">{study.problem}</p>
-            </Chapter>
+              <Milestone index={1}>
+                <h2 className="font-display text-2xl text-ink">The problem</h2>
+                <p className="mt-3 leading-relaxed text-slate">{study.problem}</p>
+              </Milestone>
 
-            <Chapter n="03" title="What they had">
-              <p className="leading-relaxed text-slate">{study.existing}</p>
-            </Chapter>
+              <Milestone index={2}>
+                <h2 className="font-display text-2xl text-ink">What they had</h2>
+                <p className="mt-3 leading-relaxed text-slate">{study.existing}</p>
+              </Milestone>
 
-            <Chapter n="04" title="What it had to carry">
-              <ul className="space-y-2.5">
-                {study.needs.map((n) => (
-                  <li key={n} className="flex items-start gap-3 text-slate">
-                    <svg
+              <Milestone index={3}>
+                <h2 className="font-display text-2xl text-ink">
+                  What it had to carry
+                </h2>
+                <ul className="mt-4 space-y-2.5">
+                  {study.needs.map((n) => (
+                    <li key={n} className="flex items-start gap-3 text-slate">
+                      <svg
                       viewBox="0 0 16 16"
                       className="mt-[6px] h-3.5 w-3.5 shrink-0 text-accent"
                       fill="none"
@@ -159,31 +146,39 @@ export default async function ProjectPage({
                     >
                       <path d="m3 8.5 3.2 3.2L13 5" />
                     </svg>
-                    {n}
-                  </li>
-                ))}
-              </ul>
-            </Chapter>
+                      {n}
+                    </li>
+                  ))}
+                </ul>
+              </Milestone>
 
-            <Chapter n="05" title="What we installed">
-              <ul className="divide-y divide-ink/10 border-y border-ink/10">
-                {study.installed.map((item) => (
-                  <li key={item} className="py-3.5 text-slate">
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </Chapter>
+              <Milestone index={4}>
+                <h2 className="font-display text-2xl text-ink">
+                  What we installed
+                </h2>
+                <ul className="mt-4 divide-y divide-ink/10 border-y border-ink/10">
+                  {study.installed.map((item) => (
+                    <li key={item} className="py-3 text-slate">
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </Milestone>
 
-            <Chapter n="06" title="The installation">
-              <p className="leading-relaxed text-slate">{study.install}</p>
-            </Chapter>
+              <Milestone index={5}>
+                <h2 className="font-display text-2xl text-ink">
+                  The installation
+                </h2>
+                <p className="mt-3 leading-relaxed text-slate">{study.install}</p>
+              </Milestone>
 
-            <Chapter n="07" title="After">
-              <p className="text-lg leading-relaxed text-slate">
-                {study.after}
-              </p>
-            </Chapter>
+              <Milestone index={6}>
+                <h2 className="font-display text-2xl text-ink">After</h2>
+                <p className="mt-3 text-lg leading-relaxed text-slate">
+                  {study.after}
+                </p>
+              </Milestone>
+            </CaseRoadmap>
 
             {study.quote && (
               <Reveal className="border-t border-ink/10 pt-10">
