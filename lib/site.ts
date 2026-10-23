@@ -22,6 +22,13 @@ export const site = {
   contact: {
     phone: "+234 805 077 7800",
     phoneHref: "+2348050777800",
+    /**
+     * WhatsApp click-to-chat number: international format, digits only, no +.
+     * Every WhatsApp link on the site is built from this (see whatsappLink).
+     * TODO — confirm this business line is registered on WhatsApp (ideally
+     * WhatsApp Business). If WhatsApp runs on a different line, change it here.
+     */
+    whatsapp: "2348050777800",
     email: "info@kayglocitadel.com",
     salesEmail: "sales@kayglocitadel.com",
     supportEmail: "support@kayglocitadel.com",
@@ -80,7 +87,7 @@ export const publishedStats = () => site.stats.filter((s) => s.verified);
 
 /** A WhatsApp chat with the business number, with the message pre-typed. */
 export const whatsappLink = (text: string) =>
-  `https://wa.me/${site.contact.phoneHref.replace(/\D/g, "")}?text=${encodeURIComponent(text)}`;
+  `https://wa.me/${site.contact.whatsapp}?text=${encodeURIComponent(text)}`;
 
 /** The office address as one line, e.g. for a maps search. */
 export const addressLine = () => {
@@ -188,8 +195,22 @@ export const presenceStates = [
   "NG-ED", // Edo — Benin City
   "NG-DE", // Delta
   "NG-RI", // Rivers — Port Harcourt
+  "NG-BY", // Bayelsa
   "NG-IM", // Imo
+  "NG-AN", // Anambra
+  "NG-AB", // Abia
+  "NG-AK", // Akwa Ibom — Uyo
+  "NG-CR", // Cross River
 ];
+
+/**
+ * Cities worth naming alongside their state, by state code. Uyo is a city in
+ * Akwa Ibom, not a state — so the map lights Akwa Ibom and lists read
+ * "Akwa Ibom (Uyo)".
+ */
+export const presenceCities: Record<string, string[]> = {
+  "NG-AK": ["Uyo"],
+};
 
 /**
  * What the homepage band says while there are no verified numbers. Every line
@@ -198,7 +219,12 @@ export const presenceStates = [
 export const promises = [
   { value: "Genuine", label: "Warranty-backed equipment only" },
   { value: "Free", label: "Power assessment, no obligation" },
-  { value: String(presenceStates.length), label: "States our crews install in" },
+  {
+    value: String(presenceStates.length),
+    // The phone chip needs the noun: "14" alone means nothing.
+    chip: `${presenceStates.length} states`,
+    label: "States our crews install in",
+  },
   { value: "After-sales", label: "Servicing & repairs that answer the phone" },
 ];
 

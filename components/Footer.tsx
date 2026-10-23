@@ -1,12 +1,10 @@
 import Link from "next/link";
-import { nigeriaStates } from "@/lib/nigeria-map";
-import { presenceStates, segments, services, site } from "@/lib/site";
+import { servedPlaces } from "@/lib/places";
+import { segments, services, site } from "@/lib/site";
 import { Logo, RayBurst } from "./Brand";
 
 /** The states we actually service, named from the same data the map uses. */
-const servicedStates = presenceStates
-  .map((id) => nigeriaStates.find((s) => s.id === id)?.name)
-  .filter(Boolean) as string[];
+const servicedStates = servedPlaces().map((p) => p.name);
 
 const company = [
   { href: "/projects", label: "Projects & case studies" },

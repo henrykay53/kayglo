@@ -183,13 +183,20 @@ Before spending: establish maximum allowable CAC from gross profit per job (§32
 - [ ] Mark `contact_click` as a key event in GA4 (K — in the GA4 admin)
 - [ ] New case studies as jobs complete (§7)
 - [ ] Wire real reviews into the schema once the GBP has them
-- [-] Persistent WhatsApp (§13) — dropped 2026-09-09, not in the final product
+- [x] Persistent WhatsApp (§13) — dropped 2026-09-09, **reinstated 2026-10-23 on request**: floating button (`components/WhatsAppButton.tsx`), number in `site.contact.whatsapp`
 - [-] Dedicated location pages (§10) — dropped 2026-09-09; the projects page
       already carries installation locations and covers the same search intent
 
 ---
 
 ## Log
+
+- **2026-10-23** — Mobile hero 1,523px → 1,080px tall (375px wide): proof
+  points became one row of tappable chips on phones (desktop band unchanged),
+  copy cut from 76 to 50 words, footnote removed. Floating WhatsApp button
+  added. Service areas now 13 states + FCT: added Bayelsa, Anambra, Abia,
+  Akwa Ibom (Uyo, as a city) and Cross River; Oyo, Kwara and Rivers were
+  already listed. **K: confirm +234 805 077 7800 is on WhatsApp.**
 
 - **2026-10-09 (c)** — Less talk, more work. Homepage below the hero now goes
   straight to four photo service cards (swipe row on phones), "Solar for"

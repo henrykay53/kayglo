@@ -4,11 +4,10 @@ import { Suspense, type ReactNode } from "react";
 import { AssessmentForm } from "@/components/AssessmentForm";
 import { Reveal } from "@/components/Reveal";
 import { Container, Kicker } from "@/components/ui";
-import { nigeriaStates } from "@/lib/nigeria-map";
+import { servedPlaces } from "@/lib/places";
 import {
   addressLine,
   credentials,
-  presenceStates,
   site,
   whatsappLink,
 } from "@/lib/site";
@@ -40,9 +39,7 @@ const deliverables = [
   },
 ];
 
-const servedStates = nigeriaStates
-  .filter((s) => presenceStates.includes(s.id))
-  .map((s) => s.name.replace(" (FCT)", ""));
+const servedStates = servedPlaces({ fct: "Abuja" }).map((p) => p.name);
 
 /** Answered from what the site already commits to — nothing new promised. */
 const faqs = [

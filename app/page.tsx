@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { RayBurst } from "@/components/Brand";
 import { PowerMap } from "@/components/PowerMap";
+import { ProofChips } from "@/components/ProofChips";
 import { Reveal } from "@/components/Reveal";
 import { Testimonials } from "@/components/Testimonials";
 import { Button, Container, Kicker } from "@/components/ui";
@@ -29,7 +30,9 @@ export default function Home() {
           <div className="absolute -left-32 top-40 h-96 w-96 rounded-full bg-ever/10 blur-3xl" />
         </div>
 
-        <Container className="relative grid items-center gap-14 pb-16 pt-16 md:grid-cols-12 md:gap-10 md:pb-24 md:pt-24">
+        {/* Mobile spacing is tighter than it was; every md: value is the
+            original desktop one. */}
+        <Container className="relative grid items-center gap-10 pb-10 pt-10 md:grid-cols-12 md:gap-10 md:pb-24 md:pt-24">
           <div className="md:col-span-7 md:pr-6">
             <Reveal>
               <Kicker>Your power partner in Nigeria</Kicker>
@@ -43,17 +46,16 @@ export default function Home() {
               </h1>
             </Reveal>
             <Reveal delay={160}>
-              <p className="mt-7 max-w-lg text-lg leading-relaxed text-slate">
-                We know the drone of the generator, the scramble for fuel, and
-                the plans undone by &ldquo;up NEPA.&rdquo; Kayglo Citadel supplies
-                genuine solar, inverters, and batteries — then installs and
-                services them — so your home simply has power, day and night.
+              <p className="mt-5 max-w-lg text-lg leading-relaxed text-slate md:mt-7">
+                No fuel runs. No waiting for &ldquo;up&nbsp;NEPA.&rdquo; Genuine solar,
+                inverters and batteries, installed and serviced by our own team
+                — power day and night, for your home or business.
               </p>
             </Reveal>
             <Reveal delay={240}>
               {/* Phones: a full-width stack, primary on top, same height.
                   From sm up they sit side by side at their natural width. */}
-              <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
+              <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4 md:mt-9">
                 <Button
                   href="/contact"
                   className="w-full sm:w-auto"
@@ -69,19 +71,20 @@ export default function Home() {
                 </Button>
               </div>
             </Reveal>
-            <Reveal delay={320}>
-              <p className="mt-8 text-sm text-mute">
-                Genuine products. Expert installation. After-sales you can trust
-                — for homes and businesses nationwide.
-              </p>
-            </Reveal>
           </div>
 
-          <PowerMap className="mx-auto w-full max-w-md md:col-span-5 md:mx-0 md:w-auto md:max-w-none md:-mr-6 lg:-mr-16" />
+          <PowerMap className="mx-auto w-full max-w-[18rem] sm:max-w-md md:col-span-5 md:mx-0 md:w-auto md:max-w-none md:-mr-6 lg:-mr-16" />
         </Container>
 
-        {/* Proof bar */}
-        <div className="border-y border-ink/10 bg-cream-200/50">
+        {/* Proof — phones: one row of tappable chips. */}
+        <div className="border-y border-ink/10 bg-cream-200/50 py-5 md:hidden">
+          <Container>
+            <ProofChips items={band} />
+          </Container>
+        </div>
+
+        {/* Proof bar — tablet and desktop, unchanged. */}
+        <div className="hidden border-y border-ink/10 bg-cream-200/50 md:block">
           <Container>
             <dl className="grid grid-cols-2 divide-ink/10 py-8 md:grid-cols-4 md:divide-x">
               {band.map((s, i) => (

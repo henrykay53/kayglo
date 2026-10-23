@@ -7,7 +7,8 @@ import { ScrollToTop } from "@/components/ScrollToTop";
 import { Analytics } from "@/components/Analytics";
 import { AttributionTracker } from "@/components/AttributionTracker";
 import { ContactTracker } from "@/components/ContactTracker";
-import { heroGallery, presenceStates, site } from "@/lib/site";
+import { WhatsAppButton } from "@/components/WhatsAppButton";
+import { heroGallery, presenceCities, presenceStates, site } from "@/lib/site";
 import { nigeriaStates } from "@/lib/nigeria-map";
 
 const inter = Inter({
@@ -103,6 +104,10 @@ function StructuredData() {
       ...nigeriaStates
         .filter((s) => presenceStates.includes(s.id))
         .map((s) => ({ "@type": "State", name: s.name })),
+      // Named cities within those states, e.g. Uyo in Akwa Ibom.
+      ...Object.values(presenceCities)
+        .flat()
+        .map((name) => ({ "@type": "City", name })),
     ],
     openingHours: "Mo-Fr 08:00-18:00",
     // Only profiles confirmed as Kayglo's. Add LinkedIn, Facebook and the
@@ -146,6 +151,7 @@ export default function RootLayout({
         <Header />
         <main id="main">{children}</main>
         <Footer />
+        <WhatsAppButton />
         <Analytics />
       </body>
     </html>

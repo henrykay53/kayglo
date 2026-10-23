@@ -125,6 +125,16 @@ body {
   }
 }
 
+/* Homepage proof chips (phones): one light sweep across the chip just chosen */
+@keyframes proof-sweep {
+  from {
+    transform: translateX(-110%);
+  }
+  to {
+    transform: translateX(110%);
+  }
+}
+
 /* Assessment form steps — a short slide in the direction of travel */
 @keyframes step-in-forward {
   from {
@@ -200,6 +210,16 @@ body {
   }
   .stack-caption {
     animation: stack-caption 0.7s var(--ease-out-soft) both;
+  }
+
+  .proof-sweep {
+    background: linear-gradient(
+      100deg,
+      transparent 20%,
+      color-mix(in oklab, var(--color-accent-300) 45%, transparent) 50%,
+      transparent 80%
+    );
+    animation: proof-sweep 0.7s var(--ease-out-soft) both;
   }
 
   /* Runs each time a step is un-hidden. Off entirely under reduced motion. */
