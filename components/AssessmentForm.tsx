@@ -19,13 +19,10 @@ import {
   bandFromParam,
 } from "@/lib/assessment";
 import { getAttribution } from "@/lib/attribution";
-import { formatLeadMessage, makeReference } from "@/lib/lead-message";
-import {
-  PendingHandoff,
-  WhatsAppHandoff,
-  saveHandoff,
-  type Handoff,
-} from "./WhatsAppHandoff";
+import { makeReference } from "@/lib/lead-message";
+import { sendViaEmail, sendViaWhatsApp } from "@/lib/send-lead";
+import { PendingHandoff, WhatsAppHandoff, type Handoff } from "./WhatsAppHandoff";
+import { WhatsAppMark } from "./WhatsAppButton";
 import { trackEvent, trackLead } from "@/lib/track";
 
 type Status = "idle" | "submitting" | "sent" | "error" | "undelivered";
@@ -121,6 +118,7 @@ export function AssessmentForm() {
   const formRef = useRef<HTMLFormElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
   const sending = useRef(false); // blocks a double submit before React re-renders
+  const emailButton = useRef<HTMLButtonElement>(null);
   const moved = useRef(false); // no focus jump on first render
 
   const [step, setStep] = useState(0);
@@ -294,7 +292,7 @@ export function AssessmentForm() {
       return;
     }
 
-    // One reference for the email and the WhatsApp message, so the team can
+    // One reference for the WhatsApp message and the email, so the team can
     // match them up.
     const reference = makeReference();
     const payload = {
@@ -304,75 +302,53 @@ export function AssessmentForm() {
       // Which channel earned this lead — see lib/attribution.ts
       ...getAttribution(),
     };
+    const lead = { kind: FORM, reference, payload };
 
-    sending.current = true;
-    setStatus("submitting");
-    setError("");
+    // Which button sent it. Enter, and the main button, mean WhatsApp.
+    const via =
+      (e.nativeEvent as SubmitEvent).submitter?.getAttribute("data-via") === "email"
+        ? "email"
+        : "whatsapp";
 
-    /** Builds the WhatsApp handoff, keeps it on this device, returns it. */
-    const handOff = (ref: string, delivered: boolean) => {
-      const h: Handoff = {
-        kind: FORM,
-        reference: ref,
-        // Only the customer's answers — the attribution fields stay out.
-        message: formatLeadMessage(FORM, payload, { reference: ref }),
-        delivered,
-        createdAt: Date.now(),
-      };
-      saveHandoff(h);
-      setHandoff(h);
-      return h;
-    };
-
-    let res: Response;
-    try {
-      res = await fetch("/api/lead", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-    } catch {
-      // No connection to the website — WhatsApp may still work, so hand the
-      // answers over there rather than asking them to start again.
-      sending.current = false;
-      handOff(reference, false);
-      setStatus("undelivered");
-      trackEvent("lead_delivery_failed", { form: FORM, reason: "network" });
-      return;
-    }
-
-    const reply = await res.json().catch(() => ({}));
-    const ref = typeof reply.reference === "string" ? reply.reference : reference;
-    sending.current = false;
-
-    if (res.ok) {
-      handOff(ref, true);
+    if (via === "whatsapp") {
+      // Synchronous, inside the submit — or the browser blocks WhatsApp.
+      sendViaWhatsApp(lead);
       trackLead({
+        method: "whatsapp",
         property_type: String(data.get("propertyType") ?? ""),
         fuel_spend: String(data.get("fuelSpend") ?? ""),
       });
+      trackEvent("whatsapp_handoff", { form: FORM });
       setStatus("sent");
-      // A real URL for the conversion, so Google Ads and Meta can both count
-      // it. The thank-you page offers the WhatsApp handoff from there.
       router.push("/thank-you");
       return;
     }
 
-    if (reply.undelivered) {
-      // Our inbox failed, not them — WhatsApp becomes the route. Counted, so
+    sending.current = true;
+    setStatus("submitting");
+    setError("");
+    const result = await sendViaEmail(lead);
+    sending.current = false;
+
+    if (result.ok) {
+      trackLead({
+        method: "email",
+        property_type: String(data.get("propertyType") ?? ""),
+        fuel_spend: String(data.get("fuelSpend") ?? ""),
+      });
+      setStatus("sent");
+      // A real URL for the conversion, so Google Ads and Meta can both count it.
+      router.push("/thank-you");
+    } else if ("handoff" in result) {
+      // The email didn't reach us — offer WhatsApp, answers kept. Counted, so
       // a broken inbox shows up in GA4.
-      handOff(ref, false);
+      setHandoff(result.handoff);
       setStatus("undelivered");
       trackEvent("lead_delivery_failed", { form: FORM });
-      return;
+    } else {
+      setStatus("error");
+      setError(result.error);
     }
-
-    // The server rejected an answer (it re-checks the essentials).
-    setStatus("error");
-    setError(
-      reply.error ||
-        "Your request didn't go through. Your answers are all still here — please try again, or call us.",
-    );
   }
 
   // ---- field helpers --------------------------------------------------------
@@ -692,7 +668,7 @@ export function AssessmentForm() {
             {status === "undelivered" && handoff && (
               <WhatsAppHandoff
                 handoff={handoff}
-                onRetry={() => formRef.current?.requestSubmit()}
+                onRetry={() => formRef.current?.requestSubmit(emailButton.current)}
               />
             )}
           </Panel>
@@ -742,36 +718,44 @@ export function AssessmentForm() {
               </span>
             </button>
           ) : (
-            <button
-              key="submit"
-              type="submit"
-              disabled={busy}
-              className={`group inline-flex w-full items-center justify-center gap-2 rounded-full border border-transparent px-7 py-3 text-sm font-medium transition-colors duration-300 disabled:cursor-wait sm:w-auto ${
-                ready || busy
-                  ? "bg-accent text-cream shadow-sm hover:bg-ink disabled:opacity-80"
-                  : "bg-ink/10 text-ink/55 hover:bg-ink/15 hover:text-ink/75"
-              }`}
-            >
-              {status === "submitting" && (
+            // Two ways to send. WhatsApp is the default (first in the form, so
+            // Enter picks it); email is the quiet alternative under it.
+            <div key="send" className="flex w-full flex-col items-stretch gap-2 sm:w-auto sm:items-end">
+              <button
+                type="submit"
+                data-via="whatsapp"
+                disabled={busy}
+                className={`group inline-flex w-full items-center justify-center gap-2.5 rounded-full border border-transparent py-1.5 pl-1.5 pr-6 text-sm font-medium transition-colors duration-300 disabled:cursor-wait sm:w-auto ${
+                  ready || busy
+                    ? "bg-ever text-cream shadow-sm hover:bg-ink disabled:opacity-80"
+                    : "bg-ink/10 text-ink/55 hover:bg-ink/15 hover:text-ink/75"
+                }`}
+              >
                 <span
-                  aria-hidden="true"
-                  className="h-4 w-4 animate-spin rounded-full border-2 border-cream/40 border-t-cream motion-reduce:animate-none"
-                />
-              )}
-              {status === "submitting"
-                ? "Sending your assessment…"
-                : status === "sent"
-                  ? "Sent — opening your confirmation…"
-                  : "Get my free assessment"}
-              {!busy && (
-                <span
-                  aria-hidden="true"
-                  className="transition-transform duration-300 group-hover:translate-x-0.5"
+                  className={`flex h-9 w-9 items-center justify-center rounded-full transition-colors duration-300 ${
+                    ready || busy ? "bg-[#25D366] text-white" : "bg-ink/10 text-ink/45"
+                  }`}
                 >
-                  →
+                  <WhatsAppMark className="h-5 w-5" />
                 </span>
-              )}
-            </button>
+                {status === "sent" ? "Opening your confirmation…" : "Send via WhatsApp"}
+              </button>
+              <button
+                ref={emailButton}
+                type="submit"
+                data-via="email"
+                disabled={busy}
+                className="inline-flex items-center justify-center gap-2 px-2 py-1.5 text-sm text-slate underline decoration-ink/25 underline-offset-4 transition-colors hover:text-ink disabled:cursor-wait disabled:no-underline"
+              >
+                {status === "submitting" && (
+                  <span
+                    aria-hidden="true"
+                    className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-ink/20 border-t-ink motion-reduce:animate-none"
+                  />
+                )}
+                {status === "submitting" ? "Sending by email…" : "Send by email instead"}
+              </button>
+            </div>
           )}
         </div>
       </div>

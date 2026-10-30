@@ -20,7 +20,9 @@ export type Handoff = {
   kind: LeadKind;
   reference: string;
   message: string;
-  /** Did the email copy reach the team's inbox? */
+  /** How the customer chose to send it. WhatsApp is the default. */
+  channel: "whatsapp" | "email";
+  /** Did the email reach the team's inbox? (Always false for WhatsApp.) */
   delivered: boolean;
   createdAt: number;
   /** The customer opened WhatsApp with it (we can't know if they sent it). */
@@ -153,7 +155,7 @@ export function WhatsAppHandoff({
             onClick={onRetry}
             className="px-2 text-sm font-medium text-slate underline-offset-4 hover:text-ink hover:underline"
           >
-            Try the website again
+            Try email again
           </button>
         )}
       </div>
@@ -178,6 +180,8 @@ export function WhatsAppHandoff({
 export function PendingHandoff({ kind }: { kind: LeadKind }) {
   const saved = useStoredHandoff();
   if (!saved || saved.kind !== kind || saved.delivered || saved.opened) return null;
+  // (A WhatsApp send is marked opened the moment WhatsApp opens, so only an
+  // email that never arrived — and was never taken to WhatsApp — lands here.)
   const when = new Intl.DateTimeFormat("en-GB", {
     timeZone: "Africa/Lagos",
     day: "numeric",
@@ -200,16 +204,4 @@ export function PendingHandoff({ kind }: { kind: LeadKind }) {
       <WhatsAppHandoff handoff={saved} />
     </div>
   );
-}
-
-/**
- * The thank-you page's version: the latest submission on this device. Every
- * submission overwrites the saved one before redirecting here, so arriving
- * from a form always shows the one just made. With nothing saved it renders
- * nothing, and the page's general WhatsApp link stands in.
- */
-export function RecentHandoff() {
-  const saved = useStoredHandoff();
-  if (!saved) return null;
-  return <WhatsAppHandoff handoff={saved} />;
 }

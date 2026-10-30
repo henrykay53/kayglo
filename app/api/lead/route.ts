@@ -61,11 +61,14 @@ type Lead = {
   company?: string; // honeypot
   /** Shared with the WhatsApp message — see lib/lead-message.ts */
   reference?: string;
+  /** "whatsapp": the customer sent it on WhatsApp; this is the team's backup copy. */
+  channel?: string;
 };
 
 /** Field order and labels for the notification email. */
 const FIELDS: [keyof Lead, string][] = [
   ["reference", "Reference"],
+  ["channel", "Sent by"],
   ["enquiryType", "Enquiry"],
   ["name", "Name"],
   ["phone", "Phone"],
@@ -161,9 +164,12 @@ async function deliver(lead: Record<string, string>) {
     from,
     to: inbox,
     replyTo: lead.email || undefined,
-    subject: lead.enquiryType
+    // A WhatsApp submission's email is only the backup copy — say so up
+    // front, so nobody replies twice.
+    subject: (lead.channel === "whatsapp" ? "[Sent on WhatsApp] " : "") +
+      (lead.enquiryType
       ? `${lead.enquiryType} ${lead.reference} — ${lead.name}${lead.businessName ? `, ${lead.businessName}` : ""} [${channel}]`
-      : `Power assessment ${lead.reference} — ${lead.name}, ${lead.location || "location not given"} [${channel}]`,
+      : `Power assessment ${lead.reference} — ${lead.name}, ${lead.location || "location not given"} [${channel}]`),
     html: `
       <div style="font-family:system-ui,sans-serif;max-width:600px">
         <h2 style="color:#10130f">${esc(lead.enquiryType || "New power assessment request")}</h2>
@@ -238,6 +244,7 @@ export async function POST(request: Request) {
 
   const lead: Record<string, string> = {
     reference,
+    channel: body.channel === "whatsapp" ? "whatsapp" : "email",
     name,
     phone: text(phone),
     email: text(email),

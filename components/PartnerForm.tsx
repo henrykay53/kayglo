@@ -3,8 +3,10 @@
 import { useRouter } from "next/navigation";
 import { useRef, useState, type FormEvent } from "react";
 import { getAttribution } from "@/lib/attribution";
-import { formatLeadMessage, makeReference } from "@/lib/lead-message";
-import { WhatsAppHandoff, saveHandoff, type Handoff } from "./WhatsAppHandoff";
+import { makeReference } from "@/lib/lead-message";
+import { sendViaEmail, sendViaWhatsApp } from "@/lib/send-lead";
+import { WhatsAppMark } from "./WhatsAppButton";
+import { WhatsAppHandoff, type Handoff } from "./WhatsAppHandoff";
 import { trackEvent } from "@/lib/track";
 import { partnerProgramme } from "@/lib/site";
 
@@ -25,11 +27,11 @@ export function PartnerForm() {
   const [handoff, setHandoff] = useState<Handoff | null>(null);
   const formRef = useRef<HTMLFormElement>(null);
   const sending = useRef(false); // blocks a double submit before React re-renders
+  const emailButton = useRef<HTMLButtonElement>(null);
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (sending.current) return;
-    setStatus("submitting");
     setError("");
 
     const form = e.currentTarget;
@@ -54,56 +56,40 @@ export function PartnerForm() {
       reference,
       ...getAttribution(),
     };
+    const lead = { kind: FORM, reference, payload };
+    const partner_type = String(data.get("partnerType") ?? "");
 
-    const handOff = (ref: string, delivered: boolean) => {
-      const h: Handoff = {
-        kind: FORM,
-        reference: ref,
-        message: formatLeadMessage(FORM, payload, { reference: ref }),
-        delivered,
-        createdAt: Date.now(),
-      };
-      saveHandoff(h);
-      setHandoff(h);
-    };
+    // Which button sent it. Enter, and the main button, mean WhatsApp.
+    const via =
+      (e.nativeEvent as SubmitEvent).submitter?.getAttribute("data-via") === "email"
+        ? "email"
+        : "whatsapp";
 
-    sending.current = true;
-    let res: Response;
-    try {
-      res = await fetch("/api/lead", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-    } catch {
-      // No connection to the website — offer WhatsApp instead of a dead end.
-      sending.current = false;
-      handOff(reference, false);
-      setStatus("undelivered");
-      trackEvent("lead_delivery_failed", { form: FORM, reason: "network" });
-      return;
-    }
-    const reply = await res.json().catch(() => ({}));
-    const ref = typeof reply.reference === "string" ? reply.reference : reference;
-    sending.current = false;
-
-    if (res.ok) {
-      handOff(ref, true);
-      trackEvent("partner_application", {
-        partner_type: String(data.get("partnerType") ?? ""),
-      });
+    if (via === "whatsapp") {
+      // Synchronous, inside the submit — or the browser blocks WhatsApp.
+      sendViaWhatsApp(lead);
+      trackEvent("partner_application", { partner_type, method: "whatsapp" });
+      trackEvent("whatsapp_handoff", { form: FORM });
       router.push("/thank-you");
       return;
     }
-    if (reply.undelivered) {
-      // Our inbox failed, not them — WhatsApp becomes the route.
-      handOff(ref, false);
+
+    sending.current = true;
+    setStatus("submitting");
+    const result = await sendViaEmail(lead);
+    sending.current = false;
+    if (result.ok) {
+      trackEvent("partner_application", { partner_type, method: "email" });
+      router.push("/thank-you");
+    } else if ("handoff" in result) {
+      // The email didn't reach us — offer WhatsApp, answers kept.
+      setHandoff(result.handoff);
       setStatus("undelivered");
       trackEvent("lead_delivery_failed", { form: FORM });
-      return;
+    } else {
+      setStatus("error");
+      setError(result.error);
     }
-    setStatus("error");
-    setError(reply.error || "Something went wrong. Please try again, or call us.");
   }
 
   return (
@@ -210,21 +196,35 @@ export function PartnerForm() {
       {status === "undelivered" && handoff && (
         <WhatsAppHandoff
           handoff={handoff}
-          onRetry={() => formRef.current?.requestSubmit()}
+          onRetry={() => formRef.current?.requestSubmit(emailButton.current)}
         />
       )}
 
       <div>
-        <button
-          type="submit"
-          disabled={status === "submitting"}
-          className="group inline-flex items-center gap-2 rounded-full bg-ink px-7 py-3.5 text-sm font-medium text-cream transition-colors hover:bg-accent disabled:opacity-60"
-        >
-          {status === "submitting" ? "Sending…" : "Apply to partner"}
-          <span className="transition-transform duration-300 group-hover:translate-x-0.5">
-            →
-          </span>
-        </button>
+        {/* WhatsApp is the default (first, so Enter picks it); email is
+            the quiet alternative beside it. */}
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+          <button
+            type="submit"
+            data-via="whatsapp"
+            disabled={status === "submitting"}
+            className="inline-flex items-center gap-2.5 rounded-full bg-ever py-1.5 pl-1.5 pr-6 text-sm font-medium text-cream shadow-sm transition-colors hover:bg-ink disabled:opacity-60"
+          >
+            <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[#25D366] text-white">
+              <WhatsAppMark className="h-5 w-5" />
+            </span>
+            Apply via WhatsApp
+          </button>
+          <button
+            ref={emailButton}
+            type="submit"
+            data-via="email"
+            disabled={status === "submitting"}
+            className="px-1 py-1.5 text-sm text-slate underline decoration-ink/25 underline-offset-4 transition-colors hover:text-ink disabled:cursor-wait"
+          >
+            {status === "submitting" ? "Sending by email…" : "Apply by email instead"}
+          </button>
+        </div>
         <p className="mt-4 text-xs text-mute">
           We&apos;ll come back to you with the terms in writing, and your own
           tracked link.

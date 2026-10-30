@@ -191,6 +191,15 @@ Before spending: establish maximum allowable CAC from gross profit per job (§32
 
 ## Log
 
+- **2026-10-24** — WhatsApp is now the default way both forms are sent: the
+  main button ("Send via WhatsApp" / "Apply via WhatsApp", and Enter) opens
+  WhatsApp at once with the full message; email ("…by email instead") is the
+  option. The thank-you page is worded for the route taken — WhatsApp: "Last
+  step: press Send in WhatsApp" (+ Open WhatsApp again); email: "Your
+  assessment is with our team". A WhatsApp send also posts a backup copy to
+  /api/lead, subject-tagged "[Sent on WhatsApp]" (inactive until the Resend
+  key is set). Logic shared in `lib/send-lead.ts`.
+
 - **2026-10-23 (c)** — Forms now hand off to WhatsApp. Both lead forms
   (free power assessment on /contact, partner application on /partners) build
   a sectioned message with every answer, a reference (`KC-YYMMDD-XXXX`, also

@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Reveal } from "@/components/Reveal";
-import { RecentHandoff } from "@/components/WhatsAppHandoff";
-import { Button, Container, Kicker } from "@/components/ui";
+import { ThankYouHero } from "@/components/ThankYouHero";
+import { Button, Container } from "@/components/ui";
 import { site, whatsappLink } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -28,7 +28,7 @@ const next = [
   {
     n: "03",
     title: "We call you back",
-    body: "Within one business day. If anything is unclear we'll ask — better a question now than a wrong system later.",
+    body: "Within one business day — on WhatsApp if that's where you sent it, otherwise by phone. If anything is unclear we'll ask — better a question now than a wrong system later.",
   },
 ];
 
@@ -50,26 +50,10 @@ export default function ThankYouPage() {
               ✓
             </div>
           </Reveal>
+          {/* Worded for how they sent it — WhatsApp or email. */}
           <Reveal delay={80}>
-            <Kicker className="mt-8 inline-flex">Assessment received</Kicker>
+            <ThankYouHero />
           </Reveal>
-          <Reveal delay={140}>
-            <h1 className="font-display mt-6 max-w-3xl text-4xl leading-tight text-ink sm:text-5xl md:text-6xl">
-              Your assessment is on its way.
-            </h1>
-          </Reveal>
-          <Reveal delay={200}>
-            <p className="mt-6 max-w-xl text-lg text-slate">
-              Thank you — we have everything we need to start sizing your
-              system. Here&apos;s exactly what happens next.
-            </p>
-          </Reveal>
-
-          {/* The submission just made on this device, ready to send on
-              WhatsApp — where the team prepares the quotation. */}
-          <div className="mt-10 max-w-2xl">
-            <RecentHandoff />
-          </div>
 
           <div className="mt-14 grid gap-8 border-t border-ink/10 pt-10 md:grid-cols-3">
             {next.map((s, i) => (
