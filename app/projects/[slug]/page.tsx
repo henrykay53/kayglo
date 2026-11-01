@@ -76,18 +76,6 @@ export default async function ProjectPage({
                 {project.summary}
               </p>
             </Reveal>
-            <Reveal delay={260}>
-              <dl className="mt-10 grid grid-cols-3 gap-4 border-t border-ink/10 pt-6">
-                {project.metrics.map((m) => (
-                  <div key={m.label}>
-                    <dt className="text-xs text-mute">{m.label}</dt>
-                    <dd className="font-display mt-1 text-2xl text-ink">
-                      {m.value}
-                    </dd>
-                  </div>
-                ))}
-              </dl>
-            </Reveal>
           </div>
           <Reveal delay={120} className="md:col-span-6">
             <ProjectStack

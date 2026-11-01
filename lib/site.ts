@@ -262,6 +262,11 @@ export type ProjectCase = {
   location: string;
   system: string;
   summary: string;
+  /**
+   * NOT SHOWN ON THE SITE (removed 2026-11-01). Generator use, fuel/diesel
+   * saved and payback figures were never verified against job notes. Kept
+   * here so they can return once each one is confirmed.
+   */
   metrics: { label: string; value: string }[];
   hue: string; // brand-consistent artwork tint
   /** Shot on site. Rendered as a shuffleable card stack — first one is the hero. */
@@ -300,9 +305,9 @@ export type ProjectCase = {
 
 export const projects: ProjectCase[] = [
   {
-    slug: "ikoyi-residence",
-    name: "Ikoyi Family Residence",
-    location: "Ikoyi, Lagos",
+    slug: "lagos-residence",
+    name: "Lagos Family Residence",
+    location: "Lagos, Nigeria",
     system: "12 kW solar · 30 kWh storage",
     summary:
       "A family home that ran two diesel generators every day. We delivered silent, round-the-clock power and cut the generators to emergency-only.",
@@ -315,7 +320,7 @@ export const projects: ProjectCase[] = [
     study: {
       // TODO — verify these details against your own job notes before launch.
       before:
-        "A large family home in Ikoyi running two diesel generators on rotation. The compound was never quiet, and the fuel run had become part of somebody's job description.",
+        "A large family home in Lagos running two diesel generators on rotation. The compound was never quiet, and the fuel run had become part of somebody's job description.",
       problem:
         "Two generators meant two servicing schedules, two sets of repairs and a fuel bill that moved with the pump price. The noise carried into every room at the back of the house, and an outage still meant a gap while somebody went out to start a machine.",
       existing:
@@ -338,19 +343,19 @@ export const projects: ProjectCase[] = [
     },
     gallery: [
       {
-        src: "/projects/ikoyi-residence/01.jpg",
-        alt: "Kayglo crew fitting solar panels onto the carport array at the Ikoyi family residence.",
+        src: "/projects/lagos-residence/01.jpg",
+        alt: "Kayglo crew fitting solar panels onto the carport array at the family residence.",
         width: 1600,
         height: 1200,
       },
       {
-        src: "/projects/ikoyi-residence/02.jpg",
+        src: "/projects/lagos-residence/02.jpg",
         alt: "The steel carport frame going up in the compound before the panels are laid.",
         width: 1600,
         height: 1200,
       },
       {
-        src: "/projects/ikoyi-residence/03.jpg",
+        src: "/projects/lagos-residence/03.jpg",
         alt: "Inverter, changeover panel and stacked battery rack in the glazed plant room.",
         width: 1200,
         height: 1600,
@@ -358,10 +363,10 @@ export const projects: ProjectCase[] = [
     ],
   },
   {
-    slug: "maitama-office",
+    slug: "lagos-office",
     name: "Corporate Head Office",
-    location: "Maitama, Abuja",
-    system: "80 kW solar · commercial storage",
+    location: "Lagos, Nigeria",
+    system: "10 kW solar · commercial storage",
     summary:
       "An office complex spending millions monthly on diesel. A rooftop commercial array with storage now carries the working day on solar, with grid and a single backup generator as fallback.",
     metrics: [
@@ -396,25 +401,25 @@ export const projects: ProjectCase[] = [
     },
     gallery: [
       {
-        src: "/projects/maitama-office/01.jpg",
+        src: "/projects/lagos-office/01.jpg",
         alt: "A Kayglo installer torquing down a rooftop panel array above the office complex.",
         width: 1200,
         height: 1600,
       },
       {
-        src: "/projects/maitama-office/02.jpg",
+        src: "/projects/lagos-office/02.jpg",
         alt: "Setting out the first rows of panels across the building's metal roof.",
         width: 1200,
         height: 1600,
       },
       {
-        src: "/projects/maitama-office/03.jpg",
+        src: "/projects/lagos-office/03.jpg",
         alt: "The finished rooftop array, clamped and cabled, with a Kayglo hard hat resting on it.",
         width: 1200,
         height: 1600,
       },
       {
-        src: "/projects/maitama-office/04.jpg",
+        src: "/projects/lagos-office/04.jpg",
         alt: "Wall-mounted hybrid inverter, distribution board and lithium battery bank.",
         width: 1200,
         height: 1600,
@@ -542,11 +547,11 @@ const serviceImages: Record<string, ProjectPhoto> = {
     alt: "A bank of batteries and four wall-mounted inverters installed in a plant room.",
   },
   "commercial-solar": {
-    ...shot("maitama-office", 3),
+    ...shot("lagos-office", 3),
     alt: "A finished commercial rooftop array on a metal roof, with a Kayglo hard hat resting on a panel.",
   },
   servicing: {
-    ...shot("maitama-office", 4),
+    ...shot("lagos-office", 4),
     alt: "A hybrid inverter, distribution board and lithium batteries on a plant-room wall.",
   },
 };
@@ -561,7 +566,7 @@ export const aboutPhotos = {
     // Landscape first: it leads full-width on a phone, and sits in the
     // middle (wider column) on desktop — see app/about/page.tsx.
     {
-      ...shot("ikoyi-residence", 1),
+      ...shot("lagos-residence", 1),
       alt: "The Kayglo crew fitting panels onto a steel carport structure, with a ladder and a colleague steadying the frame.",
     },
     {
@@ -569,18 +574,18 @@ export const aboutPhotos = {
       alt: "A Kayglo installer in a hi-vis vest passing a solar panel up from a balcony to the crew on the roof.",
     },
     {
-      ...shot("maitama-office", 1),
+      ...shot("lagos-office", 1),
       alt: "A Kayglo installer in a hard hat and harness fastening a panel on a sloped metal roof.",
     },
   ],
   story: {
-    ...shot("maitama-office", 2),
+    ...shot("lagos-office", 2),
     alt: "A Kayglo installer setting out the first row of panels across a metal roof.",
   },
   /** Up-close evidence of the workmanship, each with what to look for. */
   workmanship: [
     {
-      photo: shot("maitama-office", 4),
+      photo: shot("lagos-office", 4),
       title: "A wall you can read",
       body: "Inverter, protected distribution board and batteries laid out so the next engineer understands the system at a glance.",
     },
@@ -655,16 +660,16 @@ export const testimonials: Testimonial[] = [
     quote:
       "We haven't switched on the generator in months. The house is silent at night and our diesel bill is gone. Kayglo used genuine batteries and inverter — you can feel the quality.",
     author: "Adebayo & Ngozi O.",
-    location: "Ikoyi, Lagos",
-    project: "ikoyi-residence",
+    location: "Lagos",
+    project: "lagos-residence",
     verified: false, // TODO — real words, real permission, then true
   },
   {
     quote:
       "They cut our office diesel costs by more than half and we run through every outage without a flicker. What impressed me most is the after-sales — they actually come when you call.",
     author: "Managing Director",
-    location: "Maitama, Abuja",
-    project: "maitama-office",
+    location: "Lagos",
+    project: "lagos-office",
     verified: false, // TODO
   },
   {
@@ -961,13 +966,13 @@ export const segments: Segment[] = [
       heroGallery[2],
       shot("surulere-residence", 2),
       {
-        ...shot("ikoyi-residence", 2),
+        ...shot("lagos-residence", 2),
         alt: "A steel solar carport going up in a family compound, beside the house.",
       },
     ],
     packages: ["essential", "comfort"],
     // Surulere before Lekki: the Lekki carport already leads the gallery above.
-    proof: ["ikoyi-residence", "surulere-residence", "lekki-smart-home"],
+    proof: ["lagos-residence", "surulere-residence", "lekki-smart-home"],
     faqs: [
       {
         q: "Can solar really run my air conditioners?",
@@ -1083,7 +1088,7 @@ export const segments: Segment[] = [
       },
     ],
     hero: {
-      ...shot("maitama-office", 2),
+      ...shot("lagos-office", 2),
       alt: "A Kayglo installer setting out solar panels across the metal roof of a commercial building.",
     },
     plant: {
@@ -1092,7 +1097,7 @@ export const segments: Segment[] = [
       caption: "Inverters and battery bank in a dedicated plant room — built to be serviced, not hidden.",
     },
     packages: ["business", "business-plus"],
-    proof: ["maitama-office", "surulere-residence"],
+    proof: ["lagos-office", "surulere-residence"],
     faqs: [
       {
         q: "How do I know it will pay for itself?",
@@ -1146,16 +1151,16 @@ export const segments: Segment[] = [
       "Metering and remote monitoring",
     ],
     hero: {
-      ...shot("maitama-office", 3),
+      ...shot("lagos-office", 3),
       alt: "A finished rooftop array clamped and cabled across a metal roof, with a Kayglo hard hat resting on a panel.",
     },
     plant: {
-      ...shot("maitama-office", 4),
+      ...shot("lagos-office", 4),
       alt: "A hybrid inverter, protected distribution board and lithium battery bank mounted on a plant-room wall.",
       caption: "Hybrid inverter, protected board and lithium storage — every circuit labelled for the next engineer.",
     },
     packages: ["business-plus"],
-    proof: ["maitama-office", "lekki-smart-home"],
+    proof: ["lagos-office", "lekki-smart-home"],
     faqs: [
       {
         q: "Can solar carry our whole load?",

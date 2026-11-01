@@ -103,7 +103,7 @@ export default function ThankYouPage() {
               While you wait — see the work.
             </h2>
             <p className="mt-4 text-slate">
-              Real installations, real systems, and the numbers behind them.
+              Real installations, and the systems we built for each one.
               It&apos;s the best way to judge whether we&apos;re the team you
               want on your roof.
             </p>

@@ -57,9 +57,11 @@ in that state.
       kayglocitadel.com domain, set `RESEND_API_KEY`, `LEAD_INBOX` and
       `LEAD_FROM` in Vercel, redeploy, then submit one real test on the live
       form. Until then production shows visitors the WhatsApp/call fallback
-- [ ] **K** Case-study locations — photo GPS puts the "Maitama, Abuja" office
-      job in Ajah, Lagos, and the "Ikoyi" home in the Lekki–Chevron corridor.
-      Confirm the real locations and correct `lib/site.ts`
+- [x] **K** Case-study locations — corrected 2026-11-01: the "Ikoyi" home and
+      the "Maitama, Abuja" office are both Lagos jobs (now `lagos-residence`,
+      `lagos-office`; old URLs 308-redirect). Office system corrected to 10 kW
+      — **K: check its story still fits a 10 kW job** ("office complex",
+      "millions monthly on diesel", trading floors)
 - [x] **C** Gate the four invented stats (`verified` flag) — homepage band
       shows promises instead; About no longer shows them ✅ 2026-10-09
 - [ ] **K** Get 3+ real testimonials with permission, then flip `verified`
@@ -190,6 +192,13 @@ Before spending: establish maximum allowable CAC from gross profit per job (§32
 ---
 
 ## Log
+
+- **2026-11-01** — Savings / diesel-cut / payback figures removed from every
+  project (unverified; data kept in `lib/site.ts`, marked not shown). Case
+  studies relocated to Lagos per the owner's edits: slugs, names, story text,
+  photo folders and every reference updated; old URLs redirect. Turbopack's
+  dev disk cache switched off — iCloud kept corrupting it and killing the dev
+  server.
 
 - **2026-10-24** — WhatsApp is now the default way both forms are sent: the
   main button ("Send via WhatsApp" / "Apply via WhatsApp", and Enter) opens

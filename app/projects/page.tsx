@@ -29,8 +29,8 @@ export default function ProjectsPage() {
           <Reveal delay={160}>
             <p className="mt-6 max-w-xl text-lg text-slate">
               Every system is sized from scratch for the people who use it. Here
-              are a few we&apos;re proud of — generators retired, diesel bills
-              cut, and the real numbers behind them.
+              are a few we&apos;re proud of — generators retired and diesel
+              bills cut.
             </p>
           </Reveal>
         </Container>
@@ -54,16 +54,6 @@ export default function ProjectsPage() {
               </h2>
               <p className="mt-3 font-medium text-accent">{p.system}</p>
               <p className="mt-5 text-lg text-slate">{p.summary}</p>
-              <dl className="mt-8 grid grid-cols-3 gap-4 border-t border-ink/10 pt-6">
-                {p.metrics.map((m) => (
-                  <div key={m.label}>
-                    <dt className="text-xs text-mute">{m.label}</dt>
-                    <dd className="font-display mt-1 text-2xl text-ink">
-                      {m.value}
-                    </dd>
-                  </div>
-                ))}
-              </dl>
               <Link
                 href={`/projects/${p.slug}`}
                 className="group mt-8 inline-flex items-center gap-2 text-sm font-medium text-ink transition-colors hover:text-accent"
