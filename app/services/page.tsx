@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { RayBurst } from "@/components/Brand";
+import { Photo } from "@/components/Photo";
 import { Reveal } from "@/components/Reveal";
 import { Button, Container, Kicker } from "@/components/ui";
-import { processSteps, services, site } from "@/lib/site";
+import { processSteps, services } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Solar Products, Installation & After-Sales",
@@ -14,9 +15,10 @@ export const metadata: Metadata = {
 export default function ServicesPage() {
   return (
     <>
+      {/* ------------------------------ HERO ------------------------------ */}
       <section className="grain relative overflow-hidden border-b border-ink/10">
         <RayBurst className="pointer-events-none absolute -right-20 -top-20 h-80 w-80 text-accent/10" />
-        <Container className="relative py-20 md:py-28">
+        <Container className="relative py-16 md:py-24">
           <Reveal>
             <Kicker>Services</Kicker>
           </Reveal>
@@ -25,60 +27,83 @@ export default function ServicesPage() {
               Your one true source for reliable power.
             </h1>
           </Reveal>
-          <Reveal delay={160}>
+          <Reveal delay={140}>
             <p className="mt-6 max-w-xl text-lg text-slate">
-              From genuine products to installation, servicing, and after-sales —
-              everything you need under one roof, from one team you can build a
-              relationship with. No middlemen, no finger-pointing, no
-              disappearing act.
+              Genuine equipment, expert installation and servicing — from one
+              team that stays with you long after the lights come on.
             </p>
+          </Reveal>
+          {/* Straight to the service you came for. */}
+          <Reveal delay={200}>
+            <nav aria-label="Services on this page" className="mt-9 flex flex-wrap gap-2">
+              {services.map((s) => (
+                <a
+                  key={s.slug}
+                  href={`#${s.slug}`}
+                  className="rounded-full border border-ink/15 bg-cream px-4 py-2 text-sm text-slate transition-colors hover:border-ink hover:bg-ink hover:text-cream"
+                >
+                  {s.title}
+                </a>
+              ))}
+            </nav>
           </Reveal>
         </Container>
       </section>
 
-      {services.map((s, i) => (
-        <section
-          key={s.slug}
-          id={s.slug}
-          className={`scroll-mt-24 ${i % 2 === 1 ? "bg-cream-200/50" : ""}`}
-        >
-          <Container className="grid gap-10 py-16 md:grid-cols-12 md:gap-12 md:py-24">
-            <div className="md:col-span-5">
-              <Reveal>
-                <span className="font-display text-6xl text-sand">
-                  0{i + 1}
-                </span>
-                <h2 className="font-display mt-4 text-3xl text-ink md:text-4xl">
+      {/* ---------------------------- SERVICES ----------------------------
+          One balanced row each: the photo on one side, everything about the
+          service on the other, alternating sides so the page doesn't march.
+          Phones: photo first, then the words. */}
+      {services.map((s, i) => {
+        const flip = i % 2 === 1;
+        return (
+          <section
+            key={s.slug}
+            id={s.slug}
+            className={`scroll-mt-24 ${flip ? "bg-cream-200/50" : ""}`}
+          >
+            <Container className="grid items-center gap-8 py-14 md:grid-cols-2 md:gap-14 md:py-20">
+              {s.image && (
+                <Reveal className={flip ? "md:order-2" : ""}>
+                  <Photo
+                    photo={s.image}
+                    sizes="(min-width: 1152px) 520px, (min-width: 768px) 46vw, 92vw"
+                    className="aspect-[4/3]"
+                  />
+                </Reveal>
+              )}
+              <Reveal delay={80} className={flip ? "md:order-1" : ""}>
+                <span className="font-display text-sm text-accent">0{i + 1}</span>
+                <h2 className="font-display mt-2 text-3xl text-ink md:text-4xl">
                   {s.title}
                 </h2>
-                <p className="mt-4 text-lg text-slate">{s.detail}</p>
-              </Reveal>
-            </div>
-            <div className="md:col-span-6 md:col-start-7">
-              <Reveal delay={100}>
-                <ul className="space-y-4">
+                <p className="mt-4 leading-relaxed text-slate">{s.detail}</p>
+                <ul className="mt-6 space-y-2.5 border-t border-ink/10 pt-6">
                   {s.points.map((point) => (
-                    <li
-                      key={point}
-                      className="flex gap-4 border-b border-ink/10 pb-4"
-                    >
-                      <span
+                    <li key={point} className="flex items-start gap-3 text-ink">
+                      <svg
+                        viewBox="0 0 16 16"
+                        className="mt-[5px] h-3.5 w-3.5 shrink-0 text-accent"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
                         aria-hidden="true"
-                        className="mt-1 text-accent"
                       >
-                        ✦
-                      </span>
-                      <span className="text-ink">{point}</span>
+                        <path d="m3 8.5 3.2 3.2L13 5" />
+                      </svg>
+                      {point}
                     </li>
                   ))}
                 </ul>
               </Reveal>
-            </div>
-          </Container>
-        </section>
-      ))}
+            </Container>
+          </section>
+        );
+      })}
 
-      {/* Process recap */}
+      {/* ----------------------------- PROCESS ---------------------------- */}
       <section className="bg-ink text-cream">
         <Container className="py-20 md:py-28">
           <Reveal>
@@ -106,23 +131,6 @@ export default function ServicesPage() {
                 Get a free quote
               </Button>
             </div>
-          </Reveal>
-        </Container>
-      </section>
-
-      <section className="py-20 text-center">
-        <Container>
-          <Reveal>
-            <p className="font-display text-2xl text-ink md:text-3xl">
-              Not sure where to start? Call us at{" "}
-              <a
-                href={`tel:${site.contact.phoneHref}`}
-                className="text-accent underline-offset-4 hover:underline"
-              >
-                {site.contact.phone}
-              </a>
-              .
-            </p>
           </Reveal>
         </Container>
       </section>

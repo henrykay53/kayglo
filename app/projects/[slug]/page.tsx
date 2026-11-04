@@ -4,7 +4,8 @@ import { notFound } from "next/navigation";
 import { CaseRoadmap, Milestone } from "@/components/CaseRoadmap";
 import { ProjectStack } from "@/components/ProjectStack";
 import { Reveal } from "@/components/Reveal";
-import { Button, Container, Kicker } from "@/components/ui";
+import { Container, Kicker } from "@/components/ui";
+import { PhotoCta } from "@/components/Sections";
 import { projects, site } from "@/lib/site";
 
 export function generateStaticParams() {
@@ -185,8 +186,20 @@ export default async function ProjectPage({
         </section>
       ) : (
         <section className="py-16 md:py-24">
-          <Container>
-            <p className="max-w-xl text-slate">
+          <Container className="grid gap-10 md:grid-cols-12">
+            {project.equipment && project.equipment.length > 0 && (
+              <div className="md:col-span-6">
+                <Kicker>What we installed</Kicker>
+                <ul className="mt-6 divide-y divide-ink/10 border-y border-ink/10">
+                  {project.equipment.map((item) => (
+                    <li key={item} className="py-3.5 text-lg text-ink">
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+            <p className="max-w-xl self-end text-slate md:col-span-5 md:col-start-8">
               The full case study for this installation is being written up.
               In the meantime, the photographs above are all from site.
             </p>
@@ -216,22 +229,10 @@ export default async function ProjectPage({
         </Container>
       </section>
 
-      <section className="bg-ink py-20 text-center text-cream md:py-28">
-        <Container>
-          <Reveal>
-            <h2 className="font-display text-4xl md:text-5xl">
-              Your home or business could be next.
-            </h2>
-            <p className="mx-auto mt-5 max-w-lg text-cream/70">
-              Tell us what you need to power, and we&apos;ll show you exactly
-              how to end the blackouts for good.
-            </p>
-            <div className="mt-9 flex justify-center">
-              <Button href="/contact">Get a free power assessment</Button>
-            </div>
-          </Reveal>
-        </Container>
-      </section>
+      <PhotoCta
+        title="Your home or business could be next."
+        body="Tell us what you need to power, and we'll show you exactly how to end the blackouts for good."
+      />
     </>
   );
 }

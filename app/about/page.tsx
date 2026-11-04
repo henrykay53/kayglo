@@ -3,7 +3,8 @@ import { RayBurst } from "@/components/Brand";
 import { Credentials } from "@/components/Credentials";
 import { Photo } from "@/components/Photo";
 import { Reveal } from "@/components/Reveal";
-import { Button, Container, Kicker, CallButton } from "@/components/ui";
+import { Container, Kicker } from "@/components/ui";
+import { PhotoCta } from "@/components/Sections";
 import { aboutPhotos, site } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -95,66 +96,63 @@ export default function AboutPage() {
         </Container>
       </section>
 
+      {/* -------------------------------- STORY ------------------------------- */}
       <section className="py-16 md:py-24">
-        <Container className="grid gap-12 md:grid-cols-12">
-          <Reveal className="md:col-span-7 md:col-start-1">
-            <div className="space-y-6 text-lg leading-relaxed text-slate">
+        <Container className="grid items-center gap-10 md:grid-cols-12 md:gap-14">
+          <Reveal className="md:col-span-7">
+            <Kicker>Our story</Kicker>
+            <h2 className="font-display mt-5 text-3xl text-ink md:text-4xl">
+              Why Kayglo Citadel exists.
+            </h2>
+            <div className="mt-6 space-y-5 text-lg leading-relaxed text-slate">
               <p>
                 If you live in Nigeria, you know the routine: the lights go, the
-                generator roars, and another jerry can of fuel disappears. You&apos;ve
-                probably bought an inverter or battery that promised the world
-                and failed within a year. We&apos;ve lived that same frustration
-                — and it&apos;s exactly why Kayglo Citadel exists.
+                generator roars, and another jerry can of fuel disappears. Maybe
+                you&apos;ve bought an inverter or battery that failed within a
+                year. We&apos;ve lived that same frustration — it&apos;s why we
+                started.
               </p>
               <p>
-                We&apos;re not a faceless company. We&apos;re real people who
-                understand what dependable power means for your family, your
-                comfort, and your business — and we take it personally. So we do
-                things differently: we listen first, we supply only genuine
-                equipment, and we size every system honestly.
-              </p>
-              <p>
-                Most of all, we stay. Choosing Kayglo isn&apos;t buying a product
-                and waving goodbye — it&apos;s gaining a partner who answers the
-                phone, shows up to service your system, and grows with your
-                needs. That&apos;s what being your one true source for power
-                really means.
+                So we do things differently: we listen first, supply only genuine
+                equipment, size every system honestly — and we stay. Servicing,
+                repairs, advice: we answer the phone long after the lights come
+                on.
               </p>
             </div>
           </Reveal>
-          <Reveal delay={120} className="md:col-span-4 md:col-start-9">
+          <Reveal delay={120} className="md:col-span-5">
             <Photo
               photo={aboutPhotos.story}
-              sizes="(min-width: 1152px) 360px, (min-width: 768px) 32vw, 92vw"
+              sizes="(min-width: 1152px) 430px, (min-width: 768px) 38vw, 92vw"
               className="aspect-[4/5]"
             />
           </Reveal>
         </Container>
       </section>
 
-      <section className="bg-ink text-cream">
-        <Container className="py-20 md:py-28">
+      {/* ------------------------------ PROMISES ------------------------------ */}
+      {/* Four promises, not four steps — so no numbers. Same dark card style
+          as the trade cards on the Business page. */}
+      <section className="bg-ink py-16 text-cream md:py-24">
+        <Container>
           <Reveal>
             <Kicker className="text-accent-300">What we stand for</Kicker>
           </Reveal>
           <Reveal delay={80}>
-            <h2 className="font-display mt-5 max-w-2xl text-4xl md:text-5xl">
-              Four promises we keep
+            <h2 className="font-display mt-5 max-w-2xl text-3xl md:text-4xl">
+              Four promises we keep.
             </h2>
           </Reveal>
-          <div className="mt-14 grid gap-px overflow-hidden rounded-2xl border border-cream/10 bg-cream/10 sm:grid-cols-2">
+          <ul className="mt-10 grid gap-3 sm:grid-cols-2">
             {values.map((v, i) => (
-              <Reveal key={v.title} delay={i * 70}>
-                <div className="h-full bg-ink p-8 md:p-10">
-                  <span className="font-display text-sm text-accent-300">
-                    0{i + 1}
-                  </span>
-                  <h3 className="font-display mt-3 text-2xl">{v.title}</h3>
-                  <p className="mt-3 text-cream/60">{v.body}</p>
+              <Reveal as="li" key={v.title} delay={i * 70}>
+                <div className="h-full rounded-2xl border border-cream/10 bg-cream/[0.03] p-6 md:p-7">
+                  <h3 className="font-display text-xl">{v.title}</h3>
+                  <p className="mt-2 leading-relaxed text-cream/60">{v.body}</p>
                 </div>
               </Reveal>
             ))}
-          </div>
+          </ul>
         </Container>
       </section>
 
@@ -194,23 +192,10 @@ export default function AboutPage() {
 
       <Credentials />
 
-      <section className="py-20 text-center md:py-28">
-        <Container>
-          <Reveal>
-            <h2 className="font-display text-4xl text-ink md:text-5xl">
-              Let&apos;s solve it together.
-            </h2>
-            <p className="mx-auto mt-5 max-w-lg text-slate">
-              Start with a free power assessment — an engineer sizes the system
-              to what you actually run, with no obligation to buy.
-            </p>
-            <div className="mt-9 flex flex-wrap items-center justify-center gap-x-6 gap-y-4">
-              <Button href="/contact">Get a free power assessment</Button>
-              <CallButton />
-            </div>
-          </Reveal>
-        </Container>
-      </section>
+      <PhotoCta
+        title="Let's solve it together."
+        body="Start with a free power assessment — an engineer sizes the system to what you actually run, with no obligation to buy."
+      />
     </>
   );
 }

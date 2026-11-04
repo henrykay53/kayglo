@@ -1,11 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
-import { RayBurst } from "@/components/Brand";
 import { PowerMap } from "@/components/PowerMap";
 import { ProofChips } from "@/components/ProofChips";
 import { Reveal } from "@/components/Reveal";
 import { Testimonials } from "@/components/Testimonials";
-import { Button, Container, Kicker, CallButton } from "@/components/ui";
+import { Button, Container, Kicker } from "@/components/ui";
+import { PhotoCta } from "@/components/Sections";
 import {
   processSteps,
   projects,
@@ -326,28 +326,10 @@ export default function Home() {
 
       {/* ============================== CTA ============================== */}
       {/* Top padding keeps this card apart from the green generator band. */}
-      <section className="pb-24 pt-16 md:pt-24">
-        <Container>
-          <div className="grain relative overflow-hidden rounded-3xl bg-ever px-8 py-16 text-cream md:px-16 md:py-20">
-            <RayBurst className="pointer-events-none absolute -right-16 -top-16 h-72 w-72 text-accent-300/20" />
-            <RayBurst className="pointer-events-none absolute -bottom-24 -left-20 h-64 w-64 text-accent-300/10" />
-            <div className="relative mx-auto max-w-2xl text-center">
-              <h2 className="font-display text-4xl md:text-5xl">
-                Let&apos;s solve your power problem.
-              </h2>
-              <p className="mx-auto mt-5 max-w-xl text-lg text-cream/70">
-                Tell us what you&apos;re dealing with — the blackouts, the
-                generator, the bills. We&apos;ll recommend exactly what you need,
-                nothing you don&apos;t, and stand by it long after.
-              </p>
-              <div className="mt-9 flex flex-wrap justify-center gap-4">
-                <Button href="/contact">Get a free quote</Button>
-                <CallButton onDark />
-              </div>
-            </div>
-          </div>
-        </Container>
-      </section>
+      <PhotoCta
+        title="Let's solve your power problem."
+        body="Tell us what you're dealing with — the blackouts, the generator, the bills. We'll recommend exactly what you need, nothing you don't, and stand by it long after."
+      />
     </>
   );
 }

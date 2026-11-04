@@ -16,8 +16,14 @@ import { site } from "@/lib/site";
  *
  * Get a free key at https://resend.com, verify your sending domain, then add:
  *   RESEND_API_KEY=re_...                (your Resend key)
- *   LEAD_INBOX=sales@kayglocitadel.com   (where leads should land)
- *   LEAD_FROM=leads@kayglocitadel.com    (a verified sender on your domain; optional)
+ *   LEAD_INBOX=kayglocitadel@gmail.com   (where leads should land)
+ *   LEAD_FROM=Kayglo Leads <leads@yourdomain.com>   (optional — see below)
+ *
+ * LEAD_FROM must be on a domain you own and have verified in Resend. A Gmail
+ * address can RECEIVE leads but can never be the sender. Until a domain is
+ * verified, leave LEAD_FROM unset: Resend's onboarding@resend.dev is used,
+ * which (in Resend's test mode) only delivers to the address the Resend
+ * account was opened with — so open it with kayglocitadel@gmail.com.
  */
 
 export const runtime = "nodejs";

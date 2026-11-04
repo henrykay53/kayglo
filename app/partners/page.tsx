@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { PartnerForm } from "@/components/PartnerForm";
+import { Photo } from "@/components/Photo";
 import { Reveal } from "@/components/Reveal";
 import { Container, Kicker } from "@/components/ui";
-import { partnerProgramme, site } from "@/lib/site";
+import { pagePhotos, partnerProgramme, site } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Partner Programme",
@@ -44,6 +45,8 @@ export default function PartnersPage() {
           <div className="absolute -right-24 -top-32 h-[30rem] w-[30rem] rounded-full bg-accent/10 blur-3xl" />
         </div>
         <Container className="py-16 md:py-24">
+          <div className="grid items-center gap-12 md:grid-cols-12 md:gap-10">
+            <div className="md:col-span-7">
           <Reveal>
             <Kicker>Partner programme</Kicker>
           </Reveal>
@@ -60,6 +63,18 @@ export default function PartnersPage() {
               your client, and a share of the work.
             </p>
           </Reveal>
+            </div>
+            <figure className="md:col-span-5">
+              <Photo
+                photo={pagePhotos.partners}
+                preload
+                sizes="(min-width: 1152px) 440px, (min-width: 768px) 40vw, 92vw"
+                // Landscape photo, so a landscape frame — a tall one would
+                // crop its sides (and the watermark) away.
+                className="aspect-[4/3] shadow-2xl shadow-ink/15"
+              />
+            </figure>
+          </div>
         </Container>
       </section>
 

@@ -29,9 +29,12 @@ export const site = {
      * WhatsApp Business). If WhatsApp runs on a different line, change it here.
      */
     whatsapp: "2348050777800",
-    email: "info@kayglocitadel.com",
-    salesEmail: "sales@kayglocitadel.com",
-    supportEmail: "support@kayglocitadel.com",
+    // One inbox for everything for now. Kept as three fields so general,
+    // sales (also where website leads go) and after-sales support can be
+    // split again later by changing a line each.
+    email: "kayglocitadel@gmail.com",
+    salesEmail: "kayglocitadel@gmail.com",
+    supportEmail: "kayglocitadel@gmail.com",
     address: {
       street: "House 1, Kelly John Avenue Infinity Estate",
       locality: "Ajah",
@@ -269,6 +272,12 @@ export type ProjectCase = {
    */
   metrics: { label: string; value: string }[];
   hue: string; // brand-consistent artwork tint
+  /**
+   * The equipment on site, one item per line. Shown as "What we installed"
+   * on a project whose full story (`study`) hasn't been written yet — so a
+   * new job can go up with its facts, and nothing invented around them.
+   */
+  equipment?: string[];
   /** Shot on site. Rendered as a shuffleable card stack — first one is the hero. */
   gallery: ProjectPhoto[];
   /**
@@ -304,6 +313,72 @@ export type ProjectCase = {
 
 
 export const projects: ProjectCase[] = [
+  // Newest first — the homepage shows the first four.
+  {
+    slug: "lagos-rooftop-residence",
+    name: "Lagos Rooftop Residence",
+    location: "Lagos, Nigeria", // TODO — the area (e.g. Lekki, Ikeja) would make this stronger
+    system: "24 panels · 2 × 10 kVA hybrid · 32.92 kWh storage",
+    summary:
+      "A Lagos home with 24 solar panels across its roof, two 10 kVA hybrid smart inverters and two lithium batteries holding 32.92 kWh between them.",
+    // Not shown on the site (see the type). Left empty — no figures yet.
+    metrics: [],
+    hue: "#2f5343",
+    // DRAFT (2026-11-03) — written so this page matches the other case
+    // studies; the owner is reviewing it. Only the equipment is confirmed;
+    // the story is phrased from a typical Lagos home job. Correct against
+    // the job notes, then delete this comment.
+    study: {
+      before:
+        "A family home in Lagos that had outgrown its generator. Evenings ran on fuel, and every outage meant a pause, a pull-start and a house full of noise.",
+      problem:
+        "Fuel and servicing had become a fixed monthly cost, the generator couldn't carry the air conditioning through the night without a refill, and the household wanted power that simply stayed on — through the evening peak and on until morning.",
+      existing:
+        "Grid supply with a generator as backup, started and switched over by hand.",
+      needs: [
+        "The whole house through the evening, not just the lights",
+        "Air conditioning in the bedrooms overnight",
+        "Fridges and freezers with no interruption at changeover",
+        "Enough storage to carry the night without the generator",
+      ],
+      installed: [
+        "24 solar panels in rows across the flat metal roof",
+        "Two 10 kVA hybrid smart inverters, wall-mounted in the plant room",
+        "Two lithium batteries — 15 kWh and 17.92 kWh, 32.92 kWh between them",
+        "Automatic changeover between solar, battery and grid",
+      ],
+      install:
+        "The array was set out in rows along the roof, inside the parapet, and cabled down to the plant room. There the two inverters and the battery pair went onto one wall, with the protection and changeover between them, so the whole system reads at a glance. The household was shown how to read the inverter displays at handover.",
+      after:
+        "The house now runs on solar through the day and on the battery bank through the night, with the grid and the generator kept as backup rather than as the plan.",
+    },
+    gallery: [
+      {
+        src: "/projects/lagos-rooftop-residence/01.jpg",
+        alt: "The rooftop solar array running the length of a Lagos home's metal roof at sunset.",
+        width: 768,
+        height: 1024,
+      },
+      {
+        src: "/projects/lagos-rooftop-residence/02.jpg",
+        alt: "A Kayglo installer in a white hard hat and hi-vis vest securing a panel on the rooftop array.",
+        width: 665,
+        height: 1182,
+      },
+      {
+        src: "/projects/lagos-rooftop-residence/03.jpg",
+        alt: "Two hybrid smart inverters mounted above two lithium batteries on a plant-room wall.",
+        width: 768,
+        height: 1024,
+      },
+      {
+        src: "/projects/lagos-rooftop-residence/04.jpg",
+        alt: "The finished rooftop array seen from the parapet, with neighbouring rooftops behind.",
+        width: 768,
+        height: 1024,
+      },
+    ],
+  },
   {
     slug: "lagos-residence",
     name: "Lagos Family Residence",
@@ -543,8 +618,8 @@ function shot(project: string, n: number): ProjectPhoto {
 const serviceImages: Record<string, ProjectPhoto> = {
   "home-solar": heroGallery[0],
   products: {
-    ...shot("lekki-smart-home", 2),
-    alt: "A bank of batteries and four wall-mounted inverters installed in a plant room.",
+    ...shot("lagos-rooftop-residence", 3),
+    alt: "Two hybrid smart inverters above two lithium batteries, wired neatly on a plant-room wall.",
   },
   "commercial-solar": {
     ...shot("lagos-office", 3),
@@ -558,6 +633,28 @@ const serviceImages: Record<string, ProjectPhoto> = {
 for (const s of services) s.image = serviceImages[s.slug];
 
 /**
+ * Lead photos for pages that were text-only. Each is chosen for what the page
+ * sells, and every one is a watermarked Kayglo job (npm run photos).
+ */
+export const pagePhotos = {
+  /** /financing — what the money buys. */
+  pricing: {
+    ...shot("lagos-rooftop-residence", 1),
+    alt: "A 24-panel solar array across the roof of a Lagos home at sunset.",
+  },
+  /** /partners — the kind of building estate agents and managers look after. */
+  partners: {
+    ...heroGallery[2],
+    alt: "A full rooftop array on a flat estate roof after rain, with the city skyline behind.",
+  },
+  /** /contact — a person behind "talk to us directly". */
+  contact: {
+    ...shot("lagos-rooftop-residence", 2),
+    alt: "A Kayglo installer in a white hard hat and hi-vis vest securing a panel on a rooftop array.",
+  },
+};
+
+/**
  * The /about page. Every photo is Kayglo's own crew on a real job — the point
  * is to show the people a customer is about to let into their building.
  */
@@ -569,18 +666,23 @@ export const aboutPhotos = {
       ...shot("lagos-residence", 1),
       alt: "The Kayglo crew fitting panels onto a steel carport structure, with a ladder and a colleague steadying the frame.",
     },
+    // The two crew shots (images/ → public/crew/, watermarked) flank it.
     {
-      ...shot("surulere-residence", 1),
-      alt: "A Kayglo installer in a hi-vis vest passing a solar panel up from a balcony to the crew on the roof.",
+      src: "/crew/01.jpg",
+      alt: "Two Kayglo installers in hi-vis vests and a hard hat on a ladder above an inverter enclosure, a colleague steadying it below.",
+      width: 768,
+      height: 1024,
     },
     {
-      ...shot("lagos-office", 1),
-      alt: "A Kayglo installer in a hard hat and harness fastening a panel on a sloped metal roof.",
+      src: "/crew/02.jpg",
+      alt: "The Kayglo crew at work on the side of a house — one up the ladder, one on the parapet, one at the inverter enclosure below.",
+      width: 768,
+      height: 1024,
     },
   ],
   story: {
-    ...shot("lagos-office", 2),
-    alt: "A Kayglo installer setting out the first row of panels across a metal roof.",
+    ...shot("surulere-residence", 1),
+    alt: "A Kayglo installer in a hi-vis vest passing a solar panel up from a balcony to the crew on the roof.",
   },
   /** Up-close evidence of the workmanship, each with what to look for. */
   workmanship: [
@@ -850,6 +952,21 @@ export const generatorSizes = [
   { kva: "100 kVA and above", servicing: 150_000 },
 ];
 
+/** Icons drawn in components/LoadIcon.tsx — one per thing kept running. */
+export type LoadIcon =
+  | "light"
+  | "fan"
+  | "fridge"
+  | "wifi"
+  | "pump"
+  | "security"
+  | "pos"
+  | "server"
+  | "printer"
+  | "cold"
+  | "plant"
+  | "meter";
+
 /** Icons drawn in components/TradeIcon.tsx — one per kind of trade. */
 export type TradeIcon =
   | "dining"
@@ -880,22 +997,31 @@ export type Segment = {
   areas?: string[];
   /** The situation they are actually living with, in their words. */
   pains: { title: string; body: string }[];
-  /** What the system has to carry. */
-  keeps: string[];
+  /** What the system has to carry — each shown as an icon tile. */
+  keeps: { label: string; icon: LoadIcon }[];
   /**
    * For business segments: the specific trade, and the single argument that
    * matters to it. A pharmacy and a barbershop do not buy for the same reason.
    */
   trades?: { type: string; icon: TradeIcon; argument: string }[];
-  /** Lead photo beside the headline. Preloaded — it is the page's LCP. */
-  hero: ProjectPhoto;
   /**
-   * Homes buy on how the finished job looks: a mosaic of completed
-   * installations. Lead with a portrait — it takes the tall slot.
+   * The hero's tall photo (preloaded — it is the page's LCP; also the
+   * page's share image and its thumbnail in the homepage "Solar for" row).
+   * Portrait works best.
    */
-  gallery?: ProjectPhoto[];
-  /** Businesses buy on engineering: the plant shown beside "what stays on". */
-  plant?: ProjectPhoto & { caption: string };
+  hero: ProjectPhoto;
+  /** The two smaller photos beside it in the hero cluster. */
+  heroSide: [ProjectPhoto, ProjectPhoto];
+  /** The plant room, shown beside "what stays on". */
+  plant: ProjectPhoto & { caption: string };
+  /**
+   * A strip of four job photos. A photo from a case study links to it
+   * automatically. Don't repeat a photo used elsewhere on the same page —
+   * the proof cards then take the first photo of each project not yet used.
+   */
+  work: ProjectPhoto[];
+  /** Background for the closing call to action. Landscape works best. */
+  ctaPhoto: ProjectPhoto;
   /** Package slugs that usually fit this segment. */
   packages: string[];
   /** Project slugs to show as proof. */
@@ -949,30 +1075,44 @@ export const segments: Segment[] = [
       },
     ],
     keeps: [
-      "Lighting throughout the house",
-      "Fans and air conditioning",
-      "Fridges and freezers",
-      "WiFi, TV and entertainment",
-      "Water pump and borehole",
-      "Security lighting and CCTV",
+      { label: "Lighting throughout the house", icon: "light" },
+      { label: "Fans and air conditioning", icon: "fan" },
+      { label: "Fridges and freezers", icon: "fridge" },
+      { label: "WiFi, TV and entertainment", icon: "wifi" },
+      { label: "Water pump and borehole", icon: "pump" },
+      { label: "Security lighting and CCTV", icon: "security" },
     ],
-    hero: heroGallery[1],
-    gallery: [
+    hero: {
+      ...shot("lagos-rooftop-residence", 1),
+      alt: "A 24-panel solar array across the roof of a Lagos home at sunset.",
+    },
+    heroSide: [
+      heroGallery[0],
+      {
+        ...shot("lagos-residence", 1),
+        alt: "The Kayglo crew fitting panels onto a steel carport over a family compound.",
+      },
+    ],
+    plant: {
+      ...shot("lagos-residence", 3),
+      alt: "Inverter, changeover panel and a stacked battery rack in a glazed plant room.",
+      caption: "Inverter, changeover and battery rack in a glazed plant room — out of the way, still easy to service.",
+    },
+    work: [
+      {
+        ...shot("lagos-rooftop-residence", 4),
+        alt: "A finished rooftop array on a Lagos home, with neighbouring rooftops behind.",
+      },
       {
         ...shot("lekki-smart-home", 1),
         alt: "A finished solar carport shading a home's parking court, seen from an upper floor.",
       },
-      heroGallery[0],
-      heroGallery[2],
+      heroGallery[1],
       shot("surulere-residence", 2),
-      {
-        ...shot("lagos-residence", 2),
-        alt: "A steel solar carport going up in a family compound, beside the house.",
-      },
     ],
+    ctaPhoto: heroGallery[2],
     packages: ["essential", "comfort"],
-    // Surulere before Lekki: the Lekki carport already leads the gallery above.
-    proof: ["lagos-residence", "surulere-residence", "lekki-smart-home"],
+    proof: ["lagos-rooftop-residence", "lagos-residence", "surulere-residence"],
     faqs: [
       {
         q: "Can solar really run my air conditioners?",
@@ -1018,12 +1158,12 @@ export const segments: Segment[] = [
       },
     ],
     keeps: [
-      "POS terminals and card machines",
-      "Refrigeration and cold storage",
-      "Computers, servers and networking",
-      "CCTV and access control",
-      "Lighting and selected cooling",
-      "Printers and workshop equipment",
+      { label: "POS terminals and card machines", icon: "pos" },
+      { label: "Refrigeration and cold storage", icon: "cold" },
+      { label: "Computers, servers and networking", icon: "server" },
+      { label: "CCTV and access control", icon: "security" },
+      { label: "Lighting and selected cooling", icon: "light" },
+      { label: "Printers and workshop equipment", icon: "printer" },
     ],
     trades: [
       {
@@ -1091,13 +1231,35 @@ export const segments: Segment[] = [
       ...shot("lagos-office", 2),
       alt: "A Kayglo installer setting out solar panels across the metal roof of a commercial building.",
     },
+    heroSide: [
+      {
+        ...shot("lagos-rooftop-residence", 3),
+        alt: "Two hybrid smart inverters above two lithium batteries on a plant-room wall.",
+      },
+      {
+        ...shot("lagos-office", 1),
+        alt: "A Kayglo installer in a hard hat and harness fastening a panel on a sloped metal roof.",
+      },
+    ],
     plant: {
       ...shot("lekki-smart-home", 2),
       alt: "A plant room with four wall-mounted inverters above a bank of batteries, wired to the changeover panel.",
       caption: "Inverters and battery bank in a dedicated plant room — built to be serviced, not hidden.",
     },
+    work: [
+      shot("lagos-office", 3),
+      {
+        ...shot("lagos-rooftop-residence", 2),
+        alt: "A Kayglo installer in a white hard hat securing a panel on a rooftop array.",
+      },
+      shot("surulere-residence", 1),
+      shot("lagos-residence", 1),
+    ],
+    // Same closing background as Homes and Commercial — one image for the
+    // "Find out exactly what you need" section across all three pages.
+    ctaPhoto: heroGallery[2],
     packages: ["business", "business-plus"],
-    proof: ["lagos-office", "surulere-residence"],
+    proof: ["lagos-office", "lagos-rooftop-residence", "surulere-residence"],
     faqs: [
       {
         q: "How do I know it will pay for itself?",
@@ -1143,24 +1305,48 @@ export const segments: Segment[] = [
       },
     ],
     keeps: [
-      "Whole-building lighting and small power",
-      "HVAC and selected heavy cooling",
-      "Lifts, pumps and plant",
-      "Servers, networking and security",
-      "Cold storage and process equipment",
-      "Metering and remote monitoring",
+      { label: "Whole-building lighting and small power", icon: "light" },
+      { label: "HVAC and selected heavy cooling", icon: "fan" },
+      { label: "Lifts, pumps and plant", icon: "plant" },
+      { label: "Servers, networking and security", icon: "server" },
+      { label: "Cold storage and process equipment", icon: "cold" },
+      { label: "Metering and remote monitoring", icon: "meter" },
     ],
     hero: {
       ...shot("lagos-office", 3),
       alt: "A finished rooftop array clamped and cabled across a metal roof, with a Kayglo hard hat resting on a panel.",
     },
+    heroSide: [
+      {
+        ...shot("lagos-rooftop-residence", 4),
+        alt: "A finished rooftop array on a Lagos building, with neighbouring rooftops behind.",
+      },
+      {
+        ...shot("lagos-office", 1),
+        alt: "A Kayglo installer in a hard hat and harness fastening a panel on a sloped metal roof.",
+      },
+    ],
     plant: {
       ...shot("lagos-office", 4),
       alt: "A hybrid inverter, protected distribution board and lithium battery bank mounted on a plant-room wall.",
       caption: "Hybrid inverter, protected board and lithium storage — every circuit labelled for the next engineer.",
     },
+    work: [
+      {
+        ...shot("lekki-smart-home", 2),
+        alt: "A plant room with four wall-mounted inverters above a bank of batteries.",
+      },
+      shot("lagos-residence", 1),
+      heroGallery[0],
+      {
+        ...shot("lagos-rooftop-residence", 2),
+        alt: "A Kayglo installer in a white hard hat securing a panel on a rooftop array.",
+      },
+    ],
+    // Same closing background as Homes and Business.
+    ctaPhoto: heroGallery[2],
     packages: ["business-plus"],
-    proof: ["lagos-office", "lekki-smart-home"],
+    proof: ["lagos-office", "lekki-smart-home", "lagos-rooftop-residence"],
     faqs: [
       {
         q: "Can solar carry our whole load?",

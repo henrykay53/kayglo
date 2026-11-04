@@ -7,7 +7,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "photos": "node scripts/photos.mjs"
+    "photos": "node scripts/photos.mjs",
+    "clean:icloud": "node scripts/clean-icloud-dupes.mjs",
+    "predev": "node scripts/clean-icloud-dupes.mjs",
+    "prebuild": "node scripts/clean-icloud-dupes.mjs"
   },
   "dependencies": {
     "@tailwindcss/typography": "^0.5.20",

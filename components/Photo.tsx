@@ -13,6 +13,7 @@ export function Photo({
   className = "",
   sizes,
   preload = false,
+  eager = false,
   position,
 }: {
   photo: ProjectPhoto;
@@ -20,6 +21,8 @@ export function Photo({
   sizes: string;
   /** Only for the photo that is the page's largest above-the-fold element. */
   preload?: boolean;
+  /** Above the fold but not the main image: load now, without a preload. */
+  eager?: boolean;
   /** CSS object-position, for frames that crop the photo hard. */
   position?: string;
 }) {
@@ -33,6 +36,7 @@ export function Photo({
         fill
         sizes={sizes}
         preload={preload}
+        loading={eager ? "eager" : undefined}
         className="object-cover"
         style={position ? { objectPosition: position } : undefined}
       />

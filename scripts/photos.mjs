@@ -41,6 +41,15 @@ const PHOTOS = {
   "project3/50CFD736-C613-4279-9038-DFA9B35A2777.JPG": "projects/lekki-smart-home/02.jpg",
   "project 4/99D725DC-5CC2-4E43-B4BD-C5E9420ABA1F.JPG": "projects/surulere-residence/01.jpg",
   "project 4/57EB0CB7-0DB0-4A72-A39B-6E864965B7FC.JPG": "projects/surulere-residence/02.jpg",
+  // project 5 — 0342D6AE/8257127D and 938F0C5B/FB54E4C1 are near-duplicate
+  // pairs; one of each is used.
+  "project 5/938F0C5B-C626-4627-83DC-505F2D787B16_1_105_c.jpeg": "projects/lagos-rooftop-residence/01.jpg",
+  "project 5/5B20FC5E-6867-457A-B03F-68D5AF4BD42D_1_105_c.jpeg": "projects/lagos-rooftop-residence/02.jpg",
+  "project 5/0342D6AE-8209-4348-A805-D0BF16376A02_1_105_c.jpeg": "projects/lagos-rooftop-residence/03.jpg",
+  "project 5/7A760971-32B1-48D3-BF10-5065B3E7427C_1_105_c.jpeg": "projects/lagos-rooftop-residence/04.jpg",
+  // Crew at work (About page). E95F99FF is a near-duplicate of B344B6DB.
+  "9CF978C1-3885-4D5B-86B0-4A5610271B46_1_105_c.jpeg": "crew/01.jpg",
+  "B344B6DB-DB8A-4CE7-93D4-C732A5DF0E3E_1_105_c.jpeg": "crew/02.jpg",
 };
 
 const MAX_EDGE = 1600;

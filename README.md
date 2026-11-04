@@ -57,8 +57,8 @@ The consultation form posts to [`app/api/lead/route.ts`](app/api/lead/route.ts),
 2. Copy `.env.example` to `.env.local` and fill in:
    ```bash
    RESEND_API_KEY=re_...            # your Resend key
-   LEAD_INBOX=you@kayglo.com        # where leads land
-   # LEAD_FROM=Kayglo Leads <leads@kayglo.com>   # optional verified sender
+   LEAD_INBOX=kayglocitadel@gmail.com   # where leads land
+   # LEAD_FROM=Kayglo Leads <leads@yourdomain.com>   # optional — must be on a domain verified in Resend; a Gmail address can't send
    ```
 3. Add the same variables to your production host (e.g. Vercel project settings).
 

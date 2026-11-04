@@ -23,7 +23,9 @@ export function Footer() {
       <RayBurst className="pointer-events-none absolute -right-20 -top-20 h-80 w-80 text-accent/10" />
 
       {/* A last chance to convert, before the small print */}
-      <div className="relative border-b border-cream/10">
+      {/* data-footer-cta: hidden on pages that end with their own call to
+          action (marked data-own-cta) — see globals.css. */}
+      <div data-footer-cta className="relative border-b border-cream/10">
         <div className="mx-auto flex max-w-6xl flex-col gap-6 px-6 py-10 sm:px-8 md:flex-row md:items-center md:justify-between">
           <div>
             <p className="font-display text-2xl text-cream md:text-3xl">

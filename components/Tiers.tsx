@@ -84,10 +84,7 @@ export function Tiers() {
                   <LoadMeter level={p.level} />
                 </div>
 
-                <p className="font-display mt-7 text-sm text-cream/25">
-                  0{i + 1}
-                </p>
-                <h3 className="font-display mt-2 text-[1.7rem] leading-none text-cream">
+                <h3 className="font-display mt-7 text-[1.7rem] leading-none text-cream">
                   {p.name}
                 </h3>
 

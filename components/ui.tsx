@@ -124,11 +124,14 @@ export function CallButton({
       } ${tone} ${className}`}
     >
       <PhoneGlyph className={size === "sm" ? "h-4 w-4" : "h-[1.15rem] w-[1.15rem]"} />
-      {/* Hover / focus only, and only on devices that can hover — on a phone
-          the handset is the whole message, and a tap goes straight to the dialler. */}
+      {/* Mouse hover or keyboard focus only — on a phone the handset is the
+          whole message, and a tap goes straight to the dialler. */}
       <span
         aria-hidden="true"
-        className={`pointer-events-none absolute left-1/2 z-10 hidden -translate-x-1/2 whitespace-nowrap rounded-full bg-ink px-3 py-1.5 text-xs font-medium text-cream opacity-0 shadow-lg transition-opacity duration-150 [@media(hover:hover)]:block group-hover/call:opacity-100 group-focus-visible/call:opacity-100 ${
+        // display:none until hovered or focused — an invisible-but-present
+        // tooltip still counts towards page width, and near the screen edge
+        // it made the page scroll sideways.
+        className={`pointer-events-none absolute left-1/2 z-10 hidden -translate-x-1/2 whitespace-nowrap rounded-full bg-ink px-3 py-1.5 text-xs font-medium text-cream shadow-lg group-focus-visible/call:block pointer-fine:group-hover/call:block ${
           tooltip === "top" ? "bottom-full mb-2" : "top-full mt-2"
         }`}
       >

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Reveal } from "@/components/Reveal";
 import { Container, Kicker } from "@/components/ui";
+import { PhotoCta } from "@/components/Sections";
 import { formatDate, getAllPosts } from "@/lib/posts";
 import { site } from "@/lib/site";
 
@@ -91,27 +92,11 @@ export default function BlogIndex() {
         </Container>
       )}
 
-      <section className="bg-ink py-16 text-center text-cream md:py-20">
-        <Container>
-          <Reveal>
-            <h2 className="font-display text-3xl md:text-4xl">
-              Questions about your own home or business?
-            </h2>
-            <p className="mx-auto mt-4 max-w-lg text-cream/70">
-              Talk to real people who understand Nigerian power — no pressure, no
-              obligation.
-            </p>
-            <div className="mt-8 flex justify-center">
-              <Link
-                href="/contact"
-                className="rounded-full bg-accent px-7 py-3.5 text-sm font-medium text-cream transition-colors hover:bg-cream hover:text-ink"
-              >
-                Get a free quote →
-              </Link>
-            </div>
-          </Reveal>
-        </Container>
-      </section>
+      <PhotoCta
+        title="Questions about your own home or business?"
+        body="Talk to real people who understand Nigerian power — no pressure, no obligation."
+        note={<span className="sr-only">Serving {site.areasServed.join(", ")}.</span>}
+      />
 
       <p className="sr-only">Serving {site.areasServed.join(", ")}.</p>
     </>

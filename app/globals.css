@@ -125,6 +125,127 @@ body {
   }
 }
 
+/* Floating WhatsApp button: the once-per-visit bubble */
+@keyframes wa-teaser {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Floating WhatsApp (components/WhatsAppButton.tsx): a flat icon — a solid
+   Kayglo-green disc and the glyph in white. Hover, focus or touch charges it:
+   WhatsApp green fills the disc from the bottom up, then drains on leave.
+--------------------------------------------------------------------------- */
+.wa-cell {
+  --wa-size: 50px;
+  position: relative;
+  display: block;
+  width: var(--wa-size);
+  height: var(--wa-size);
+  border-radius: 9999px;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+@media (min-width: 768px) {
+  .wa-cell {
+    --wa-size: 54px;
+  }
+}
+.wa-cell:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 4px;
+}
+.wa-cell > * {
+  position: absolute;
+  pointer-events: none;
+}
+/* The pulse: two fine rings breathing out from the button, a beat apart,
+   then a long rest — like a signal going out. Flat: a hairline of
+   WhatsApp green over a whisper of fill, no blur or glow. Each ring
+   eases out (fast start, long glide) and fades as it travels. It rests
+   while the button is charged or hidden. */
+.wa-pulse {
+  inset: 0;
+  border-radius: 9999px;
+  border: 1.5px solid rgb(37 211 102 / 0.55);
+  background: rgb(20 107 74 / 0.07);
+  opacity: 0;
+}
+@keyframes wa-pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0;
+    animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  10% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    transform: scale(1.75);
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .wa-pulse {
+    animation: wa-pulse 4.4s linear infinite;
+  }
+  .wa-pulse-2 {
+    animation-delay: 0.55s;
+  }
+  .wa-cell:is([data-charged="true"], [data-paused="true"]) .wa-pulse {
+    animation: none;
+  }
+}
+.wa-core {
+  inset: 0;
+  overflow: hidden;
+  border-radius: 9999px;
+  background: var(--color-accent);
+}
+.wa-fill,
+.wa-flash {
+  position: absolute;
+  inset: 0;
+}
+/* The charge: a flat level of WhatsApp green, resting just below the rim */
+.wa-fill {
+  background: #25d366;
+  transform: translateY(100%);
+  /* Drains gently, a little quicker than it fills */
+  transition: transform 0.8s cubic-bezier(0.37, 0, 0.63, 1);
+}
+.wa-cell[data-charged="true"] .wa-fill {
+  transform: translateY(0);
+  /* Fills slowly on a sine ease — starts soft, rises, settles at the top */
+  transition: transform 1.8s cubic-bezier(0.37, 0, 0.63, 1);
+}
+.wa-flash {
+  background: #ffffff;
+  opacity: 0;
+}
+.wa-glyph {
+  left: 50%;
+  top: 50%;
+  width: 50%;
+  height: 50%;
+  translate: -50% -50%;
+  color: #fff;
+}
+@media (prefers-reduced-motion: reduce) {
+  .wa-fill,
+  .wa-cell[data-charged="true"] .wa-fill {
+    transition: none;
+  }
+}
+
 /* Homepage proof chips (phones): one light sweep across the chip just chosen */
 @keyframes proof-sweep {
   from {
@@ -157,59 +278,223 @@ body {
   }
 }
 
-/* Presence markers on the Nigeria map */
-@keyframes map-pulse {
-  0% {
-    opacity: 0.9;
-    transform: scale(1);
+/* ---------------------------------------------------------------------------
+   Nigeria power map (components/PowerMap.tsx + PowerMapStage.tsx)
+   Every weight is in screen pixels: --k is map units per CSS pixel, set by
+   the component as the map resizes (these defaults cover the first paint).
+   Dash lengths are in map units, so pulses keep their size relative to the
+   country at any width.
+--------------------------------------------------------------------------- */
+.map-host {
+  --k: 3.4;
+  --map-white: #fffbea; /* warm white: the hot core of a pulse */
+}
+@media (min-width: 640px) {
+  .map-host {
+    --k: 2.2;
   }
-  70%,
+}
+@media (min-width: 768px) {
+  .map-host {
+    --k: 1.8;
+  }
+}
+.map-base {
+  -webkit-tap-highlight-color: transparent;
+}
+.map-base [data-state] {
+  cursor: pointer;
+}
+/* Flat fills: one solid tone for the rest, one for where we install */
+.map-land-muted {
+  fill: #e8e9e1;
+}
+.map-land-lit {
+  fill: #b9d6c6;
+}
+
+/* The quiet grid: every border, the national outline, the lit states' own
+   borders, then the live edge of the network */
+.map-mesh {
+  stroke: #c3c8bc;
+  stroke-width: calc(var(--k) * 0.7px);
+}
+.map-outline {
+  stroke: #8f998d;
+  stroke-width: calc(var(--k) * 1px);
+}
+.map-mesh-lit {
+  stroke: #79a891;
+  stroke-width: calc(var(--k) * 0.75px);
+}
+.map-edge {
+  stroke: var(--color-accent);
+  stroke-width: calc(var(--k) * 1.35px);
+}
+
+/* The current: one 300-unit rhythm, three flat strokes with their leading
+   edges aligned by offset — a pale tail, a solid head and a short warm-white
+   tip — so each pulse reads as a line segment travelling one way. No glow. */
+.map-flow-tail {
+  stroke: #8fd9b6;
+  stroke-width: calc(var(--k) * 1.6px);
+  stroke-dasharray: 84 216;
+  --map-from: 76;
+}
+.map-flow-halo {
+  stroke: #2fbf7f;
+  stroke-width: calc(var(--k) * 2px);
+  stroke-dasharray: 32 268;
+  --map-from: 24;
+}
+.map-flow-core {
+  stroke: var(--map-white);
+  stroke-width: calc(var(--k) * 0.9px);
+  stroke-dasharray: 8 292;
+  --map-from: 0;
+}
+/* Between two lit states: smaller, slower, sparser */
+.map-trickle-halo {
+  stroke: #8fd9b6;
+  stroke-width: calc(var(--k) * 1.3px);
+  stroke-dasharray: 40 220;
+  --map-from: 34;
+}
+.map-trickle-core {
+  stroke: #2fbf7f;
+  stroke-width: calc(var(--k) * 1.4px);
+  stroke-dasharray: 6 254;
+  --map-from: 0;
+}
+.map-flow,
+.map-trickle {
+  stroke-dashoffset: calc(var(--map-from) * 1px);
+}
+
+/* The state under the pointer or finger: tinted, outlined, and a pair of
+   pulses running its whole border (pathLength is 1000 on every state) */
+.map-focus-lit {
+  fill: rgb(20 107 74 / 0.16);
+  stroke: var(--color-accent);
+  stroke-width: calc(var(--k) * 1.8px);
+}
+.map-focus-muted {
+  fill: rgb(31 58 46 / 0.07);
+  stroke: var(--color-ever-400);
+  stroke-width: calc(var(--k) * 1.4px);
+}
+.map-ring-halo {
+  stroke: #2fbf7f;
+  stroke-width: calc(var(--k) * 2px);
+  stroke-dasharray: 90 410;
+  stroke-linecap: round;
+  --map-from: 80;
+}
+.map-ring-core {
+  stroke: var(--map-white);
+  stroke-width: calc(var(--k) * 1px);
+  stroke-dasharray: 10 490;
+  stroke-linecap: round;
+  --map-from: 0;
+}
+.map-ring {
+  stroke-dashoffset: calc(var(--map-from) * 1px);
+}
+/* An unserved state still answers the pointer, but in a neutral current —
+   only the states we install in ever carry the green */
+.map-focus:not([data-served]) .map-ring-halo {
+  stroke: #8d9a92;
+}
+.map-focus:not([data-served]) .map-ring-core {
+  stroke: rgb(255 251 234 / 0.9);
+}
+
+/* Legend swatch: a short length of the lit edge, not a dot */
+.map-key {
+  display: inline-block;
+  flex-shrink: 0;
+  width: 16px;
+  height: 2px;
+  border-radius: 9999px;
+  background: var(--color-accent);
+}
+
+/* A served state on the Nigeria map breathing in, then settling */
+@keyframes map-state-pulse {
+  0%,
   100% {
     opacity: 0;
-    transform: scale(2.6);
+  }
+  50% {
+    opacity: 0.5;
   }
 }
 
-@keyframes map-float {
-  0%,
-  100% {
-    translate: 0 0;
-  }
-  50% {
-    translate: 0 -10px;
+/* One full rhythm forward from wherever the layer starts */
+@keyframes map-flow-300 {
+  to {
+    stroke-dashoffset: calc((var(--map-from) - 300) * 1px);
   }
 }
-
-@keyframes map-breathe {
-  0%,
-  100% {
-    opacity: 0.92;
+@keyframes map-flow-260 {
+  to {
+    stroke-dashoffset: calc((var(--map-from) - 260) * 1px);
   }
-  50% {
-    opacity: 1;
+}
+@keyframes map-flow-500 {
+  to {
+    stroke-dashoffset: calc((var(--map-from) - 500) * 1px);
+  }
+}
+@keyframes map-focus-in {
+  from {
+    opacity: 0;
   }
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .map-breathe {
-    animation: map-breathe 11s ease-in-out infinite;
+  .map-state-pulse {
+    /* Sine ease on each half: glides up, glides down, no corners */
+    animation: map-state-pulse 4.2s cubic-bezier(0.37, 0, 0.63, 1) both;
   }
-  /* Uses `translate` so it composes with the stage's tilt transform */
-  .map-float {
-    animation: map-float 16s ease-in-out infinite;
+  .map-flow {
+    animation: map-flow-300 5.4s linear infinite;
   }
-  .map-pulse {
-    transform-box: fill-box;
-    transform-origin: center;
-    animation: map-pulse 2.6s var(--ease-out-soft) infinite;
+  .map-trickle {
+    animation: map-flow-260 7.8s linear infinite;
   }
+  .map-ring {
+    animation: map-flow-500 3.2s linear infinite;
+  }
+  .map-focus {
+    animation: map-focus-in 0.35s var(--ease-out-soft) both;
+  }
+  /* Nobody is looking: hold everything where it is */
+  .map-host[data-paused] .map-anim {
+    animation-play-state: paused;
+  }
+}
 
+/* Reduced motion: the network stays lit — fills and edge — and the
+   travelling light is simply not drawn */
+@media (prefers-reduced-motion: reduce) {
+  .map-anim {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
   /* Slow drift on whichever card is showing — restarts as each one is dealt */
   .stack-drift {
     animation: stack-drift 9s var(--ease-out-soft) both;
   }
   .stack-caption {
     animation: stack-caption 0.7s var(--ease-out-soft) both;
+  }
+
+  .wa-teaser {
+    transform-origin: bottom right;
+    animation: wa-teaser 0.45s var(--ease-out-soft) both;
   }
 
   .proof-sweep {
@@ -277,4 +562,10 @@ body {
   outline: 2px solid var(--color-accent);
   outline-offset: 3px;
   border-radius: 2px;
+}
+
+/* A page that closes with its own call to action (data-own-cta) doesn't
+   need the footer's as well — two in a row read as one repeated. */
+body:has([data-own-cta]) [data-footer-cta] {
+  display: none;
 }

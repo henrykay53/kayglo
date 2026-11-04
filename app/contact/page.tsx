@@ -2,12 +2,15 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Suspense, type ReactNode } from "react";
 import { AssessmentForm } from "@/components/AssessmentForm";
+import { Photo } from "@/components/Photo";
+import { FaqList } from "@/components/Sections";
 import { Reveal } from "@/components/Reveal";
 import { CallButton, Container, Kicker } from "@/components/ui";
 import { servedPlaces } from "@/lib/places";
 import {
   addressLine,
   credentials,
+  pagePhotos,
   site,
   whatsappLink,
 } from "@/lib/site";
@@ -94,6 +97,8 @@ export default function ContactPage() {
           <div className="absolute -right-24 -top-32 h-[30rem] w-[30rem] rounded-full bg-accent/10 blur-3xl" />
         </div>
         <Container className="pb-12 pt-16 md:pb-16 md:pt-24">
+          <div className="grid items-center gap-12 md:grid-cols-12 md:gap-10">
+            <div className="md:col-span-7">
           <Reveal>
             <Kicker>Contact &amp; support</Kicker>
           </Reveal>
@@ -125,6 +130,16 @@ export default function ContactPage() {
               <CallButton />
             </div>
           </Reveal>
+            </div>
+            <figure className="hidden md:col-span-5 md:block">
+              <Photo
+                photo={pagePhotos.contact}
+                preload
+                sizes="(min-width: 1152px) 440px, (min-width: 768px) 40vw, 92vw"
+                className="aspect-[4/3] shadow-2xl shadow-ink/15 md:aspect-[4/5]"
+              />
+            </figure>
+          </div>
         </Container>
       </section>
 
@@ -157,16 +172,20 @@ export default function ContactPage() {
               best="Detailed requirements, documents, or a quote in writing."
               href={`mailto:${contact.salesEmail}`}
               action={contact.salesEmail}
+              // Only when general enquiries go somewhere else — with one
+              // shared inbox it would just repeat the address above.
               note={
-                <>
-                  General enquiries:{" "}
-                  <a
-                    href={`mailto:${contact.email}`}
-                    className="underline decoration-ink/25 underline-offset-4 hover:text-accent"
-                  >
-                    {contact.email}
-                  </a>
-                </>
+                contact.email !== contact.salesEmail && (
+                  <>
+                    General enquiries:{" "}
+                    <a
+                      href={`mailto:${contact.email}`}
+                      className="underline decoration-ink/25 underline-offset-4 hover:text-accent"
+                    >
+                      {contact.email}
+                    </a>
+                  </>
+                )
               }
             />
           </div>
@@ -292,38 +311,28 @@ export default function ContactPage() {
       </section>
 
       {/* ------------------------------ FAQ ------------------------------- */}
-      <section className="py-16 md:py-24">
-        <Container className="grid gap-12 md:grid-cols-12">
-          <div className="md:col-span-4">
-            <Kicker>Before you get in touch</Kicker>
-            <h2 className="font-display mt-5 text-3xl text-ink">
-              Common questions
-            </h2>
-            <ul className="mt-8 space-y-3 text-sm">
-              {[
-                { href: "/generator-cost", label: "What is my generator really costing me?" },
-                { href: "/financing", label: "Packages and payment plans" },
-                { href: "/projects", label: "Installations we've completed" },
-                { href: "/blog/how-to-spot-fake-solar-equipment", label: "How to spot fake solar equipment" },
-              ].map((l) => (
-                <li key={l.href}>
-                  <Link href={l.href} className="link-underline text-accent">
-                    {l.label} →
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <dl className="grid gap-x-10 gap-y-9 sm:grid-cols-2 md:col-span-8">
-            {faqs.map((f) => (
-              <div key={f.q}>
-                <dt className="font-display text-lg text-ink">{f.q}</dt>
-                <dd className="mt-2 leading-relaxed text-slate">{f.a}</dd>
-              </div>
+      <FaqList
+        faqs={faqs}
+        kicker="Before you get in touch"
+        title="Common questions."
+        tinted={false}
+        aside={
+          <ul className="mt-8 space-y-3 text-sm">
+            {[
+              { href: "/generator-cost", label: "What is my generator really costing me?" },
+              { href: "/financing", label: "Packages and payment plans" },
+              { href: "/projects", label: "Installations we've completed" },
+              { href: "/blog/how-to-spot-fake-solar-equipment", label: "How to spot fake solar equipment" },
+            ].map((l) => (
+              <li key={l.href}>
+                <Link href={l.href} className="link-underline text-accent">
+                  {l.label} →
+                </Link>
+              </li>
             ))}
-          </dl>
-        </Container>
-      </section>
+          </ul>
+        }
+      />
     </>
   );
 }

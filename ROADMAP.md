@@ -193,6 +193,58 @@ Before spending: establish maximum allowable CAC from gross profit per job (§32
 
 ## Log
 
+- **2026-11-03 (f)** — The floating WhatsApp CTA is now a miniature 3D wind
+  turbine and nothing else (`components/WindTurbine.tsx`): shaded SVG
+  tower/nacelle, rotor tilted in real CSS 3D, rotation from a small physics
+  loop (inertia, gentle wind gusts ±30%, spins up on hover/focus, a gust on
+  tap; pauses when hidden). Measured: hub drift 0.02px, ~2.3s a turn, no long
+  tasks. Static under reduced motion. No WebGL/Three.js — not worth ~150KB on
+  every page for an 80px object. GA4 event `whatsapp_float_click`.
+  **Superseded 2026-11-04:** turbine removed (`WindTurbine.tsx` deleted); the
+  button is now a "charged cell" — WhatsApp glyph on a lit green core in an
+  ink housing, two sparks circling the groove, an 8s charge cycle, faster
+  current + pulse on hover/touch, a burst on click. CSS + SVG only (`wa-*` in
+  `globals.css`); still under reduced motion; pauses while hidden.
+- **2026-11-03 (e)** — Email changed everywhere to **kayglocitadel@gmail.com**,
+  the only live inbox (the @kayglocitadel.com addresses don't exist). General,
+  sales, support, the lead inbox default, structured data and the form's
+  "email it instead" link all use it — verified across 15 pages. **K: if
+  LEAD_INBOX is set in Vercel, change it to the Gmail address too.**
+
+- **2026-11-03 (d)** — Site-wide consistency pass. Shared section components
+  in `components/Sections.tsx`: `PhotoCta` (every page with its own close ends
+  on the same estate-roof photo, one ask, footer band hidden), `FaqList`
+  (tap-to-open, used on Pricing, Contact and the audience pages), `Checklist`.
+  Closing buttons all say "Get a free power assessment". Pricing cleaned below
+  its hero (two real payment options, real-math band with photo, accordion
+  FAQ; two unbacked payback claims softened). About cleaned: new crew photos
+  (`public/crew/`), story trimmed, promises un-numbered. Checked: 16 pages ×
+  2 widths, all pass.
+
+- **2026-11-03 (c)** — Homes / Business / Commercial pages redesigned,
+  image-led: three-photo hero, "what stays on" as icon tiles beside a plant
+  photo, a linked strip of job photos, proof as photo cards, FAQ accordion,
+  closing CTA on a darkened job photo — 12 distinct watermarked photos per
+  page (was 1–6), ~25–30% fewer words. Each page reads in its own order.
+  Footer CTA band hides on pages that close with their own (`data-own-cta`).
+  Photo choices per page live in `segments` in `lib/site.ts`.
+
+- **2026-11-03 (b)** — Project 5 photos spread across the site: Services
+  (each service now has a photo; Genuine Products uses the new inverter-and-
+  battery wall, also on the homepage card), Pricing hero (rooftop at sunset),
+  Contact hero (installer; desktop only). Partners hero uses the estate-roof
+  array. Services page cleaned up: balanced photo/text rows, jump links,
+  duplicate closing CTA removed (5,611px → 4,135px on desktop). Call-button
+  tooltip no longer causes sideways scroll. Every photo on the site is a
+  watermarked `npm run photos` output (checked on 10 pages).
+
+- **2026-11-03** — New case study: Lagos Rooftop Residence
+  (`/projects/lagos-rooftop-residence`) — 24 panels, 2 × 10 kVA hybrid
+  inverters, 15 + 17.92 kWh lithium. Photos from `images/project 5` through
+  the pipeline. Shown with a "What we installed" list until its story is
+  written; projects can now carry `equipment` for exactly this. **K: area,
+  panel wattage, and the before/after story.**
+
 - **2026-11-01** — Savings / diesel-cut / payback figures removed from every
   project (unverified; data kept in `lib/site.ts`, marked not shown). Case
   studies relocated to Lagos per the owner's edits: slugs, names, story text,

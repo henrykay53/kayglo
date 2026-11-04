@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { GeneratorCalculator } from "@/components/GeneratorCalculator";
 import { Reveal } from "@/components/Reveal";
-import { Button, Container, Kicker } from "@/components/ui";
+import { Container, Kicker } from "@/components/ui";
+import { PhotoCta } from "@/components/Sections";
 
 export const metadata: Metadata = {
   title: "How much is your generator really costing you?",
@@ -90,22 +91,10 @@ export default function GeneratorCostPage() {
         </Container>
       </section>
 
-      <section className="bg-ink py-20 text-center text-cream md:py-28">
-        <Container>
-          <Reveal>
-            <h2 className="font-display text-4xl md:text-5xl">
-              Stop renting your electricity from a fuel pump.
-            </h2>
-            <p className="mx-auto mt-5 max-w-lg text-cream/70">
-              Tell us what you need to keep running. We&apos;ll size the system,
-              price it honestly, and show you how to pay for it.
-            </p>
-            <div className="mt-9 flex justify-center">
-              <Button href="/contact">Get a free power assessment</Button>
-            </div>
-          </Reveal>
-        </Container>
-      </section>
+      <PhotoCta
+        title="Stop renting your electricity from a fuel pump."
+        body="Tell us what you need to keep running. We'll size the system, price it honestly, and show you how to pay for it."
+      />
     </>
   );
 }

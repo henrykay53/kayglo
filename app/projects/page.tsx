@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ProjectStack } from "@/components/ProjectStack";
 import { Reveal } from "@/components/Reveal";
-import { Button, Container, Kicker } from "@/components/ui";
+import { Container, Kicker } from "@/components/ui";
+import { PhotoCta } from "@/components/Sections";
 import { projects } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -71,22 +72,10 @@ export default function ProjectsPage() {
         </section>
       ))}
 
-      <section className="bg-ink py-20 text-center text-cream md:py-28">
-        <Container>
-          <Reveal>
-            <h2 className="font-display text-4xl md:text-5xl">
-              Your home or business could be next.
-            </h2>
-            <p className="mx-auto mt-5 max-w-lg text-cream/70">
-              Tell us what you need to power, and we&apos;ll show you exactly how
-              to end the blackouts for good.
-            </p>
-            <div className="mt-9 flex justify-center">
-              <Button href="/contact">Get a free quote</Button>
-            </div>
-          </Reveal>
-        </Container>
-      </section>
+      <PhotoCta
+        title="Your home or business could be next."
+        body="Tell us what you need to power, and we'll show you exactly how to end the blackouts for good."
+      />
     </>
   );
 }
