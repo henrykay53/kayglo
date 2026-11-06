@@ -47,8 +47,8 @@ const markTeaserSeen = () => {
 
 /**
  * Floating click-to-chat, built to be noticed without nagging:
- *   • a charged cell: the WhatsApp glyph on a lit green core, set in an ink
- *     housing with current circling its groove (see EnergyCell below);
+ *   • a green disc that charges with Kayglo green on hover (see EnergyCell
+ *     below);
  *   • once per visit, a small bubble asks the question for them.
  * It stays out of the hero, steps aside over the footer, never shows on the
  * contact pages, and sits under the mobile menu. All motion is off under
@@ -168,13 +168,11 @@ export function WhatsAppMark({ className = "h-6 w-6" }: { className?: string }) 
 }
 
 /**
- * The button itself: a flat icon. A solid Kayglo-green disc with the
- * WhatsApp glyph in white — no ring, no shading, nothing circling it. At
- * rest two fine rings breathe out from it, a beat apart, every few seconds.
- * Its one animation is the charge: hover, keyboard focus or a touch fills
- * the disc with WhatsApp green from the bottom up, and it drains when you
- * leave. A click flashes it once. Navigation is a plain link — nothing here
- * ever delays it. Under reduced motion the fill appears without moving.
+ * The button itself: a WhatsApp-green disc with the glyph in white. At rest
+ * two soft rings breathe out from it, half a cycle apart. Hover, keyboard
+ * focus or a touch charges it: Kayglo green fills the disc from the bottom
+ * up, and drains when you leave. A click flashes it once. Navigation is a plain link — nothing here
+ * ever delays it. Under reduced motion the change happens without moving.
  */
 function EnergyCell({
   href,
@@ -225,8 +223,10 @@ function EnergyCell({
       title="Chat with us on WhatsApp"
       className="wa-cell"
     >
-      <span aria-hidden="true" className="wa-pulse" />
-      <span aria-hidden="true" className="wa-pulse wa-pulse-2" />
+      <span aria-hidden="true" className="wa-pulses">
+        <span className="wa-pulse" />
+        <span className="wa-pulse wa-pulse-2" />
+      </span>
       <span aria-hidden="true" className="wa-core">
         <span className="wa-fill" />
         <span ref={flash} className="wa-flash" />
